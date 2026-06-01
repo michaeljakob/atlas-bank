@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --atlas-bg: 255 255 255;
+    --atlas-bg-subtle: 244 247 240;
+    --atlas-text-primary: 22 51 0;
+    --atlas-text-secondary: 74 90 64;
+    --atlas-accent: 159 232 112;
+    --atlas-dark-surface: 22 51 0;
+    --atlas-border: 227 232 221;
+    --atlas-success: 31 157 107;
+    --atlas-error: 214 69 61;
+  }
+
+  .dark {
+    --atlas-bg: 14 26 11;
+    --atlas-bg-subtle: 20 36 16;
+    --atlas-text-primary: 244 247 240;
+    --atlas-text-secondary: 180 196 170;
+    --atlas-dark-surface: 244 247 240;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-atlas-bg text-atlas-text-primary font-sans;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 30s linear infinite;
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused;
+}
