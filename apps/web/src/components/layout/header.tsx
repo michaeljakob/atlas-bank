@@ -20,11 +20,11 @@ export function Header() {
           </Link>
 
           <div className="hidden md:flex items-center gap-8">
-            <Link href="#how-it-works" className="text-sm text-atlas-text-secondary hover:text-atlas-text-primary transition-colors">
-              How it works
+            <Link href="/" className="text-sm text-atlas-text-secondary hover:text-atlas-text-primary transition-colors">
+              Personal
             </Link>
-            <Link href="#who-its-for" className="text-sm text-atlas-text-secondary hover:text-atlas-text-primary transition-colors">
-              Who it&apos;s for
+            <Link href="/business" className="text-sm text-atlas-text-secondary hover:text-atlas-text-primary transition-colors">
+              Business
             </Link>
             <Link href="#faq" className="text-sm text-atlas-text-secondary hover:text-atlas-text-primary transition-colors">
               FAQ
