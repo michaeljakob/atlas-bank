@@ -66,17 +66,18 @@ export class SwanClient {
 
   verifyWebhookSignature(payload: string, signature: string): boolean {
     const secret = this.config.get<string>('swan.webhookSecret');
-    if (!secret) return false;
+    if (!secret || !signature) return false;
 
     const crypto = require('crypto');
     const expected = crypto
       .createHmac('sha256', secret)
-      .update(payload)
+      .update(payload, 'utf8')
       .digest('hex');
 
-    return crypto.timingSafeEqual(
-      Buffer.from(signature),
-      Buffer.from(expected),
-    );
+    const sigBuf = Buffer.from(signature);
+    const expBuf = Buffer.from(expected);
+    // timingSafeEqual throws on length mismatch — guard first.
+    if (sigBuf.length !== expBuf.length) return false;
+    return crypto.timingSafeEqual(sigBuf, expBuf);
   }
 }

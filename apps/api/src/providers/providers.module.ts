@@ -1,10 +1,7 @@
 import { Module } from '@nestjs/common';
 import { SwanModule } from './swan/swan.module';
 
-export const ONBOARDING_PROVIDER = 'ONBOARDING_PROVIDER';
-export const ACCOUNT_PROVIDER = 'ACCOUNT_PROVIDER';
-export const CARD_PROVIDER = 'CARD_PROVIDER';
-export const PAYMENT_PROVIDER = 'PAYMENT_PROVIDER';
+export { ONBOARDING_PROVIDER, ACCOUNT_PROVIDER, CARD_PROVIDER, PAYMENT_PROVIDER } from './provider-tokens';
 
 @Module({
   imports: [SwanModule],

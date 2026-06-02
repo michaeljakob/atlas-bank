@@ -6,7 +6,7 @@ import {
   UpdateDateColumn,
   ManyToOne,
 } from 'typeorm';
-import { AccountEntity } from './account.entity';
+import type { AccountEntity } from './account.entity';
 
 @Entity('cards')
 export class CardEntity {
@@ -16,7 +16,7 @@ export class CardEntity {
   @Column()
   accountId: string;
 
-  @ManyToOne(() => AccountEntity, (account) => account.cards)
+  @ManyToOne('AccountEntity', 'cards')
   account: AccountEntity;
 
   @Column()
@@ -40,6 +40,12 @@ export class CardEntity {
   @Column()
   cardholderName: string;
 
+  @Column({ type: 'varchar', nullable: true })
+  name: string | null;
+
+  @Column({ type: 'varchar', default: 'black' })
+  color: 'black' | 'white' | 'green';
+
   @Column({ default: false })
   frozen: boolean;
 
@@ -49,7 +55,13 @@ export class CardEntity {
   @Column({ default: true })
   contactlessEnabled: boolean;
 
-  @Column({ type: 'jsonb', nullable: true })
+  @Column({ default: false })
+  atmEnabled: boolean;
+
+  @Column({ default: true })
+  internationalEnabled: boolean;
+
+  @Column({ type: 'simple-json', nullable: true })
   spendingLimit?: { amount: number; period: string };
 
   @CreateDateColumn()

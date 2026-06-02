@@ -1,4 +1,6 @@
 import { Container } from '@/components/ui/container';
+import { Reveal } from '@/components/ui/reveal';
+import { Highlight } from '@/components/ui/highlight';
 
 const features = [
   {
@@ -9,8 +11,6 @@ const features = [
     ),
     title: 'Team debit cards',
     description: 'Issue physical and virtual cards for your team. Set individual spending limits and get real-time notifications.',
-    stat: '210+ countries',
-    image: 'https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?w=400&h=300&fit=crop&crop=faces',
   },
   {
     icon: (
@@ -20,8 +20,6 @@ const features = [
     ),
     title: 'Accounting sync',
     description: 'Connect to Xero, QuickBooks, or your preferred accounting software. Automatic categorisation and reconciliation.',
-    stat: 'Auto-sync',
-    image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&h=300&fit=crop',
   },
   {
     icon: (
@@ -31,8 +29,6 @@ const features = [
     ),
     title: 'Team controls',
     description: 'Set custom permissions for every team member. Approve payments, control card access, and manage budgets.',
-    stat: 'Role-based',
-    image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&h=300&fit=crop&crop=faces',
   },
   {
     icon: (
@@ -42,45 +38,37 @@ const features = [
     ),
     title: 'Business analytics',
     description: 'Real-time cashflow insights. See where your money goes, track spending by category, and export reports.',
-    stat: 'Real-time',
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop',
   },
 ];
 
 export function MoreFeatures() {
   return (
-    <section className="py-24 sm:py-32">
+    <section className="py-24 sm:py-36 bg-white">
       <Container>
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-medium tracking-tight">
-            Explore more features to<br />grow your business
+        <Reveal as="div" className="max-w-3xl mb-12 sm:mb-16">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-atlas-text-primary leading-[1.1]">
+            Everything else your{' '}
+            <Highlight>business needs</Highlight>
           </h2>
-        </div>
+          <p className="mt-5 text-lg sm:text-xl text-atlas-text-secondary leading-relaxed">
+            From team cards to accounting sync — the tools to run your finances,
+            built into one beautifully simple account.
+          </p>
+        </Reveal>
 
-        <div className="grid sm:grid-cols-2 gap-6">
-          {features.map((feature) => (
-            <div key={feature.title} className="group rounded-2xl border border-atlas-border overflow-hidden bg-white hover:shadow-lg transition-shadow">
-              <div className="h-48 overflow-hidden">
-                <img
-                  src={feature.image}
-                  alt={feature.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
-                />
+        <div className="grid sm:grid-cols-2 gap-4 sm:gap-5">
+          {features.map((feature, i) => (
+            <Reveal
+              key={feature.title}
+              delay={(i % 2) * 90}
+              className="rounded-3xl border border-atlas-border/70 bg-white p-7 sm:p-8"
+            >
+              <div className="w-12 h-12 rounded-2xl bg-atlas-accent/15 flex items-center justify-center text-atlas-text-primary mb-5">
+                {feature.icon}
               </div>
-              <div className="p-6">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-xl bg-atlas-accent/10 flex items-center justify-center text-atlas-text-primary">
-                    {feature.icon}
-                  </div>
-                  <span className="text-xs font-medium text-atlas-accent bg-atlas-dark-surface px-2 py-0.5 rounded-full">
-                    {feature.stat}
-                  </span>
-                </div>
-                <h3 className="text-lg font-medium mb-2">{feature.title}</h3>
-                <p className="text-sm text-atlas-text-secondary leading-relaxed">{feature.description}</p>
-              </div>
-            </div>
+              <h3 className="text-xl font-bold text-atlas-text-primary tracking-tight mb-2">{feature.title}</h3>
+              <p className="text-[15px] text-atlas-text-secondary leading-relaxed">{feature.description}</p>
+            </Reveal>
           ))}
         </div>
       </Container>

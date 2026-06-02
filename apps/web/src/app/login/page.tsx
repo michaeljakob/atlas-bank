@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Container } from '@/components/ui/container';
+import type { Route } from 'next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { api } from '@/lib/api';
@@ -15,6 +15,11 @@ export default function LoginPage() {
   const [code, setCode] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  function handleDevLogin() {
+    // In dev with SKIP_AUTH the middleware allows /app/* without a session.
+    router.push('/app/dashboard');
+  }
 
   async function handleSendOtp(e: React.FormEvent) {
     e.preventDefault();
@@ -35,9 +40,9 @@ export default function LoginPage() {
     setError('');
     setLoading(true);
     try {
-      const { token } = await api.verifyOtp(email, code);
-      api.setToken(token);
-      router.push('/dashboard');
+      await api.verifyOtp(email, code);
+      const params = new URLSearchParams(window.location.search);
+      router.push((params.get('redirect') || '/app/dashboard') as Route);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Invalid code');
     } finally {
@@ -46,60 +51,64 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-atlas-bg-subtle flex items-center justify-center">
-      <Container className="max-w-md">
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-atlas-dark-surface flex items-center justify-center">
-              <span className="text-white font-bold text-sm">A</span>
-            </div>
-            <span className="font-medium text-lg">Atlas</span>
+    <div className="min-h-screen bg-atlas-bg-subtle flex items-center justify-center px-5 py-12">
+      <div className="w-full max-w-[26rem]">
+        <div className="flex items-center justify-center mb-8">
+          <Link href="/" className="flex items-center">
+            <img src="/atlas-lockup.svg" alt="Atlas" className="h-10 w-auto" />
           </Link>
         </div>
 
-        <div className="bg-white rounded-2xl border border-atlas-border p-8 shadow-sm">
+        <div className="bg-white rounded-3xl border border-atlas-border p-8 sm:p-10 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.18)]">
           {step === 'email' ? (
             <>
-              <h1 className="text-2xl font-medium text-center mb-2">Welcome back</h1>
-              <p className="text-atlas-text-secondary text-center mb-6">Enter your email to log in.</p>
-              <form onSubmit={handleSendOtp} className="space-y-4">
+              <h1 className="text-3xl font-bold tracking-tight text-center text-atlas-text-primary">Welcome back</h1>
+              <p className="text-base text-atlas-text-secondary text-center mt-3 mb-8">
+                Enter your email and we&apos;ll send you a secure login code.
+              </p>
+              <form onSubmit={handleSendOtp} className="space-y-5">
                 <Input
                   type="email"
                   label="Email"
+                  placeholder="you@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  className="h-14 text-base rounded-2xl"
                   required
                   autoFocus
                 />
                 {error && <p className="text-sm text-atlas-error">{error}</p>}
-                <Button type="submit" className="w-full" size="lg" loading={loading}>
+                <Button type="submit" className="w-full h-14 text-base rounded-full" size="lg" loading={loading}>
                   Continue
                 </Button>
               </form>
             </>
           ) : (
             <>
-              <h1 className="text-2xl font-medium text-center mb-2">Enter code</h1>
-              <p className="text-atlas-text-secondary text-center mb-6">
-                We sent a code to {email}
+              <h1 className="text-3xl font-bold tracking-tight text-center text-atlas-text-primary">Enter your code</h1>
+              <p className="text-base text-atlas-text-secondary text-center mt-3 mb-8">
+                We sent a 6-digit code to <span className="font-semibold text-atlas-text-primary">{email}</span>
               </p>
-              <form onSubmit={handleVerify} className="space-y-4">
+              <form onSubmit={handleVerify} className="space-y-5">
                 <Input
                   label="Verification code"
+                  inputMode="numeric"
+                  placeholder="123456"
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
+                  className="h-14 text-center text-2xl font-bold tracking-[0.4em] rounded-2xl"
                   maxLength={6}
                   required
                   autoFocus
                 />
                 {error && <p className="text-sm text-atlas-error">{error}</p>}
-                <Button type="submit" className="w-full" size="lg" loading={loading}>
+                <Button type="submit" className="w-full h-14 text-base rounded-full" size="lg" loading={loading}>
                   Log in
                 </Button>
               </form>
               <button
                 onClick={() => setStep('email')}
-                className="text-sm text-atlas-text-secondary hover:text-atlas-text-primary mt-4 block mx-auto"
+                className="text-sm font-medium text-atlas-text-secondary hover:text-atlas-text-primary mt-6 block mx-auto"
               >
                 Use a different email
               </button>
@@ -107,13 +116,22 @@ export default function LoginPage() {
           )}
         </div>
 
-        <p className="text-center text-sm text-atlas-text-secondary mt-6">
+        {process.env.NODE_ENV === 'development' && (
+          <button
+            onClick={handleDevLogin}
+            className="mt-4 w-full py-3.5 text-sm font-medium text-atlas-text-secondary border border-dashed border-atlas-heather-200 rounded-2xl hover:bg-white hover:text-atlas-text-primary transition-colors"
+          >
+            Dev mode: skip login
+          </button>
+        )}
+
+        <p className="text-center text-sm text-atlas-text-secondary mt-8">
           Don&apos;t have an account?{' '}
-          <Link href="/onboarding" className="text-atlas-text-primary font-medium hover:underline">
+          <Link href="/onboarding" className="text-atlas-text-primary font-semibold hover:underline">
             Open one now
           </Link>
         </p>
-      </Container>
+      </div>
     </div>
   );
 }

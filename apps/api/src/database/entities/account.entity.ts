@@ -7,9 +7,9 @@ import {
   ManyToOne,
   OneToMany,
 } from 'typeorm';
-import { UserEntity } from './user.entity';
-import { CardEntity } from './card.entity';
-import { TransactionEntity } from './transaction.entity';
+import type { UserEntity } from './user.entity';
+import type { CardEntity } from './card.entity';
+import type { TransactionEntity } from './transaction.entity';
 
 @Entity('accounts')
 export class AccountEntity {
@@ -19,7 +19,7 @@ export class AccountEntity {
   @Column()
   userId: string;
 
-  @ManyToOne(() => UserEntity, (user) => user.accounts)
+  @ManyToOne('UserEntity', 'accounts')
   user: UserEntity;
 
   @Column()
@@ -46,10 +46,10 @@ export class AccountEntity {
   @Column({ nullable: true })
   lastReconciledAt?: Date;
 
-  @OneToMany(() => CardEntity, (card) => card.account)
+  @OneToMany('CardEntity', 'account')
   cards?: CardEntity[];
 
-  @OneToMany(() => TransactionEntity, (tx) => tx.account)
+  @OneToMany('TransactionEntity', 'account')
   transactions?: TransactionEntity[];
 
   @CreateDateColumn()

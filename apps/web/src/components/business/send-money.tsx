@@ -1,25 +1,26 @@
 import { Container } from '@/components/ui/container';
 import { Button } from '@/components/ui/button';
+import { Reveal } from '@/components/ui/reveal';
+import { Highlight } from '@/components/ui/highlight';
 import Link from 'next/link';
 
 export function SendMoney() {
   return (
-    <section className="py-24 sm:py-32 bg-atlas-bg-subtle">
+    <section className="py-24 sm:py-36 bg-atlas-bg-subtle border-y border-atlas-border">
       <Container>
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Transfer calculator visual */}
-          <div className="order-2 lg:order-1">
-            <div className="bg-white rounded-2xl p-6 border border-atlas-border shadow-sm max-w-sm mx-auto lg:mx-0">
-              <p className="text-sm font-medium mb-4">Send SEPA transfer</p>
+          <Reveal direction="right" className="order-2 lg:order-1">
+            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-atlas-border shadow-sm max-w-sm mx-auto lg:mx-0">
+              <p className="text-sm font-semibold text-atlas-text-primary mb-4">Send SEPA transfer</p>
 
-              <div className="space-y-3 mb-4">
-                <div className="bg-atlas-bg-subtle rounded-xl p-4">
-                  <p className="text-[10px] text-atlas-text-secondary mb-1">You send</p>
+              <div className="space-y-3 mb-5">
+                <div className="bg-atlas-bg-subtle rounded-2xl p-4">
+                  <p className="text-[11px] text-atlas-text-secondary mb-1">You send</p>
                   <div className="flex items-center justify-between">
-                    <p className="text-2xl font-medium">10,000.00</p>
-                    <div className="flex items-center gap-2 bg-white rounded-lg px-3 py-1.5 border border-atlas-border">
-                      <span className="text-sm">🇪🇺</span>
-                      <span className="text-sm font-medium">EUR</span>
+                    <p className="text-2xl font-bold tracking-tight text-atlas-text-primary">10,000.00</p>
+                    <div className="flex items-center gap-2 bg-white rounded-xl px-3 py-1.5 border border-atlas-border">
+                      <span className="text-sm font-semibold">EUR</span>
                     </div>
                   </div>
                 </div>
@@ -32,65 +33,70 @@ export function SendMoney() {
                   </div>
                 </div>
 
-                <div className="bg-atlas-bg-subtle rounded-xl p-4">
-                  <p className="text-[10px] text-atlas-text-secondary mb-1">Recipient gets</p>
+                <div className="bg-atlas-bg-subtle rounded-2xl p-4">
+                  <p className="text-[11px] text-atlas-text-secondary mb-1">Recipient gets</p>
                   <div className="flex items-center justify-between">
-                    <p className="text-2xl font-medium">10,000.00</p>
-                    <div className="flex items-center gap-2 bg-white rounded-lg px-3 py-1.5 border border-atlas-border">
-                      <span className="text-sm">🇪🇺</span>
-                      <span className="text-sm font-medium">EUR</span>
+                    <p className="text-2xl font-bold tracking-tight text-atlas-text-primary">10,000.00</p>
+                    <div className="flex items-center gap-2 bg-white rounded-xl px-3 py-1.5 border border-atlas-border">
+                      <span className="text-sm font-semibold">EUR</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-2 mb-4 text-sm">
+              <div className="space-y-2 mb-5 text-sm">
                 <div className="flex justify-between">
                   <span className="text-atlas-text-secondary">Transfer fee</span>
-                  <span className="font-medium">€0.50</span>
+                  <span className="font-semibold text-atlas-text-primary">€0.50</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-atlas-text-secondary">Arrives</span>
-                  <span className="font-medium text-atlas-success">Seconds (SEPA Instant)</span>
+                  <span className="font-semibold text-atlas-green-700">Seconds (SEPA Instant)</span>
                 </div>
               </div>
 
-              <Button className="w-full">Send money</Button>
+              <Button className="w-full rounded-full font-semibold">Send money</Button>
             </div>
-          </div>
+          </Reveal>
 
           {/* Copy */}
-          <div className="order-1 lg:order-2">
-            <span className="inline-block text-xs font-medium uppercase tracking-wider text-atlas-text-secondary bg-white px-3 py-1 rounded-full mb-4">
+          <Reveal direction="left" delay={120} className="order-1 lg:order-2">
+            <span className="text-[11px] font-bold uppercase tracking-widest text-atlas-text-secondary">
               Send payments
             </span>
-            <h2 className="text-3xl sm:text-4xl font-medium tracking-tight mb-4">
-              Pay suppliers and teams in seconds
+            <h2 className="mt-3 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-atlas-text-primary leading-[1.1]">
+              Pay suppliers and teams in{' '}
+              <Highlight>seconds</Highlight>
             </h2>
-            <p className="text-lg text-atlas-text-secondary leading-relaxed mb-6 max-w-md">
-              Fast SEPA transfers that arrive in seconds, not days. Pay invoices, contractors, and partners across Europe with transparent, low fees.
+            <p className="mt-5 text-lg sm:text-xl text-atlas-text-secondary leading-relaxed max-w-md">
+              Fast SEPA transfers that arrive in seconds, not days. Pay invoices,
+              contractors, and partners across Europe with transparent, low fees.
             </p>
 
-            <ul className="space-y-3 mb-8">
+            <ul className="mt-8 space-y-3.5">
               {[
                 'SEPA Instant — 95% of transfers arrive in under 20 seconds',
                 'Batch payments — pay up to 100 recipients at once',
                 'Schedule recurring payments for rent, salaries, subscriptions',
                 'Full audit trail for every transaction',
               ].map((item) => (
-                <li key={item} className="flex items-center gap-3 text-sm">
-                  <svg className="w-5 h-5 text-atlas-success shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
+                <li key={item} className="flex items-center gap-3 text-base text-atlas-text-primary">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-atlas-accent/20 shrink-0">
+                    <svg className="w-3 h-3 text-atlas-text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                  </span>
                   {item}
                 </li>
               ))}
             </ul>
 
-            <Button asChild>
-              <Link href="/onboarding">Start sending</Link>
-            </Button>
-          </div>
+            <div className="mt-8">
+              <Button size="lg" className="text-base px-8 rounded-full font-semibold" asChild>
+                <Link href="/onboarding">Start sending</Link>
+              </Button>
+            </div>
+          </Reveal>
         </div>
       </Container>
     </section>

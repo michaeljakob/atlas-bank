@@ -1,7 +1,11 @@
-'use client';
-
-import { useState } from 'react';
 import { Container } from '@/components/ui/container';
+import { Reveal } from '@/components/ui/reveal';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
 const faqs = [
   {
@@ -27,45 +31,30 @@ const faqs = [
 ];
 
 export function BusinessFAQ() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
   return (
-    <section className="py-24 sm:py-32 bg-atlas-bg-subtle">
+    <section id="faq" className="py-24 sm:py-36 bg-atlas-bg-subtle border-y border-atlas-border">
       <Container>
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-medium tracking-tight">
-            Frequently asked questions
+        <Reveal as="div" className="mb-14 sm:mb-16 max-w-3xl">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-atlas-text-primary leading-[1.1]">
+            Questions? Straight answers.
           </h2>
-        </div>
+          <p className="mt-5 text-lg sm:text-xl text-atlas-text-secondary leading-relaxed">
+            Everything you need to know before you open your business account.
+          </p>
+        </Reveal>
 
-        <div className="max-w-3xl mx-auto space-y-3">
+        <Accordion type="single" collapsible className="max-w-3xl">
           {faqs.map((faq, index) => (
-            <div key={index} className="bg-white rounded-xl border border-atlas-border overflow-hidden">
-              <button
-                onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full flex items-center justify-between p-6 text-left"
-              >
-                <span className="font-medium text-atlas-text-primary pr-4">{faq.question}</span>
-                <svg
-                  className={`w-5 h-5 shrink-0 text-atlas-text-secondary transition-transform ${
-                    openIndex === index ? 'rotate-180' : ''
-                  }`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              {openIndex === index && (
-                <div className="px-6 pb-6 text-sm text-atlas-text-secondary leading-relaxed">
-                  {faq.answer}
-                </div>
-              )}
-            </div>
+            <AccordionItem key={index} value={`item-${index}`}>
+              <AccordionTrigger className="py-7 text-lg sm:text-xl font-heading">
+                {faq.question}
+              </AccordionTrigger>
+              <AccordionContent className="text-base">
+                {faq.answer}
+              </AccordionContent>
+            </AccordionItem>
           ))}
-        </div>
+        </Accordion>
       </Container>
     </section>
   );

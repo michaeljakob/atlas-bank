@@ -1,4 +1,4 @@
-import { Controller, Get, Query, Req } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Req } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { AccountsService } from './accounts.service';
 
@@ -12,6 +12,18 @@ export class AccountsController {
   @ApiOperation({ summary: 'Get current user account details' })
   async getAccount(@Req() req: any) {
     return this.accounts.getAccount(req.user?.id || 'dev-user');
+  }
+
+  @Get('all')
+  @ApiOperation({ summary: 'Get all currency accounts' })
+  async getAllAccounts(@Req() req: any) {
+    return this.accounts.getAllAccounts(req.user.id);
+  }
+
+  @Post('open')
+  @ApiOperation({ summary: 'Open a new currency account' })
+  async openAccount(@Req() req: any, @Body('currency') currency: string) {
+    return this.accounts.openAccount(req.user?.id || 'dev-user', currency);
   }
 
   @Get('me/balance')

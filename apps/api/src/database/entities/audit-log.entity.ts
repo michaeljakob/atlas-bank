@@ -25,7 +25,7 @@ export class AuditLogEntity {
   @Column({ nullable: true })
   resourceId?: string;
 
-  @Column({ type: 'jsonb', nullable: true })
+  @Column({ type: 'simple-json', nullable: true })
   metadata?: Record<string, unknown>;
 
   @Column({ nullable: true })

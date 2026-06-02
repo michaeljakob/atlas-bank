@@ -4,15 +4,16 @@
     "module": "CommonJS",
     "moduleResolution": "node",
     "outDir": "./dist",
-    "rootDir": "./src",
+    "baseUrl": "./",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "declaration": false,
     "declarationMap": false,
+    "strictPropertyInitialization": false,
     "paths": {
       "@/*": ["./src/*"],
       "@atlas-bank/provider-contracts": ["../../packages/provider-contracts/src"],
-      "@atlas-bank/shared": ["../../packages/shared/src"]
+      "@atlas-bank/shared": ["../../packages/shared/dist"]
     }
   },
   "include": ["src/**/*"]

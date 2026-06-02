@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { OnboardingProvider, AccountProvider, CardProvider } from '@atlas-bank/provider-contracts';
 import { OnboardingEntity, UserEntity, AccountEntity, CardEntity } from '@/database/entities';
 import { ONBOARDING_PROVIDER, ACCOUNT_PROVIDER, CARD_PROVIDER } from '@/providers/providers.module';
+import { EmailService } from '@/modules/email/email.service';
 
 interface StartOnboardingDto {
   userId: string;
@@ -40,6 +41,7 @@ export class OnboardingService {
     private readonly accountProvider: AccountProvider,
     @Inject(CARD_PROVIDER)
     private readonly cardProvider: CardProvider,
+    private readonly email: EmailService,
   ) {}
 
   async startOnboarding(dto: StartOnboardingDto) {
@@ -66,9 +68,11 @@ export class OnboardingService {
       redirectUrl: `${process.env.APP_URL || 'http://localhost:3000'}/onboarding/callback`,
     });
 
+    // The user is redirected to Swan to complete KYC, so the onboarding now
+    // sits in kyc_pending — this is what enables the status poll below.
     const onboarding = this.onboardingRepo.create({
       userId: user.id,
-      status: 'details_collected',
+      status: 'kyc_pending',
       providerOnboardingId: session.providerId,
       providerRedirectUrl: session.redirectUrl,
     });
@@ -86,15 +90,22 @@ export class OnboardingService {
     const onboarding = await this.onboardingRepo.findOne({ where: { userId } });
     if (!onboarding) throw new BadRequestException('No onboarding found');
 
-    if (onboarding.providerOnboardingId && onboarding.status === 'kyc_pending') {
-      const providerStatus = await this.onboardingProvider.getOnboardingStatus(
-        onboarding.providerOnboardingId,
-      );
-
-      if (providerStatus.status === 'verified' && onboarding.status !== 'kyc_verified') {
-        onboarding.status = 'kyc_verified';
-        onboarding.kycCompletedAt = new Date();
-        await this.onboardingRepo.save(onboarding);
+    // Poll Swan for any non-terminal onboarding so the UI advances even if a
+    // webhook was missed. Webhooks remain the primary update path.
+    const NON_TERMINAL = ['kyc_pending', 'kyc_action_required'];
+    if (onboarding.providerOnboardingId && NON_TERMINAL.includes(onboarding.status)) {
+      try {
+        const providerStatus = await this.onboardingProvider.getOnboardingStatus(
+          onboarding.providerOnboardingId,
+        );
+        const mapped = this.mapKycStatus(providerStatus.status);
+        if (mapped && mapped !== onboarding.status) {
+          onboarding.status = mapped;
+          if (mapped === 'kyc_verified') onboarding.kycCompletedAt = new Date();
+          await this.onboardingRepo.save(onboarding);
+        }
+      } catch (err) {
+        this.logger.warn(`KYC status poll failed for ${onboarding.id}: ${(err as Error).message}`);
       }
     }
 
@@ -103,6 +114,21 @@ export class OnboardingService {
       status: onboarding.status,
       kycUrl: onboarding.providerRedirectUrl,
     };
+  }
+
+  private mapKycStatus(status: string): OnboardingEntity['status'] | null {
+    switch (status) {
+      case 'verified':
+        return 'kyc_verified';
+      case 'rejected':
+        return 'kyc_rejected';
+      case 'action_required':
+        return 'kyc_action_required';
+      case 'pending':
+        return 'kyc_pending';
+      default:
+        return null;
+    }
   }
 
   async completeOnboarding(userId: string) {
@@ -147,6 +173,11 @@ export class OnboardingService {
     onboarding.status = 'completed';
     onboarding.accountCreatedAt = new Date();
     await this.onboardingRepo.save(onboarding);
+
+    const user = await this.userRepo.findOne({ where: { id: userId } });
+    if (user) {
+      await this.email.sendWelcome(user.email, user.firstName || 'there');
+    }
 
     return {
       account: {

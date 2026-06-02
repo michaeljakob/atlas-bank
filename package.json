@@ -14,6 +14,8 @@
     "api:dev": "npm run dev --workspace=apps/api"
   },
   "devDependencies": {
+    "@swc/cli": "^0.5.2",
+    "@swc/core": "^1.15.40",
     "turbo": "^2",
     "typescript": "^5.5"
   },

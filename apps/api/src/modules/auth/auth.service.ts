@@ -2,43 +2,71 @@ import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { randomBytes, createHmac } from 'crypto';
+import { randomInt } from 'crypto';
 import { UserEntity } from '@/database/entities';
+import { EmailService } from '@/modules/email/email.service';
+import { CacheService } from '@/common/cache/cache.service';
+import { TokenService } from './token.service';
+
+const OTP_PREFIX = 'otp:';
+const OTP_TTL_SECONDS = 10 * 60;
+
+export interface AuthTokens {
+  token: string;
+  refreshToken: string;
+  expiresIn: number;
+}
 
 @Injectable()
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
-  private readonly otpStore = new Map<string, { code: string; expiresAt: number }>();
 
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepo: Repository<UserEntity>,
     private readonly config: ConfigService,
+    private readonly email: EmailService,
+    private readonly cache: CacheService,
+    private readonly tokens: TokenService,
   ) {}
 
   async sendMagicLink(email: string): Promise<{ sent: boolean }> {
-    const code = randomBytes(3).toString('hex').toUpperCase();
-    this.otpStore.set(email, { code, expiresAt: Date.now() + 10 * 60 * 1000 });
+    const code = String(randomInt(0, 1_000_000)).padStart(6, '0');
+    await this.cache.set(`${OTP_PREFIX}${email}`, code, OTP_TTL_SECONDS);
 
-    // In production: send email via SendGrid/Resend/etc.
-    this.logger.log(`OTP for ${email}: ${code}`);
+    await this.email.sendOtp(email, code);
+    // Never log the OTP outside development.
+    if (this.config.get('app.env') !== 'production') {
+      this.logger.debug(`OTP for ${email}: ${code}`);
+    }
 
     return { sent: true };
   }
 
-  async verifyOtp(email: string, code: string): Promise<{ token: string; isNewUser: boolean }> {
-    const stored = this.otpStore.get(email);
-    if (!stored || stored.code !== code || Date.now() > stored.expiresAt) {
+  async verifyOtp(
+    email: string,
+    code: string,
+  ): Promise<AuthTokens & { isNewUser: boolean }> {
+    const key = `${OTP_PREFIX}${email}`;
+    const stored = await this.cache.get(key);
+    if (!stored || stored !== code) {
       throw new UnauthorizedException('Invalid or expired code');
     }
-
-    this.otpStore.delete(email);
+    await this.cache.del(key);
 
     let user = await this.userRepo.findOne({ where: { email } });
     const isNewUser = !user;
 
     if (!user) {
-      user = this.userRepo.create({ email, emailVerified: true, firstName: '', lastName: '', dateOfBirth: '', nationality: '', residenceCountry: '' });
+      user = this.userRepo.create({
+        email,
+        emailVerified: true,
+        firstName: '',
+        lastName: '',
+        dateOfBirth: '',
+        nationality: '',
+        residenceCountry: '',
+      });
       user = await this.userRepo.save(user);
     } else {
       user.emailVerified = true;
@@ -46,36 +74,33 @@ export class AuthService {
       await this.userRepo.save(user);
     }
 
-    const token = this.generateToken(user.id);
-    return { token, isNewUser };
+    const tokens = await this.issueTokens(user.id);
+    return { ...tokens, isNewUser };
+  }
+
+  async refresh(refreshToken: string): Promise<AuthTokens> {
+    const userId = await this.tokens.consumeRefreshToken(refreshToken);
+    if (!userId) throw new UnauthorizedException('Invalid or expired refresh token');
+    return this.issueTokens(userId);
+  }
+
+  async logout(refreshToken?: string): Promise<void> {
+    if (refreshToken) await this.tokens.revokeRefreshToken(refreshToken);
   }
 
   async getUserFromToken(token: string): Promise<UserEntity | null> {
-    const userId = this.verifyToken(token);
+    const userId = this.tokens.verifyAccessToken(token);
     if (!userId) return null;
     return this.userRepo.findOne({ where: { id: userId } });
   }
 
-  private generateToken(userId: string): string {
-    const secret = this.config.get<string>('app.jwtSecret') || 'dev-secret';
-    const payload = JSON.stringify({ sub: userId, iat: Date.now() });
-    const signature = createHmac('sha256', secret).update(payload).digest('base64url');
-    const encodedPayload = Buffer.from(payload).toString('base64url');
-    return `${encodedPayload}.${signature}`;
-  }
-
-  private verifyToken(token: string): string | null {
-    try {
-      const [encodedPayload, signature] = token.split('.');
-      const secret = this.config.get<string>('app.jwtSecret') || 'dev-secret';
-      const expectedSig = createHmac('sha256', secret).update(Buffer.from(encodedPayload, 'base64url').toString()).digest('base64url');
-
-      if (signature !== expectedSig) return null;
-
-      const payload = JSON.parse(Buffer.from(encodedPayload, 'base64url').toString());
-      return payload.sub;
-    } catch {
-      return null;
-    }
+  private async issueTokens(userId: string): Promise<AuthTokens> {
+    const token = this.tokens.generateAccessToken(userId);
+    const refreshToken = await this.tokens.issueRefreshToken(userId);
+    return {
+      token,
+      refreshToken,
+      expiresIn: this.config.get<number>('app.accessTokenTtlSeconds')!,
+    };
   }
 }

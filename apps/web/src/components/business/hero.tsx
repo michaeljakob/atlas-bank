@@ -1,94 +1,89 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
+import { CardChip, ContactlessIcon } from '@/components/ui/card-art';
+import { Reveal } from '@/components/ui/reveal';
+import { Highlight } from '@/components/ui/highlight';
+
+function CheckIcon() {
+  return (
+    <svg className="w-4 h-4 text-atlas-black shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+    </svg>
+  );
+}
+
+function BusinessCard() {
+  return (
+    <div className="relative aspect-[1.586/1] w-full rounded-2xl bg-atlas-black p-6 overflow-hidden shadow-[0_24px_60px_-12px_rgba(0,0,0,0.55)] ring-1 ring-white/10">
+      <div className="pointer-events-none absolute -inset-x-10 -top-24 h-40 rotate-12 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <div className="relative flex h-full flex-col justify-between">
+        <div className="flex items-start justify-between">
+          <img src="/atlas-lockup-light.svg" alt="Atlas" className="h-5 w-auto opacity-90" />
+          <span className="text-[9px] font-bold tracking-widest text-white/50">BUSINESS</span>
+        </div>
+        <div className="flex items-center gap-3">
+          <CardChip className="h-7 w-9" />
+          <ContactlessIcon className="h-5 w-5 text-white/55" />
+        </div>
+        <div className="flex items-end justify-between">
+          <div>
+            <div className="mb-2 flex gap-2 font-mono text-sm tracking-[0.12em] text-white/70">
+              <span>••••</span><span>••••</span><span>••••</span><span className="text-white">7842</span>
+            </div>
+            <p className="text-[10px] font-medium uppercase tracking-wider text-white/80">Your Company Name</p>
+          </div>
+          <img src="/logos/mastercard.svg" alt="Mastercard" className="h-8" />
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function BusinessHero() {
   return (
-    <section className="relative overflow-hidden pt-16 pb-24 sm:pt-24 sm:pb-32">
-      <div className="absolute inset-0 bg-gradient-to-br from-atlas-bg-subtle via-white to-emerald-50/30" />
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-atlas-accent/5 blur-3xl" />
+    <section className="relative overflow-hidden bg-white">
+      <Container>
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center pt-4 sm:pt-10 pb-16 sm:pb-24">
+          {/* Left */}
+          <Reveal direction="up">
+            <p className="text-[11px] font-bold uppercase tracking-widest text-atlas-text-secondary mb-5">
+              Atlas Business
+            </p>
 
-      <Container className="relative">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-100 mb-6">
-              <svg className="w-4 h-4 text-atlas-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 7.5h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z" />
-              </svg>
-              <span className="text-xs font-medium text-atlas-text-primary">Atlas Business</span>
-            </div>
-
-            <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-medium tracking-tight leading-[1.08]">
-              The business account<br />
-              for going{' '}
-              <span className="relative inline-block">
-                global
-                <svg className="absolute -bottom-1 left-0 w-full h-3 text-atlas-accent/60" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none">
-                  <path d="M2 8C40 2 80 2 100 6C120 10 160 4 198 8" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-                </svg>
-              </span>
+            <h1 className="text-[2.75rem] sm:text-6xl lg:text-[4.25rem] font-bold tracking-tight text-atlas-text-primary leading-[1.08]">
+              The business account for{' '}
+              <Highlight>going global</Highlight>
             </h1>
-
-            <p className="mt-6 text-lg text-atlas-text-secondary max-w-lg leading-relaxed">
-              Make payments, get paid, spend and manage finances in EUR. Save time, money and hassle with the all-in-one Atlas Business account.
+            <p className="mt-6 text-lg sm:text-xl text-atlas-text-secondary leading-relaxed max-w-lg">
+              Make payments, get paid, and manage finances in EUR. One account for
+              your startup, agency, or freelance practice — without the bureaucracy.
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row items-start gap-4">
-              <Button size="lg" asChild>
+              <Button size="lg" className="text-base px-8 py-4 rounded-full font-semibold" asChild>
                 <Link href="/onboarding">Open a business account</Link>
               </Button>
-              <Button variant="secondary" size="lg">
+              <Button variant="secondary" size="lg" className="text-base px-8 py-4 rounded-full font-semibold">
                 Contact sales
               </Button>
             </div>
-          </div>
 
-          {/* Right — card visual */}
-          <div className="relative flex justify-center lg:justify-end">
+            <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-atlas-text-secondary">
+              <span className="flex items-center gap-1.5"><CheckIcon />No monthly fee</span>
+              <span className="flex items-center gap-1.5"><CheckIcon />Team cards</span>
+              <span className="flex items-center gap-1.5"><CheckIcon />EU regulated</span>
+            </div>
+          </Reveal>
+
+          {/* Right */}
+          <Reveal direction="up" delay={120} className="mx-auto w-full max-w-sm pb-8 lg:max-w-md lg:pb-0">
             <div className="relative">
-              {/* Business card */}
-              <div className="w-80 h-48 bg-gradient-to-br from-atlas-dark-surface to-[#1a3d0a] rounded-2xl p-6 shadow-2xl shadow-atlas-dark-surface/30 transform rotate-[-2deg]">
-                <div className="flex items-center justify-between mb-8">
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 rounded bg-atlas-accent flex items-center justify-center">
-                      <span className="text-[10px] font-bold text-atlas-dark-surface">A</span>
-                    </div>
-                    <span className="text-white text-sm font-medium">Atlas Business</span>
-                  </div>
-                  <svg viewBox="0 0 48 32" className="h-6 w-auto"><circle cx="16" cy="16" r="10" fill="#EB001B" opacity="0.9"/><circle cx="28" cy="16" r="10" fill="#F79E1B" opacity="0.9"/><path d="M22 8a10 10 0 000 16" fill="#FF5F00" opacity="0.9"/></svg>
-                </div>
-                <p className="font-mono text-white/90 text-lg tracking-[0.2em] mb-6">•••• •••• •••• 7842</p>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-[10px] text-white/50 uppercase">Business</p>
-                    <p className="text-sm text-white/80">Acme Technologies</p>
-                  </div>
-                  <div>
-                    <p className="text-[10px] text-white/50 uppercase">Exp</p>
-                    <p className="text-sm text-white/80">09/28</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Floating stats */}
-              <div className="absolute -top-4 -right-4 bg-white rounded-xl px-4 py-3 shadow-lg border border-atlas-border">
-                <p className="text-[10px] text-atlas-text-secondary uppercase tracking-wide">This month</p>
-                <p className="text-lg font-medium text-atlas-success">+€47,200</p>
-                <p className="text-[10px] text-atlas-text-secondary">12 payments received</p>
-              </div>
-
-              {/* Floating team */}
-              <div className="absolute -bottom-6 -left-6 bg-white rounded-xl px-4 py-3 shadow-lg border border-atlas-border">
-                <p className="text-[10px] text-atlas-text-secondary mb-2">Team cards active</p>
-                <div className="flex -space-x-2">
-                  <img src="https://i.pravatar.cc/32?img=11" alt="" className="w-7 h-7 rounded-full border-2 border-white" />
-                  <img src="https://i.pravatar.cc/32?img=23" alt="" className="w-7 h-7 rounded-full border-2 border-white" />
-                  <img src="https://i.pravatar.cc/32?img=36" alt="" className="w-7 h-7 rounded-full border-2 border-white" />
-                  <div className="w-7 h-7 rounded-full border-2 border-white bg-atlas-accent/20 flex items-center justify-center text-[10px] font-medium">+4</div>
-                </div>
+              <div className="-rotate-3">
+                <BusinessCard />
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </Container>
     </section>

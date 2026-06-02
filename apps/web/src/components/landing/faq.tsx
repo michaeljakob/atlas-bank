@@ -1,81 +1,75 @@
-'use client';
-
-import { useState } from 'react';
 import { Container } from '@/components/ui/container';
+import { Reveal } from '@/components/ui/reveal';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
 const faqs = [
   {
     question: 'Is Atlas a bank?',
     answer:
-      'No. Atlas is not a bank. Banking and payment services (account, IBAN, card) are provided by Swan SAS, an Electronic Money Institution authorised and supervised by the ACPR in France. Your funds are safeguarded in accordance with EU e-money regulations.',
+      'Atlas partners with Swan, an Electronic Money Institution licensed and supervised by the ACPR in France. Your funds are safeguarded in dedicated accounts at leading European credit institutions, in full compliance with EU e-money regulations.',
   },
   {
-    question: 'How are my funds protected?',
+    question: 'How is my money protected?',
     answer:
-      "Your funds are safeguarded by Swan in dedicated accounts at credit institutions, separate from Swan\u2019s operational funds. This is required by EU e-money regulation. Note: this is not the same as bank deposit insurance (FGDR).",
+      'Your funds are safeguarded in ring-fenced accounts at top-tier credit institutions, completely separate from operational funds. This means your money is protected even in the unlikely event of insolvency.',
   },
   {
     question: 'Which countries are supported?',
     answer:
-      "Atlas is currently available to residents of the European Economic Area (EEA). Specific country availability may be subject to eligibility checks. We\u2019ll expand to additional jurisdictions over time.",
+      'Atlas is available across 30+ countries in the European Economic Area. You can open an account from anywhere in the EEA \u2014 no local address or residency required.',
   },
   {
     question: 'What does it cost?',
     answer:
-      'Account opening and your virtual card are free. We charge a small monthly fee for active accounts and for optional services like physical cards. Full pricing will be published before launch.',
+      'Free to open. No monthly fees. Your virtual Mastercard is free. Transfers within SEPA are free or near-free. We believe in transparent, simple pricing with zero hidden markups.',
   },
   {
-    question: 'How fast can I receive money?',
+    question: 'How fast are transfers?',
     answer:
-      'Your IBAN supports SEPA Credit Transfer (1 business day) and SEPA Instant (seconds, 24/7). Most incoming transfers from EU banks arrive within seconds if sent as SEPA Instant.',
+      'SEPA Instant transfers arrive in under 10 seconds, 24 hours a day, 7 days a week \u2014 including holidays. Standard SEPA transfers settle within one business day.',
   },
   {
-    question: 'Can I use the card internationally?',
+    question: 'Can I use the card worldwide?',
     answer:
-      'Yes. Your Mastercard works anywhere Mastercard is accepted — online and in-store, worldwide. You can add it to Apple Pay or Google Pay for contactless payments.',
+      'Yes. Your Mastercard works everywhere Mastercard is accepted \u2014 online and in-store, in every country. Add it to Apple Pay or Google Pay instantly.',
+  },
+  {
+    question: 'How is Atlas different from Wise or Revolut?',
+    answer:
+      'Atlas gives you a full, dedicated EUR IBAN in your name \u2014 not a pooled sub-account. Combined with SEPA Instant, a Mastercard, and zero FX markup, Atlas is built to be your primary account, not a side tool.',
   },
 ];
 
 export function FAQ() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
   return (
-    <section id="faq" className="py-24 sm:py-32 bg-atlas-bg-subtle">
+    <section id="faq" className="py-24 sm:py-36 bg-white">
       <Container>
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-medium tracking-tight">
-            Frequently asked questions
+        <Reveal as="div" className="mb-14 sm:mb-16 max-w-3xl">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-atlas-text-primary leading-[1.1]">
+            Questions? Straight answers.
           </h2>
-        </div>
+          <p className="mt-5 text-lg sm:text-xl text-atlas-text-secondary leading-relaxed">
+            Everything you need to know before you open your account.
+          </p>
+        </Reveal>
 
-        <div className="max-w-3xl mx-auto space-y-3">
+        <Accordion type="single" collapsible className="max-w-3xl">
           {faqs.map((faq, index) => (
-            <div key={index} className="bg-white rounded-xl border border-atlas-border overflow-hidden">
-              <button
-                onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full flex items-center justify-between p-6 text-left"
-              >
-                <span className="font-medium text-atlas-text-primary pr-4">{faq.question}</span>
-                <svg
-                  className={`w-5 h-5 shrink-0 text-atlas-text-secondary transition-transform ${
-                    openIndex === index ? 'rotate-180' : ''
-                  }`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              {openIndex === index && (
-                <div className="px-6 pb-6 text-sm text-atlas-text-secondary leading-relaxed">
-                  {faq.answer}
-                </div>
-              )}
-            </div>
+            <AccordionItem key={index} value={`item-${index}`}>
+              <AccordionTrigger className="py-7 text-lg sm:text-xl font-heading">
+                {faq.question}
+              </AccordionTrigger>
+              <AccordionContent className="text-base">
+                {faq.answer}
+              </AccordionContent>
+            </AccordionItem>
           ))}
-        </div>
+        </Accordion>
       </Container>
     </section>
   );

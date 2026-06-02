@@ -3,6 +3,7 @@ import {
   PaymentProvider,
   InitiatePaymentInput,
   PaymentConsent,
+  PaymentDetails,
   Transaction,
 } from '@atlas-bank/provider-contracts';
 import { SwanClient } from './swan.client';
@@ -55,24 +56,51 @@ export class SwanPaymentProvider implements PaymentProvider {
     };
   }
 
-  async getPaymentStatus(consentId: string): Promise<PaymentConsent> {
+  async getPaymentStatus(consentId: string): Promise<PaymentDetails> {
     const query = `
       query GetPayment($id: ID!) {
         payment(id: $id) {
           id
           statusInfo { status }
           consent { consentUrl status }
+          createdAt
+          updatedAt
+          creditTransfers {
+            edges {
+              node {
+                amount { value currency }
+                creditor { name iban }
+                debtor { name }
+                label
+                reference
+              }
+            }
+          }
         }
       }
     `;
 
     const result = await this.swan.query<any>(query, { id: consentId });
     const payment = result.payment;
+    const transfer = payment.creditTransfers?.edges?.[0]?.node;
 
     return {
       id: payment.id,
       consentUrl: payment.consent?.consentUrl || '',
-      status: this.mapConsentStatus(payment.consent?.status),
+      consentStatus: this.mapConsentStatus(payment.consent?.status),
+      status: payment.statusInfo?.status || 'Initiated',
+      amount: transfer?.amount
+        ? {
+            amount: Math.round(parseFloat(transfer.amount.value) * 100),
+            currency: 'EUR',
+          }
+        : undefined,
+      creditorName: transfer?.creditor?.name,
+      creditorIban: transfer?.creditor?.iban,
+      debtorName: transfer?.debtor?.name,
+      reference: transfer?.reference || transfer?.label,
+      createdAt: payment.createdAt,
+      updatedAt: payment.updatedAt,
     };
   }
 

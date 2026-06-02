@@ -1,46 +1,52 @@
-'use client';
+import { Container } from '@/components/ui/container';
+import { Flag } from '@/components/ui/flag';
 
-const flags = [
-  { country: 'DE', emoji: '🇩🇪' },
-  { country: 'FR', emoji: '🇫🇷' },
-  { country: 'ES', emoji: '🇪🇸' },
-  { country: 'IT', emoji: '🇮🇹' },
-  { country: 'NL', emoji: '🇳🇱' },
-  { country: 'PT', emoji: '🇵🇹' },
-  { country: 'AT', emoji: '🇦🇹' },
-  { country: 'BE', emoji: '🇧🇪' },
-  { country: 'IE', emoji: '🇮🇪' },
-  { country: 'FI', emoji: '🇫🇮' },
-  { country: 'GR', emoji: '🇬🇷' },
-  { country: 'LU', emoji: '🇱🇺' },
-  { country: 'SE', emoji: '🇸🇪' },
-  { country: 'DK', emoji: '🇩🇰' },
-  { country: 'PL', emoji: '🇵🇱' },
-  { country: 'CZ', emoji: '🇨🇿' },
-  { country: 'HR', emoji: '🇭🇷' },
-  { country: 'RO', emoji: '🇷🇴' },
+const countries = [
+  { name: 'Germany', code: 'DE' },
+  { name: 'France', code: 'FR' },
+  { name: 'Spain', code: 'ES' },
+  { name: 'Italy', code: 'IT' },
+  { name: 'Netherlands', code: 'NL' },
+  { name: 'Portugal', code: 'PT' },
+  { name: 'Austria', code: 'AT' },
+  { name: 'Belgium', code: 'BE' },
+  { name: 'Ireland', code: 'IE' },
+  { name: 'Finland', code: 'FI' },
+  { name: 'Greece', code: 'GR' },
+  { name: 'Luxembourg', code: 'LU' },
+  { name: 'Sweden', code: 'SE' },
+  { name: 'Denmark', code: 'DK' },
+  { name: 'Poland', code: 'PL' },
+  { name: 'Czech Republic', code: 'CZ' },
+  { name: 'Croatia', code: 'HR' },
+  { name: 'Romania', code: 'RO' },
 ];
 
 export function FlagsBand() {
-  const doubled = [...flags, ...flags];
-
   return (
-    <section className="py-10 bg-atlas-dark-surface overflow-hidden">
-      <div className="relative">
-        <div className="flex animate-scroll gap-6">
-          {doubled.map((flag, i) => (
-            <div
-              key={`${flag.country}-${i}`}
-              className="flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/10 flex items-center justify-center text-3xl sm:text-4xl backdrop-blur-sm border border-white/5 hover:scale-110 transition-transform"
+    <section className="py-24 sm:py-36 bg-atlas-dark-surface">
+      <Container>
+        <h2 className="text-5xl sm:text-6xl lg:text-7xl font-heading text-white uppercase tracking-tight leading-[0.95] mb-6">
+          One account.
+          <br />
+          Every country.
+        </h2>
+        <p className="text-lg sm:text-xl text-atlas-heather-300 max-w-lg mb-16 leading-relaxed">
+          One IBAN that works the same in every EEA member state. No borders,
+          no local paperwork, no second account.
+        </p>
+        <div className="flex flex-wrap gap-3 max-w-5xl">
+          {countries.map(({ name, code }) => (
+            <span
+              key={name}
+              className="flex items-center gap-2.5 text-sm font-bold text-white bg-white/8 hover:bg-white/15 px-5 py-2.5 rounded-full transition-colors"
             >
-              {flag.emoji}
-            </div>
+              <Flag code={code} name={name} className="w-6 h-6 ring-white/20" />
+              {name}
+            </span>
           ))}
         </div>
-      </div>
-      <p className="text-center text-sm text-gray-400 mt-6">
-        Available across the European Economic Area — with local IBANs
-      </p>
+      </Container>
     </section>
   );
 }

@@ -7,8 +7,11 @@ import {
   OneToOne,
   OneToMany,
 } from 'typeorm';
-import { AccountEntity } from './account.entity';
-import { OnboardingEntity } from './onboarding.entity';
+import type { AccountEntity } from './account.entity';
+import type { OnboardingEntity } from './onboarding.entity';
+import { encryptedColumn, encryptedJsonColumn } from '@/common/crypto/pii.transformer';
+
+export type UserRole = 'user' | 'admin';
 
 @Entity('users')
 export class UserEntity {
@@ -18,25 +21,35 @@ export class UserEntity {
   @Column({ unique: true })
   email: string;
 
-  @Column({ nullable: true })
+  // Access level. 'admin' unlocks the guarded /admin endpoints; everyone else
+  // is a regular 'user'. Defaults to 'user' for all new sign-ups.
+  @Column({ type: 'varchar', default: 'user' })
+  role: UserRole;
+
+  // Public payment handle (e.g. "michaeljakob"). Stored lowercase, unique, not
+  // PII — used to send/request money without sharing an IBAN.
+  @Column({ type: 'varchar', nullable: true, unique: true })
+  handle?: string;
+
+  @Column({ type: 'varchar', nullable: true, transformer: encryptedColumn })
   phone?: string;
 
-  @Column()
+  @Column({ type: 'varchar', transformer: encryptedColumn })
   firstName: string;
 
-  @Column()
+  @Column({ type: 'varchar', transformer: encryptedColumn })
   lastName: string;
 
-  @Column()
+  @Column({ type: 'varchar', transformer: encryptedColumn })
   dateOfBirth: string;
 
-  @Column()
+  @Column({ type: 'varchar', transformer: encryptedColumn })
   nationality: string;
 
-  @Column()
+  @Column({ type: 'varchar', transformer: encryptedColumn })
   residenceCountry: string;
 
-  @Column({ type: 'jsonb', nullable: true })
+  @Column({ type: 'text', nullable: true, transformer: encryptedJsonColumn })
   residenceAddress?: {
     line1: string;
     line2?: string;
@@ -51,10 +64,10 @@ export class UserEntity {
   @Column({ nullable: true })
   lastLoginAt?: Date;
 
-  @OneToOne(() => OnboardingEntity, (onboarding) => onboarding.user)
+  @OneToOne('OnboardingEntity', 'user')
   onboarding?: OnboardingEntity;
 
-  @OneToMany(() => AccountEntity, (account) => account.user)
+  @OneToMany('AccountEntity', 'user')
   accounts?: AccountEntity[];
 
   @CreateDateColumn()

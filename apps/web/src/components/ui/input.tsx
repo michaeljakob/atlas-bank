@@ -1,13 +1,13 @@
-import { clsx } from 'clsx';
-import { InputHTMLAttributes, forwardRef } from 'react';
+import * as React from 'react';
+import { cn } from '@/lib/utils';
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
 }
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, className, id, ...props }, ref) => {
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ className, type, label, error, id, ...props }, ref) => {
     const inputId = id || label?.toLowerCase().replace(/\s+/g, '-');
     return (
       <div className="space-y-1.5">
@@ -17,21 +17,25 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           </label>
         )}
         <input
-          ref={ref}
+          type={type}
           id={inputId}
-          className={clsx(
-            'w-full rounded-xl border px-4 py-3 text-base transition-colors',
-            'placeholder:text-atlas-text-secondary/50',
-            'focus:outline-none focus:ring-2 focus:ring-atlas-accent focus:border-transparent',
-            error ? 'border-atlas-error' : 'border-atlas-border',
+          className={cn(
+            'flex h-11 w-full rounded-xl border bg-white px-4 py-3 text-sm text-atlas-text-primary ring-offset-background transition-colors',
+            'file:border-0 file:bg-transparent file:text-sm file:font-medium',
+            'placeholder:text-atlas-text-secondary/60',
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0',
+            'disabled:cursor-not-allowed disabled:opacity-50',
+            error ? 'border-destructive focus-visible:ring-destructive' : 'border-atlas-border',
             className
           )}
+          ref={ref}
           {...props}
         />
-        {error && <p className="text-sm text-atlas-error">{error}</p>}
+        {error && <p className="text-sm text-destructive">{error}</p>}
       </div>
     );
   }
 );
-
 Input.displayName = 'Input';
+
+export { Input };

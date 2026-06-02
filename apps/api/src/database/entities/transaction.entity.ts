@@ -6,10 +6,11 @@ import {
   Index,
   ManyToOne,
 } from 'typeorm';
-import { AccountEntity } from './account.entity';
+import type { AccountEntity } from './account.entity';
 
 @Entity('transactions')
 @Index(['accountId', 'createdAt'])
+@Index(['cardId', 'createdAt'])
 export class TransactionEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -17,8 +18,11 @@ export class TransactionEntity {
   @Column()
   accountId: string;
 
-  @ManyToOne(() => AccountEntity, (account) => account.transactions)
+  @ManyToOne('AccountEntity', 'transactions')
   account: AccountEntity;
+
+  @Column({ type: 'uuid', nullable: true })
+  cardId?: string | null;
 
   @Column()
   providerTransactionId: string;

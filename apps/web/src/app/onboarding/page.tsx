@@ -29,6 +29,13 @@ export default function OnboardingPage() {
   });
 
   const steps: OnboardingStep[] = ['email', 'verify', 'details', 'kyc', 'success'];
+  const stepLabels: Record<OnboardingStep, string> = {
+    email: 'Your email',
+    verify: 'Verify it\u2019s you',
+    details: 'A few details',
+    kyc: 'Quick ID check',
+    success: 'All done',
+  };
   const currentIndex = steps.indexOf(step);
   const progress = ((currentIndex + 1) / steps.length) * 100;
 
@@ -42,14 +49,15 @@ export default function OnboardingPage() {
       </div>
 
       <Container className="py-12 sm:py-20 max-w-lg">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 mb-6">
-            <div className="w-8 h-8 rounded-lg bg-atlas-dark-surface flex items-center justify-center">
-              <span className="text-white font-bold text-sm">A</span>
-            </div>
-            <span className="font-medium text-lg">Atlas</span>
-          </div>
+        <div className="flex items-center justify-center mb-6">
+          <img src="/atlas-lockup.svg" alt="Atlas" className="h-9 w-auto" />
         </div>
+
+        {step !== 'success' && (
+          <p className="text-center text-xs font-medium uppercase tracking-wide text-atlas-text-secondary mb-8">
+            Step {currentIndex + 1} of {steps.length - 1} · {stepLabels[step]}
+          </p>
+        )}
 
         {step === 'email' && (
           <EmailStep

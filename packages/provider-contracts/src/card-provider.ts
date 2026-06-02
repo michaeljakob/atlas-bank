@@ -4,6 +4,7 @@ export interface IssueCardInput {
   accountId: string;
   type: CardType;
   spendingLimit?: { amount: number; period: 'daily' | 'weekly' | 'monthly' };
+  deliveryAddress?: { line1: string; line2?: string; city: string; postalCode: string; country: string };
 }
 
 export interface UpdateCardInput {

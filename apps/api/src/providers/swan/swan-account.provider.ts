@@ -143,6 +143,33 @@ export class SwanAccountProvider implements AccountProvider {
     };
   }
 
+  async getTransaction(transactionId: string): Promise<Transaction> {
+    const query = `
+      query GetTransaction($id: ID!) {
+        transaction(id: $id) {
+          id
+          side
+          statusInfo { status }
+          amount { value currency }
+          counterparty
+          reference
+          bookedAt
+          createdAt
+          account { id }
+        }
+      }
+    `;
+
+    const result = await this.swan.query<any>(query, { id: transactionId });
+    const node = result.transaction;
+    if (!node) throw new Error(`Transaction ${transactionId} not found`);
+
+    return {
+      ...this.mapTransaction(node, node.account?.id || ''),
+      counterpartyIban: node.counterpartyIban,
+    };
+  }
+
   async closeAccount(accountId: string): Promise<void> {
     const mutation = `
       mutation CloseAccount($id: ID!) {

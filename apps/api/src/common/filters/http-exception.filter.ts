@@ -1,4 +1,5 @@
 import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus, Logger } from '@nestjs/common';
+import { captureException } from '@/common/observability/sentry';
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
@@ -19,7 +20,9 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         ? exceptionResponse
         : (exceptionResponse as any).message || message;
     } else if (exception instanceof Error) {
+      // Never leak internal error details to the client; log + report instead.
       this.logger.error(`Unhandled exception: ${exception.message}`, exception.stack);
+      captureException(exception, { path: request.url, method: request.method });
     }
 
     response.status(status).send({

@@ -28,4 +28,16 @@ export class PaymentsController {
   async getStatus(@Param('id') id: string) {
     return this.payments.getPaymentStatus(id);
   }
+
+  @Get(':id/details')
+  @ApiOperation({ summary: 'Get full transfer details for the authenticated user' })
+  async getDetails(@Param('id') id: string) {
+    return this.payments.getTransferDetails(id);
+  }
+
+  @Get(':id/public')
+  @ApiOperation({ summary: 'Get public transfer status (for shared links)' })
+  async getPublicStatus(@Param('id') id: string) {
+    return this.payments.getPublicTransferStatus(id);
+  }
 }

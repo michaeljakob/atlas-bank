@@ -51,12 +51,12 @@ export function KycStep({ kycUrl, onComplete }: Props) {
 
   return (
     <div className="bg-white rounded-2xl border border-atlas-border p-8 shadow-sm text-center">
-      <h1 className="text-2xl font-medium mb-2">Verify your identity</h1>
+      <h1 className="text-2xl font-medium mb-2">One last check</h1>
 
       {status === 'verifying' && (
         <>
           <p className="text-atlas-text-secondary mb-8">
-            Complete the identity verification to activate your account.
+            A quick ID scan keeps your money safe. Takes about 2 minutes — then your account goes live.
           </p>
 
           <div className="mb-8 p-6 bg-atlas-bg-subtle rounded-xl">
@@ -73,7 +73,7 @@ export function KycStep({ kycUrl, onComplete }: Props) {
           </div>
 
           <Button size="lg" className="w-full mb-4" onClick={() => window.open(kycUrl, '_blank')}>
-            Start verification
+            Start ID check
           </Button>
 
           <div className="flex items-center gap-2 justify-center text-xs text-atlas-text-secondary">
@@ -81,19 +81,19 @@ export function KycStep({ kycUrl, onComplete }: Props) {
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
-            Waiting for verification to complete...
+            Keeping an eye out — this updates the moment you&apos;re done
           </div>
         </>
       )}
 
       {status === 'verified' && (
         <>
-          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-green-50 flex items-center justify-center">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-atlas-accent-50 flex items-center justify-center">
             <svg className="w-8 h-8 text-atlas-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <p className="text-atlas-text-secondary mb-4">Identity verified! Setting up your account...</p>
+          <p className="text-atlas-text-secondary mb-4">You&apos;re verified! Setting up your account…</p>
           {loading && (
             <div className="flex items-center gap-2 justify-center text-sm text-atlas-text-secondary">
               <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
@@ -108,7 +108,7 @@ export function KycStep({ kycUrl, onComplete }: Props) {
 
       {status === 'failed' && (
         <>
-          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-red-50 flex items-center justify-center">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-atlas-error/10 flex items-center justify-center">
             <svg className="w-8 h-8 text-atlas-error" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>

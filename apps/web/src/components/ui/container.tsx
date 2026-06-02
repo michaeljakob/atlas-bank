@@ -1,4 +1,4 @@
-import { clsx } from 'clsx';
+import { cn } from '@/lib/utils';
 
 interface ContainerProps {
   children: React.ReactNode;
@@ -8,7 +8,7 @@ interface ContainerProps {
 
 export function Container({ children, className, as: Tag = 'div' }: ContainerProps) {
   return (
-    <Tag className={clsx('mx-auto max-w-7xl px-4 sm:px-6 lg:px-8', className)}>
+    <Tag className={cn('mx-auto max-w-7xl px-4 sm:px-6 lg:px-8', className)}>
       {children}
     </Tag>
   );

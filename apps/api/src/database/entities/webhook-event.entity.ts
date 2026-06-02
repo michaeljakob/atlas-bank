@@ -21,7 +21,7 @@ export class WebhookEventEntity {
   @Column({ nullable: true })
   resourceId?: string;
 
-  @Column({ type: 'jsonb' })
+  @Column({ type: 'simple-json' })
   rawPayload: Record<string, unknown>;
 
   @Column({ type: 'varchar', default: 'received' })

@@ -1,56 +1,53 @@
 import { Container } from '@/components/ui/container';
+import { Reveal } from '@/components/ui/reveal';
+import { Highlight } from '@/components/ui/highlight';
 
 const solutions = [
   {
+    badge: 'Startups',
     title: 'For startups',
-    description: 'Get your business IBAN before incorporation clears. Accept investment, pay suppliers, issue team cards — all from day one.',
-    image: 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=400&h=300&fit=crop&crop=faces',
-    tag: 'STARTUPS',
+    description: 'Get a business IBAN and issue team cards from day one. Accept investment and pay suppliers without waiting for legacy bank approval.',
   },
   {
+    badge: 'Freelancers',
     title: 'For freelancers',
-    description: 'A professional EUR IBAN that makes you look like a local business. Invoice clients, get paid fast, spend with your card.',
-    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=300&fit=crop&crop=faces',
-    tag: 'FREELANCERS',
+    description: 'A professional EUR IBAN for invoicing European clients. Get paid fast, spend with your card, keep business and personal separate.',
   },
   {
+    badge: 'Agencies',
     title: 'For agencies',
-    description: 'Manage multiple client payments, issue cards for your team, and keep project finances separate and organised.',
-    image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=400&h=300&fit=crop&crop=faces',
-    tag: 'AGENCIES',
+    description: 'Manage client payments, issue cards per team member, and keep project finances organised with role-based access.',
   },
 ];
 
 export function Solutions() {
   return (
-    <section className="py-24 sm:py-32 bg-atlas-bg-subtle">
+    <section className="py-24 sm:py-36 bg-atlas-bg-subtle border-y border-atlas-border">
       <Container>
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-medium tracking-tight">
-            Solutions for every kind of business
+        <Reveal as="div" className="max-w-3xl mb-12 sm:mb-16">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-atlas-text-primary leading-[1.1]">
+            Built for{' '}
+            <Highlight>how you work</Highlight>
           </h2>
-        </div>
+          <p className="mt-5 text-lg sm:text-xl text-atlas-text-secondary leading-relaxed">
+            Whether you&apos;re raising your first round or running a team across
+            borders, Atlas Business adapts to the way you operate.
+          </p>
+        </Reveal>
 
-        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          {solutions.map((solution) => (
-            <div key={solution.title} className="group rounded-2xl overflow-hidden bg-white border border-atlas-border hover:shadow-lg transition-shadow">
-              <div className="relative h-48 overflow-hidden">
-                <img
-                  src={solution.image}
-                  alt={solution.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                <span className="absolute top-4 left-4 text-[10px] font-bold text-white uppercase tracking-wider">
-                  {solution.tag}
-                </span>
-              </div>
-              <div className="p-6">
-                <h3 className="text-lg font-medium mb-2">{solution.title}</h3>
-                <p className="text-sm text-atlas-text-secondary leading-relaxed">{solution.description}</p>
-              </div>
-            </div>
+        <div className="grid md:grid-cols-3 gap-4 sm:gap-5">
+          {solutions.map((solution, i) => (
+            <Reveal
+              key={solution.title}
+              delay={i * 90}
+              className="rounded-3xl bg-white border border-atlas-border/70 p-7 sm:p-8 flex flex-col"
+            >
+              <span className="text-[11px] font-bold uppercase tracking-widest text-atlas-text-secondary">
+                {solution.badge}
+              </span>
+              <h3 className="mt-3 text-xl font-bold text-atlas-text-primary tracking-tight">{solution.title}</h3>
+              <p className="mt-2 text-[15px] text-atlas-text-secondary leading-relaxed">{solution.description}</p>
+            </Reveal>
           ))}
         </div>
       </Container>

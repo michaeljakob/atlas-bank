@@ -1,55 +1,60 @@
-import { clsx } from 'clsx';
-import { ButtonHTMLAttributes, forwardRef, ReactElement, cloneElement } from 'react';
+import * as React from 'react';
+import { Slot } from '@radix-ui/react-slot';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
 
-type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'dark';
-type ButtonSize = 'sm' | 'md' | 'lg';
+const buttonVariants = cva(
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
+  {
+    variants: {
+      variant: {
+        default: 'bg-primary text-primary-foreground hover:brightness-105 active:scale-[0.98]',
+        destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90 active:scale-[0.98]',
+        outline: 'border border-border bg-background hover:bg-secondary hover:text-secondary-foreground active:scale-[0.98]',
+        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80 active:scale-[0.98]',
+        ghost: 'hover:bg-secondary hover:text-secondary-foreground',
+        link: 'text-foreground underline-offset-4 hover:underline',
+        dark: 'bg-atlas-dark-surface text-white hover:opacity-90 active:scale-[0.98]',
+      },
+      size: {
+        default: 'h-10 px-5 py-2',
+        sm: 'h-9 rounded-lg px-4 text-xs',
+        lg: 'h-12 rounded-xl px-8 text-base',
+        icon: 'h-10 w-10',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+      size: 'default',
+    },
+  }
+);
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: ButtonVariant;
-  size?: ButtonSize;
-  loading?: boolean;
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
   asChild?: boolean;
+  loading?: boolean;
 }
 
-const variants: Record<ButtonVariant, string> = {
-  primary:
-    'bg-atlas-accent text-atlas-text-primary hover:brightness-105 active:brightness-95',
-  secondary:
-    'bg-atlas-bg-subtle text-atlas-text-primary border border-atlas-border hover:bg-atlas-border/50',
-  ghost: 'text-atlas-text-primary hover:bg-atlas-bg-subtle',
-  dark: 'bg-atlas-dark-surface text-white hover:opacity-90',
-};
-
-const sizes: Record<ButtonSize, string> = {
-  sm: 'px-4 py-2 text-sm',
-  md: 'px-6 py-3 text-base',
-  lg: 'px-8 py-4 text-lg',
-};
-
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ variant = 'primary', size = 'md', loading, className, children, disabled, asChild, ...props }, ref) => {
-    const classes = clsx(
-      'inline-flex items-center justify-center gap-2 rounded-xl font-medium transition-all duration-150',
-      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-atlas-accent focus-visible:ring-offset-2',
-      'disabled:opacity-50 disabled:pointer-events-none',
-      variants[variant],
-      sizes[size],
-      className
-    );
-
-    if (asChild && children) {
-      const child = children as ReactElement<any>;
-      return cloneElement(child, {
-        className: clsx(classes, child.props?.className),
-        ref,
-      });
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, asChild = false, loading, disabled, children, ...props }, ref) => {
+    if (asChild) {
+      return (
+        <Slot
+          className={cn(buttonVariants({ variant, size, className }))}
+          ref={ref}
+          {...props}
+        >
+          {children}
+        </Slot>
+      );
     }
-
     return (
       <button
+        className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         disabled={disabled || loading}
-        className={classes}
         {...props}
       >
         {loading && (
@@ -63,5 +68,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     );
   }
 );
-
 Button.displayName = 'Button';
+
+export { Button, buttonVariants };

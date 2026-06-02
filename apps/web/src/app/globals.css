@@ -4,23 +4,48 @@
 
 @layer base {
   :root {
+    /* Atlas official brand palette */
     --atlas-bg: 255 255 255;
-    --atlas-bg-subtle: 244 247 240;
-    --atlas-text-primary: 22 51 0;
-    --atlas-text-secondary: 74 90 64;
-    --atlas-accent: 159 232 112;
-    --atlas-dark-surface: 22 51 0;
-    --atlas-border: 227 232 221;
-    --atlas-success: 31 157 107;
+    --atlas-bg-subtle: 245 243 240; /* Heather 50 */
+    --atlas-text-primary: 28 24 13; /* Robin Black #1C180D */
+    --atlas-text-secondary: 111 108 104; /* Heather 500 */
+    --atlas-accent: 204 255 0; /* Robin Neon #CCFF00 */
+    --atlas-green: 90 197 58; /* UI green #5AC53A */
+    --atlas-dark-surface: 28 24 13; /* Robin Black */
+    --atlas-border: 228 225 219; /* Heather border #E4E1DB */
+    --atlas-success: 90 197 58;
     --atlas-error: 214 69 61;
+
+    --background: 0 0% 100%;
+    --foreground: 44 37% 8%; /* Robin Black */
+    --primary: 72 100% 50%; /* Robin Neon */
+    --primary-foreground: 44 37% 8%; /* Robin Black on neon */
+    --secondary: 43 16% 91%; /* Heather 100 */
+    --secondary-foreground: 44 37% 8%;
+    --destructive: 3 64% 54%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 40 14% 88%; /* Heather border */
+    --ring: 72 100% 50%;
   }
 
   .dark {
-    --atlas-bg: 14 26 11;
-    --atlas-bg-subtle: 20 36 16;
-    --atlas-text-primary: 244 247 240;
-    --atlas-text-secondary: 180 196 170;
-    --atlas-dark-surface: 244 247 240;
+    --atlas-bg: 28 24 13; /* Robin Black */
+    --atlas-bg-subtle: 38 34 22;
+    --atlas-text-primary: 245 243 240;
+    --atlas-text-secondary: 180 177 171; /* Heather 300 */
+    --atlas-dark-surface: 245 243 240;
+    --atlas-border: 56 52 42;
+
+    --background: 44 37% 8%; /* Robin Black */
+    --foreground: 43 16% 95%;
+    --primary: 72 100% 50%;
+    --primary-foreground: 44 37% 8%;
+    --secondary: 44 18% 16%;
+    --secondary-foreground: 43 16% 95%;
+    --destructive: 3 64% 54%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 44 15% 20%;
+    --ring: 72 100% 50%;
   }
 
   html {
@@ -31,6 +56,15 @@
 
   body {
     @apply bg-atlas-bg text-atlas-text-primary font-sans;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading;
   }
 }
 
@@ -55,4 +89,91 @@
 
 .animate-scroll:hover {
   animation-play-state: paused;
+}
+
+/* ---- Slide-in navbar (runs once on mount) ---- */
+@keyframes nav-slide-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-130%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-nav-slide-in {
+  animation: nav-slide-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ---- Scroll-reveal "slide in" elements ---- */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.reveal[data-direction='up'] {
+  transform: translateY(28px);
+}
+.reveal[data-direction='down'] {
+  transform: translateY(-28px);
+}
+.reveal[data-direction='left'] {
+  transform: translateX(36px);
+}
+.reveal[data-direction='right'] {
+  transform: translateX(-36px);
+}
+.reveal[data-direction='scale'] {
+  transform: scale(0.96);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translate(0, 0) scale(1);
+}
+
+/* ---- Friendly floating UI chips ---- */
+@keyframes float-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+.animate-float {
+  animation: float-bob 5s ease-in-out infinite;
+  animation-delay: var(--float-delay, 0ms);
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 4s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-nav-slide-in,
+  .animate-float,
+  .animate-spin-slow {
+    animation: none;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }

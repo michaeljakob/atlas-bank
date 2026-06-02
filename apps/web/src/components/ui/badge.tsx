@@ -1,28 +1,31 @@
-import { clsx } from 'clsx';
+import * as React from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
 
-interface BadgeProps {
-  children: React.ReactNode;
-  variant?: 'default' | 'success' | 'warning' | 'error';
-  className?: string;
+const badgeVariants = cva(
+  'inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
+  {
+    variants: {
+      variant: {
+        default: 'border-transparent bg-secondary text-secondary-foreground',
+        success: 'border-transparent bg-success/10 text-success',
+        warning: 'border-transparent bg-atlas-accent/15 text-atlas-accent-700',
+        destructive: 'border-transparent bg-destructive/10 text-destructive',
+        outline: 'border-border text-foreground',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+    },
+  }
+);
+
+export interface BadgeProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof badgeVariants> {}
+
+function Badge({ className, variant, ...props }: BadgeProps) {
+  return <div className={cn(badgeVariants({ variant }), className)} {...props} />;
 }
 
-const variantStyles = {
-  default: 'bg-atlas-bg-subtle text-atlas-text-secondary',
-  success: 'bg-green-50 text-atlas-success',
-  warning: 'bg-amber-50 text-amber-700',
-  error: 'bg-red-50 text-atlas-error',
-};
-
-export function Badge({ children, variant = 'default', className }: BadgeProps) {
-  return (
-    <span
-      className={clsx(
-        'inline-flex items-center rounded-full px-3 py-1 text-xs font-medium',
-        variantStyles[variant],
-        className
-      )}
-    >
-      {children}
-    </span>
-  );
-}
+export { Badge, badgeVariants };

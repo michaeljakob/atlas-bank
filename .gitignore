@@ -10,3 +10,6 @@ dist/
 coverage/
 .nyc_output/
 .vercel
+*.tsbuildinfo
+packages/provider-contracts/src/*.js
+packages/provider-contracts/src/*.js.map

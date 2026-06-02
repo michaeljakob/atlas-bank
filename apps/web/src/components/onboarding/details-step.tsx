@@ -3,7 +3,9 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { CountrySelect } from '@/components/ui/country-select';
 import { api } from '@/lib/api';
+import { track, AnalyticsEvent } from '@/lib/analytics';
 import { SUPPORTED_COUNTRIES } from '@atlas-bank/shared';
 
 interface Props {
@@ -49,6 +51,8 @@ export function DetailsStep({ onComplete }: Props) {
           country: form.residenceCountry,
         },
       });
+      track(AnalyticsEvent.OnboardingDetailsSubmitted);
+      track(AnalyticsEvent.KycStarted);
       onComplete(result.kycUrl);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong');
@@ -59,9 +63,9 @@ export function DetailsStep({ onComplete }: Props) {
 
   return (
     <div className="bg-white rounded-2xl border border-atlas-border p-8 shadow-sm">
-      <h1 className="text-2xl font-medium text-center mb-2">Your details</h1>
+      <h1 className="text-2xl font-medium text-center mb-2">Tell us about you</h1>
       <p className="text-atlas-text-secondary text-center mb-8">
-        We need a few details to open your account.
+        A few quick details so your account is legally yours. This is the longest step — almost there.
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -80,32 +84,20 @@ export function DetailsStep({ onComplete }: Props) {
 
         <div className="space-y-1.5">
           <label className="block text-sm font-medium text-atlas-text-secondary">Nationality</label>
-          <select
+          <CountrySelect
             value={form.nationality}
-            onChange={(e) => update('nationality', e.target.value)}
-            className="w-full rounded-xl border border-atlas-border px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-atlas-accent"
-            required
-          >
-            <option value="">Select country</option>
-            {SUPPORTED_COUNTRIES.map((c) => (
-              <option key={c} value={c}>{c}</option>
-            ))}
-          </select>
+            onChange={(code) => update('nationality', code)}
+            options={SUPPORTED_COUNTRIES}
+          />
         </div>
 
         <div className="space-y-1.5">
           <label className="block text-sm font-medium text-atlas-text-secondary">Country of residence</label>
-          <select
+          <CountrySelect
             value={form.residenceCountry}
-            onChange={(e) => update('residenceCountry', e.target.value)}
-            className="w-full rounded-xl border border-atlas-border px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-atlas-accent"
-            required
-          >
-            <option value="">Select country</option>
-            {SUPPORTED_COUNTRIES.map((c) => (
-              <option key={c} value={c}>{c}</option>
-            ))}
-          </select>
+            onChange={(code) => update('residenceCountry', code)}
+            options={SUPPORTED_COUNTRIES}
+          />
         </div>
 
         <div className="border-t border-atlas-border pt-4 mt-4">
@@ -123,8 +115,15 @@ export function DetailsStep({ onComplete }: Props) {
         {error && <p className="text-sm text-atlas-error">{error}</p>}
 
         <Button type="submit" className="w-full" size="lg" loading={loading}>
-          Continue to verification
+          {loading ? 'Saving your details…' : 'Continue to ID check'}
         </Button>
+        <p className="flex items-center justify-center gap-1.5 text-center text-xs text-atlas-text-secondary">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          </svg>
+          Encrypted and only used to verify your identity
+        </p>
       </form>
     </div>
   );

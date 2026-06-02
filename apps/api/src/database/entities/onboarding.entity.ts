@@ -7,7 +7,7 @@ import {
   OneToOne,
   JoinColumn,
 } from 'typeorm';
-import { UserEntity } from './user.entity';
+import type { UserEntity } from './user.entity';
 
 export type OnboardingStatus =
   | 'initiated'
@@ -28,7 +28,7 @@ export class OnboardingEntity {
   @Column()
   userId: string;
 
-  @OneToOne(() => UserEntity, (user) => user.onboarding)
+  @OneToOne('UserEntity', 'onboarding')
   @JoinColumn()
   user: UserEntity;
 
@@ -41,7 +41,7 @@ export class OnboardingEntity {
   @Column({ nullable: true })
   providerRedirectUrl?: string;
 
-  @Column({ type: 'jsonb', nullable: true })
+  @Column({ type: 'simple-json', nullable: true })
   providerMetadata?: Record<string, unknown>;
 
   @Column({ nullable: true })
