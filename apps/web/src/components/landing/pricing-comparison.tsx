@@ -144,9 +144,7 @@ export function PricingComparison() {
               <div className="mt-2.5 flex items-center gap-2 rounded-xl bg-auriga-accent/10 px-3 py-2.5">
                 <CheckBadge />
                 <span className="text-[15px] font-bold text-auriga-text-primary">{row.auriga}</span>
-                <span className="ml-auto text-[10px] font-bold uppercase tracking-wider text-auriga-text-primary">
-                  Auriga
-                </span>
+                <img src="/auriga-logo.svg" alt="Auriga" className="ml-auto h-3" />
               </div>
               <dl className="mt-3 grid grid-cols-3 gap-3 border-t border-auriga-border pt-3 text-xs">
                 {[

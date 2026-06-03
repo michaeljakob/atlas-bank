@@ -88,10 +88,14 @@ function StatCard({
 /* ------------------------------------------------------------------ */
 
 function LivePulse() {
-  const [count] = useState(() => {
+  const [count, setCount] = useState<number | null>(null);
+
+  useEffect(() => {
     const hour = new Date().getHours();
-    return 120 + Math.floor(hour * 11.3);
-  });
+    setCount(120 + Math.floor(hour * 11.3));
+  }, []);
+
+  if (count === null) return null;
 
   return (
     <div className="flex items-center gap-2 text-[13px] text-auriga-text-secondary">
