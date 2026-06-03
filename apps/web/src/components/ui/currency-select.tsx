@@ -87,12 +87,12 @@ export function CurrencySelect({
           type="button"
           className={cn(
             'inline-flex items-center gap-2 pl-3 pr-2.5 py-2 rounded-xl',
-            'border border-atlas-border/70 bg-white',
+            'border border-auriga-border/70 bg-white',
             'text-sm font-medium cursor-pointer select-none',
             'transition-all duration-200 ease-out',
-            'hover:border-atlas-accent/40 hover:bg-atlas-bg-subtle/40',
-            'focus:outline-none focus:ring-2 focus:ring-atlas-accent/20 focus:border-atlas-accent/40',
-            'data-[state=open]:border-atlas-accent/40 data-[state=open]:ring-2 data-[state=open]:ring-atlas-accent/20',
+            'hover:border-auriga-accent/40 hover:bg-auriga-bg-subtle/40',
+            'focus:outline-none focus:ring-2 focus:ring-auriga-accent/20 focus:border-auriga-accent/40',
+            'data-[state=open]:border-auriga-accent/40 data-[state=open]:ring-2 data-[state=open]:ring-auriga-accent/20',
             className,
           )}
           aria-label="Select currency"
@@ -100,14 +100,14 @@ export function CurrencySelect({
           {selected ? (
             <>
               <Flag code={currencyFlag(selected.code)} name={selected.name} className="w-5 h-5" />
-              <span className="text-atlas-text-primary">{selected.code}</span>
+              <span className="text-auriga-text-primary">{selected.code}</span>
             </>
           ) : (
-            <span className="text-atlas-text-secondary">{placeholder}</span>
+            <span className="text-auriga-text-secondary">{placeholder}</span>
           )}
           <svg
             className={cn(
-              'w-3.5 h-3.5 text-atlas-text-secondary/70 transition-transform duration-200',
+              'w-3.5 h-3.5 text-auriga-text-secondary/70 transition-transform duration-200',
               open && 'rotate-180',
             )}
             fill="none"
@@ -125,7 +125,7 @@ export function CurrencySelect({
           align={align}
           sideOffset={6}
           className={cn(
-            'z-50 w-[240px] rounded-xl border border-atlas-border/70 bg-white shadow-lg shadow-black/[0.08]',
+            'z-50 w-[240px] rounded-xl border border-auriga-border/70 bg-white shadow-lg shadow-black/[0.08]',
             'data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:slide-in-from-top-2',
             'data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=closed]:slide-out-to-top-2',
             'duration-200',
@@ -136,10 +136,10 @@ export function CurrencySelect({
           }}
         >
           {/* Search */}
-          <div className="p-2 border-b border-atlas-border/50">
+          <div className="p-2 border-b border-auriga-border/50">
             <div className="relative">
               <svg
-                className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-atlas-text-secondary/60"
+                className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-auriga-text-secondary/60"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -153,7 +153,7 @@ export function CurrencySelect({
                 placeholder="Search…"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-8 pr-3 py-2 text-sm bg-atlas-bg-subtle/50 rounded-lg border-0 focus:outline-none focus:ring-0 placeholder:text-atlas-text-secondary/40"
+                className="w-full pl-8 pr-3 py-2 text-sm bg-auriga-bg-subtle/50 rounded-lg border-0 focus:outline-none focus:ring-0 placeholder:text-auriga-text-secondary/40"
               />
             </div>
           </div>
@@ -161,7 +161,7 @@ export function CurrencySelect({
           {/* List */}
           <div className="max-h-[240px] overflow-y-auto overscroll-contain p-1.5">
             {filtered.length === 0 ? (
-              <p className="py-4 text-center text-sm text-atlas-text-secondary">
+              <p className="py-4 text-center text-sm text-auriga-text-secondary">
                 No currencies found
               </p>
             ) : (
@@ -176,18 +176,18 @@ export function CurrencySelect({
                       'w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left',
                       'transition-colors duration-100',
                       isActive
-                        ? 'bg-atlas-accent/10 text-atlas-text-primary'
-                        : 'text-atlas-text-primary hover:bg-atlas-bg-subtle/80',
+                        ? 'bg-auriga-accent/10 text-auriga-text-primary'
+                        : 'text-auriga-text-primary hover:bg-auriga-bg-subtle/80',
                     )}
                   >
                     <Flag code={currencyFlag(c.code)} name={c.name} className="w-5 h-5 flex-shrink-0" />
                     <div className="flex-1 min-w-0">
                       <span className="text-sm font-medium">{c.code}</span>
-                      <span className="text-xs text-atlas-text-secondary ml-2">{c.name}</span>
+                      <span className="text-xs text-auriga-text-secondary ml-2">{c.name}</span>
                     </div>
                     {isActive && (
                       <svg
-                        className="w-4 h-4 text-atlas-accent flex-shrink-0"
+                        className="w-4 h-4 text-auriga-accent flex-shrink-0"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"

@@ -1,7 +1,7 @@
 import { Injectable, Inject, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LessThan, Repository } from 'typeorm';
-import { CardProvider } from '@atlas-bank/provider-contracts';
+import { CardProvider } from '@auriga-money/provider-contracts';
 import { CardEntity, AccountEntity, TransactionEntity, UserEntity } from '@/database/entities';
 import { CARD_PROVIDER } from '@/providers/providers.module';
 import { EmailService } from '@/modules/email/email.service';

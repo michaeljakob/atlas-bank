@@ -10,8 +10,8 @@
     "plugins": [{ "name": "next" }],
     "paths": {
       "@/*": ["./src/*"],
-      "@atlas-bank/shared": ["../../packages/shared/src"],
-      "@atlas-bank/provider-contracts": ["../../packages/provider-contracts/src"]
+      "@auriga-money/shared": ["../../packages/shared/src"],
+      "@auriga-money/provider-contracts": ["../../packages/provider-contracts/src"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

@@ -2,7 +2,7 @@ import { Injectable, BadRequestException, ConflictException, NotFoundException }
 import { InjectRepository } from '@nestjs/typeorm';
 import { Not, Repository } from 'typeorm';
 import { UserEntity, AccountEntity } from '@/database/entities';
-import { isValidHandle, normalizeHandle } from '@atlas-bank/shared';
+import { isValidHandle, normalizeHandle } from '@auriga-money/shared';
 
 export interface ResolvedHandle {
   handle: string;
@@ -63,7 +63,7 @@ export class HandlesService {
     if (!isValidHandle(handle)) throw new BadRequestException('Invalid handle.');
 
     const user = await this.users.findOne({ where: { handle } });
-    if (!user) throw new NotFoundException('No Atlas user with that handle.');
+    if (!user) throw new NotFoundException('No Auriga user with that handle.');
 
     const account =
       (await this.accounts.findOne({ where: { userId: user.id, currency: 'EUR', status: 'active' } })) ||

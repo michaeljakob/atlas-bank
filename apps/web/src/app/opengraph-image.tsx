@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 
 export const runtime = 'edge';
-export const alt = 'Atlas Bank — Your account for everywhere';
+export const alt = 'Auriga Money — Your account for everywhere';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -43,7 +43,7 @@ export default function OpengraphImage() {
               alt=""
             />
           </div>
-          Atlas Bank
+          Auriga Money
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column' }}>

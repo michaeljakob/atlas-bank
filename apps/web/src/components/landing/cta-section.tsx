@@ -7,14 +7,14 @@ export function CTASection() {
   return (
     <section className="py-24 sm:py-36 bg-white">
       <Container>
-        <Reveal direction="scale" className="relative bg-atlas-dark-surface rounded-[2.5rem] px-8 py-24 sm:px-16 sm:py-32 overflow-hidden">
+        <Reveal direction="scale" className="relative bg-auriga-dark-surface rounded-[2.5rem] px-8 py-24 sm:px-16 sm:py-32 overflow-hidden">
           <div className="relative max-w-4xl">
             <h2 className="text-5xl sm:text-7xl lg:text-8xl text-white font-heading uppercase tracking-tight leading-[0.9]">
               Your money,
               <br />
-              <span className="text-atlas-accent">finally on your side.</span>
+              <span className="text-auriga-accent">finally on your side.</span>
             </h2>
-            <p className="mt-10 text-xl sm:text-2xl text-atlas-heather-300 max-w-xl leading-relaxed">
+            <p className="mt-10 text-xl sm:text-2xl text-auriga-heather-300 max-w-xl leading-relaxed">
               A real EUR IBAN, a Mastercard, and instant SEPA transfers.
               No hidden fees. No branch visits. No compromises.
             </p>
@@ -23,13 +23,13 @@ export function CTASection() {
               <Button size="lg" className="text-lg px-10 py-5 rounded-full font-bold" asChild>
                 <Link href="/onboarding">Open your free account</Link>
               </Button>
-              <span className="text-sm text-atlas-heather-400 font-bold">
+              <span className="text-sm text-auriga-heather-400 font-bold">
                 60 seconds &middot; Free forever &middot; EU regulated
               </span>
             </div>
 
             <div className="mt-10 flex flex-wrap items-center gap-3">
-              <span className="text-sm font-medium text-atlas-heather-300">Or get the app</span>
+              <span className="text-sm font-medium text-auriga-heather-300">Or get the app</span>
               <div className="flex flex-wrap gap-3">
                 {[
                   {
@@ -51,7 +51,7 @@ export function CTASection() {
                       <path d={store.path} />
                     </svg>
                     <span className="text-left leading-tight">
-                      <span className="block text-[10px] font-bold uppercase tracking-wider text-atlas-heather-300">
+                      <span className="block text-[10px] font-bold uppercase tracking-wider text-auriga-heather-300">
                         {store.sub}
                       </span>
                       <span className="block text-[15px] font-bold -mt-0.5">{store.label}</span>

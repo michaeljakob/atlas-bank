@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { formatIban, formatMoney, isValidIban } from '@atlas-bank/shared';
+import { formatIban, formatMoney, isValidIban } from '@auriga-money/shared';
 import { api, type Jar } from '@/lib/api';
 import { MerchantLogo } from '@/components/ui/merchant-logo';
 import { CURRENCIES, currencyFlag } from '@/components/ui/currency-select';
@@ -65,14 +65,14 @@ const quickActions = [
 ];
 
 const CATEGORY_COLORS: Record<string, string> = {
-  subscription: 'bg-atlas-green-700',
-  shopping: 'bg-atlas-green-500',
-  food: 'bg-atlas-green-300',
-  utilities: 'bg-atlas-heather-400',
-  salary: 'bg-atlas-accent',
-  freelance: 'bg-atlas-black',
-  transfer: 'bg-atlas-heather-300',
-  other: 'bg-atlas-heather-200',
+  subscription: 'bg-auriga-green-700',
+  shopping: 'bg-auriga-green-500',
+  food: 'bg-auriga-green-300',
+  utilities: 'bg-auriga-heather-400',
+  salary: 'bg-auriga-accent',
+  freelance: 'bg-auriga-black',
+  transfer: 'bg-auriga-heather-300',
+  other: 'bg-auriga-heather-200',
 };
 
 function groupByDate(txs: Transaction[]): Record<string, Transaction[]> {
@@ -97,9 +97,9 @@ function TransactionDetailPanel({ tx, onClose }: { tx: Transaction | null; onClo
     <div className="fixed inset-0 z-50 flex justify-end">
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
       <div className="relative w-full max-w-md bg-white h-full overflow-y-auto animate-slide-in-right">
-        <div className="sticky top-0 bg-white/90 backdrop-blur-xl border-b border-atlas-border px-6 py-4 flex items-center justify-between">
+        <div className="sticky top-0 bg-white/90 backdrop-blur-xl border-b border-auriga-border px-6 py-4 flex items-center justify-between">
           <h2 className="text-base font-semibold">Transaction details</h2>
-          <button onClick={onClose} className="p-2 -m-2 rounded-xl hover:bg-atlas-bg-subtle transition-colors">
+          <button onClick={onClose} className="p-2 -m-2 rounded-xl hover:bg-auriga-bg-subtle transition-colors">
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -109,12 +109,12 @@ function TransactionDetailPanel({ tx, onClose }: { tx: Transaction | null; onClo
           <div className="text-center py-4">
             <div className="inline-flex"><MerchantLogo name={tx.counterpartyName} size={36} /></div>
             <p className="text-base font-semibold mt-3">{tx.counterpartyName}</p>
-            <p className={clsx('text-3xl font-semibold mt-2 tabular-nums', tx.direction === 'inbound' ? 'text-atlas-success' : 'text-atlas-text-primary')}>
+            <p className={clsx('text-3xl font-semibold mt-2 tabular-nums', tx.direction === 'inbound' ? 'text-auriga-success' : 'text-auriga-text-primary')}>
               {tx.direction === 'inbound' ? '+' : '−'}{formatMoney(tx.amountCents, tx.currency)}
             </p>
             <Badge variant={tx.status === 'pending' ? 'warning' : 'default'} className="mt-2">{tx.status === 'pending' ? 'Pending' : 'Completed'}</Badge>
           </div>
-          <div className="bg-atlas-bg-subtle rounded-2xl p-4 space-y-3">
+          <div className="bg-auriga-bg-subtle rounded-2xl p-4 space-y-3">
             {[
               { label: 'Type', value: tx.direction === 'inbound' ? 'Received' : 'Sent' },
               { label: 'Reference', value: tx.reference || '—' },
@@ -123,8 +123,8 @@ function TransactionDetailPanel({ tx, onClose }: { tx: Transaction | null; onClo
               { label: 'Time', value: new Date(tx.createdAt).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) },
             ].map(row => (
               <div key={row.label} className="flex items-center justify-between">
-                <span className="text-xs text-atlas-text-secondary">{row.label}</span>
-                <span className="text-sm font-medium text-atlas-text-primary">{row.value}</span>
+                <span className="text-xs text-auriga-text-secondary">{row.label}</span>
+                <span className="text-sm font-medium text-auriga-text-primary">{row.value}</span>
               </div>
             ))}
           </div>
@@ -137,14 +137,14 @@ function TransactionDetailPanel({ tx, onClose }: { tx: Transaction | null; onClo
 function SkeletonRow() {
   return (
     <div className="flex items-center gap-3 py-3 px-3 animate-pulse">
-      <div className="w-9 h-9 rounded-full bg-atlas-bg-subtle" />
+      <div className="w-9 h-9 rounded-full bg-auriga-bg-subtle" />
       <div className="flex-1 space-y-1.5">
-        <div className="h-3 bg-atlas-bg-subtle rounded w-32" />
-        <div className="h-2.5 bg-atlas-bg-subtle rounded w-20" />
+        <div className="h-3 bg-auriga-bg-subtle rounded w-32" />
+        <div className="h-2.5 bg-auriga-bg-subtle rounded w-20" />
       </div>
       <div className="text-right space-y-1">
-        <div className="h-3 bg-atlas-bg-subtle rounded w-16 ml-auto" />
-        <div className="h-2.5 bg-atlas-bg-subtle rounded w-10 ml-auto" />
+        <div className="h-3 bg-auriga-bg-subtle rounded w-16 ml-auto" />
+        <div className="h-2.5 bg-auriga-bg-subtle rounded w-10 ml-auto" />
       </div>
     </div>
   );
@@ -211,9 +211,9 @@ function CreateJarModal({
         <div className="px-6 pt-6 pb-2 flex items-start justify-between gap-4">
           <div>
             <h2 className="text-lg font-semibold tracking-tight">New jar</h2>
-            <p className="text-sm text-atlas-text-secondary mt-0.5">Ring-fence money for a goal.</p>
+            <p className="text-sm text-auriga-text-secondary mt-0.5">Ring-fence money for a goal.</p>
           </div>
-          <button onClick={() => !saving && onClose()} className="p-2 -m-2 rounded-xl hover:bg-atlas-bg-subtle transition-colors" aria-label="Close">
+          <button onClick={() => !saving && onClose()} className="p-2 -m-2 rounded-xl hover:bg-auriga-bg-subtle transition-colors" aria-label="Close">
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -222,13 +222,13 @@ function CreateJarModal({
 
         <div className="p-6 pt-3 space-y-5">
           {ownedCurrencies.length === 0 ? (
-            <p className="text-sm text-atlas-text-secondary py-4">
+            <p className="text-sm text-auriga-text-secondary py-4">
               Open a currency account first — a jar needs a currency hub to draw from.
             </p>
           ) : (
             <>
               <div className="flex items-center gap-3">
-                <div className="flex-shrink-0 w-12 h-12 rounded-2xl bg-atlas-bg-subtle flex items-center justify-center text-2xl">{emoji}</div>
+                <div className="flex-shrink-0 w-12 h-12 rounded-2xl bg-auriga-bg-subtle flex items-center justify-center text-2xl">{emoji}</div>
                 <input
                   autoFocus
                   type="text"
@@ -236,7 +236,7 @@ function CreateJarModal({
                   onChange={e => setName(e.target.value)}
                   onKeyDown={e => e.key === 'Enter' && submit()}
                   placeholder="Jar name (e.g. Holiday)"
-                  className="flex-1 px-3 py-2.5 rounded-xl border border-atlas-border text-sm focus:outline-none focus:border-atlas-accent transition-colors"
+                  className="flex-1 px-3 py-2.5 rounded-xl border border-auriga-border text-sm focus:outline-none focus:border-auriga-accent transition-colors"
                   maxLength={40}
                 />
               </div>
@@ -248,7 +248,7 @@ function CreateJarModal({
                     onClick={() => setEmoji(e)}
                     className={clsx(
                       'w-9 h-9 rounded-lg text-lg flex items-center justify-center transition-colors',
-                      emoji === e ? 'bg-atlas-accent/15 ring-1 ring-atlas-accent/40' : 'hover:bg-atlas-bg-subtle',
+                      emoji === e ? 'bg-auriga-accent/15 ring-1 ring-auriga-accent/40' : 'hover:bg-auriga-bg-subtle',
                     )}
                   >
                     {e}
@@ -257,7 +257,7 @@ function CreateJarModal({
               </div>
 
               <div>
-                <label className="text-[11px] font-medium text-atlas-text-secondary uppercase tracking-wider">Currency</label>
+                <label className="text-[11px] font-medium text-auriga-text-secondary uppercase tracking-wider">Currency</label>
                 <div className="flex flex-wrap gap-2 mt-1.5">
                   {ownedCurrencies.map(c => (
                     <button
@@ -265,7 +265,7 @@ function CreateJarModal({
                       onClick={() => setCurrency(c)}
                       className={clsx(
                         'inline-flex items-center gap-1.5 pl-1.5 pr-3 py-1.5 rounded-full border text-sm font-medium transition-all',
-                        currency === c ? 'border-atlas-accent bg-atlas-accent/5' : 'border-atlas-border hover:border-atlas-heather-300',
+                        currency === c ? 'border-auriga-accent bg-auriga-accent/5' : 'border-auriga-border hover:border-auriga-heather-300',
                       )}
                     >
                       <Flag code={currencyFlag(c)} className="w-5 h-5" />
@@ -277,18 +277,18 @@ function CreateJarModal({
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-[11px] font-medium text-atlas-text-secondary uppercase tracking-wider">Goal (optional)</label>
+                  <label className="text-[11px] font-medium text-auriga-text-secondary uppercase tracking-wider">Goal (optional)</label>
                   <input
                     type="number"
                     inputMode="decimal"
                     value={target}
                     onChange={e => setTarget(e.target.value)}
                     placeholder="0.00"
-                    className="w-full mt-1 px-3 py-2.5 rounded-xl border border-atlas-border text-sm focus:outline-none focus:border-atlas-accent transition-colors tabular-nums"
+                    className="w-full mt-1 px-3 py-2.5 rounded-xl border border-auriga-border text-sm focus:outline-none focus:border-auriga-accent transition-colors tabular-nums"
                   />
                 </div>
                 <div>
-                  <label className="text-[11px] font-medium text-atlas-text-secondary uppercase tracking-wider">Initial deposit</label>
+                  <label className="text-[11px] font-medium text-auriga-text-secondary uppercase tracking-wider">Initial deposit</label>
                   <input
                     type="number"
                     inputMode="decimal"
@@ -297,12 +297,12 @@ function CreateJarModal({
                     placeholder="0.00"
                     className={clsx(
                       'w-full mt-1 px-3 py-2.5 rounded-xl border text-sm focus:outline-none transition-colors tabular-nums',
-                      tooMuch ? 'border-atlas-error focus:border-atlas-error' : 'border-atlas-border focus:border-atlas-accent',
+                      tooMuch ? 'border-auriga-error focus:border-auriga-error' : 'border-auriga-border focus:border-auriga-accent',
                     )}
                   />
                 </div>
               </div>
-              <p className="text-[11px] text-atlas-text-secondary -mt-2">
+              <p className="text-[11px] text-auriga-text-secondary -mt-2">
                 {formatAmount(available, currency)} {currency} available in your hub
               </p>
 
@@ -378,16 +378,16 @@ function ManageJarModal({
       <div className="relative w-full sm:max-w-md bg-white rounded-t-3xl sm:rounded-3xl shadow-xl animate-in fade-in slide-in-from-bottom-4 duration-200 max-h-[90vh] overflow-y-auto">
         <div className="px-6 pt-6 pb-2 flex items-start justify-between gap-4">
           <div className="flex items-center gap-3 min-w-0">
-            <div className="flex-shrink-0 w-11 h-11 rounded-2xl bg-atlas-bg-subtle flex items-center justify-center text-xl">{jar.emoji || '🫙'}</div>
+            <div className="flex-shrink-0 w-11 h-11 rounded-2xl bg-auriga-bg-subtle flex items-center justify-center text-xl">{jar.emoji || '🫙'}</div>
             <div className="min-w-0">
               <h2 className="text-lg font-semibold tracking-tight truncate">{jar.name}</h2>
-              <p className="text-sm text-atlas-text-secondary tabular-nums">
+              <p className="text-sm text-auriga-text-secondary tabular-nums">
                 {formatAmount(jar.balanceCents, jar.currency)} {jar.currency}
                 {jar.targetCents ? ` of ${formatAmount(jar.targetCents, jar.currency)}` : ''}
               </p>
             </div>
           </div>
-          <button onClick={() => !busy && onClose()} className="p-2 -m-2 rounded-xl hover:bg-atlas-bg-subtle transition-colors flex-shrink-0" aria-label="Close">
+          <button onClick={() => !busy && onClose()} className="p-2 -m-2 rounded-xl hover:bg-auriga-bg-subtle transition-colors flex-shrink-0" aria-label="Close">
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -395,14 +395,14 @@ function ManageJarModal({
         </div>
 
         <div className="p-6 pt-3 space-y-4">
-          <div className="flex gap-1 p-1 bg-atlas-bg-subtle rounded-xl">
+          <div className="flex gap-1 p-1 bg-auriga-bg-subtle rounded-xl">
             {(['in', 'out'] as const).map(m => (
               <button
                 key={m}
                 onClick={() => { setMode(m); setAmount(''); }}
                 className={clsx(
                   'flex-1 py-2 rounded-lg text-sm font-medium transition-all',
-                  mode === m ? 'bg-white text-atlas-text-primary shadow-sm' : 'text-atlas-text-secondary hover:text-atlas-text-primary',
+                  mode === m ? 'bg-white text-auriga-text-primary shadow-sm' : 'text-auriga-text-secondary hover:text-auriga-text-primary',
                 )}
               >
                 {m === 'in' ? 'Add money' : 'Withdraw'}
@@ -419,9 +419,9 @@ function ManageJarModal({
               onChange={e => setAmount(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && move()}
               placeholder="0.00"
-              className="w-full px-3 py-3 rounded-xl border border-atlas-border text-lg font-semibold tabular-nums focus:outline-none focus:border-atlas-accent transition-colors"
+              className="w-full px-3 py-3 rounded-xl border border-auriga-border text-lg font-semibold tabular-nums focus:outline-none focus:border-auriga-accent transition-colors"
             />
-            <p className="text-[11px] text-atlas-text-secondary mt-1.5">
+            <p className="text-[11px] text-auriga-text-secondary mt-1.5">
               {mode === 'in'
                 ? `${formatAmount(available, jar.currency)} ${jar.currency} available in hub`
                 : `${formatAmount(jar.balanceCents, jar.currency)} ${jar.currency} in this jar`}
@@ -432,18 +432,18 @@ function ManageJarModal({
             {busy ? 'Working…' : mode === 'in' ? 'Add to jar' : 'Move to account'}
           </Button>
 
-          <div className="pt-2 border-t border-atlas-border">
+          <div className="pt-2 border-t border-auriga-border">
             {confirmDelete ? (
               <div className="flex items-center gap-2">
-                <button onClick={destroy} disabled={busy} className="flex-1 py-2.5 rounded-xl text-sm font-medium bg-atlas-error/10 text-atlas-error hover:bg-atlas-error/20 transition-colors">
+                <button onClick={destroy} disabled={busy} className="flex-1 py-2.5 rounded-xl text-sm font-medium bg-auriga-error/10 text-auriga-error hover:bg-auriga-error/20 transition-colors">
                   Close jar & return {formatAmount(jar.balanceCents, jar.currency)}
                 </button>
-                <button onClick={() => setConfirmDelete(false)} disabled={busy} className="px-4 py-2.5 rounded-xl text-sm font-medium text-atlas-text-secondary hover:bg-atlas-bg-subtle transition-colors">
+                <button onClick={() => setConfirmDelete(false)} disabled={busy} className="px-4 py-2.5 rounded-xl text-sm font-medium text-auriga-text-secondary hover:bg-auriga-bg-subtle transition-colors">
                   Cancel
                 </button>
               </div>
             ) : (
-              <button onClick={() => setConfirmDelete(true)} className="text-sm text-atlas-text-secondary hover:text-atlas-error transition-colors">
+              <button onClick={() => setConfirmDelete(true)} className="text-sm text-auriga-text-secondary hover:text-auriga-error transition-colors">
                 Close this jar
               </button>
             )}
@@ -485,7 +485,7 @@ export default function DashboardPage() {
 
   function loadActiveTransfers() {
     try {
-      const stored = localStorage.getItem('atlas_active_transfers');
+      const stored = localStorage.getItem('auriga_active_transfers');
       if (stored) setActiveTransfers(JSON.parse(stored));
     } catch {}
   }
@@ -616,7 +616,7 @@ export default function DashboardPage() {
   if (!mounted) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="w-6 h-6 border-2 border-atlas-accent border-t-transparent rounded-full animate-spin" />
+        <div className="w-6 h-6 border-2 border-auriga-accent border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -627,13 +627,13 @@ export default function DashboardPage() {
         {/* Main column */}
         <div className="lg:col-span-2 space-y-6">
           {/* Total Wealth + Currency Buckets */}
-          <div className="bg-white rounded-2xl border border-atlas-border shadow-[0_1px_3px_rgba(0,0,0,0.04)] overflow-hidden">
+          <div className="bg-white rounded-2xl border border-auriga-border shadow-[0_1px_3px_rgba(0,0,0,0.04)] overflow-hidden">
             <div className="p-6 sm:p-8">
-              <p className="text-[13px] font-medium text-atlas-text-secondary uppercase tracking-wider mb-2">Total wealth</p>
-              <p className="text-4xl sm:text-5xl font-semibold tracking-tight text-atlas-text-primary">
+              <p className="text-[13px] font-medium text-auriga-text-secondary uppercase tracking-wider mb-2">Total wealth</p>
+              <p className="text-4xl sm:text-5xl font-semibold tracking-tight text-auriga-text-primary">
                 {formatMoney(totalWealth, 'EUR')}
               </p>
-              <p className="text-xs text-atlas-text-secondary mt-1">{accounts.length} currenc{accounts.length === 1 ? 'y' : 'ies'}</p>
+              <p className="text-xs text-auriga-text-secondary mt-1">{accounts.length} currenc{accounts.length === 1 ? 'y' : 'ies'}</p>
 
               {/* Currency buckets */}
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mt-6">
@@ -646,15 +646,15 @@ export default function DashboardPage() {
                       className={clsx(
                         'text-left px-4 py-3 rounded-xl border transition-all duration-200 min-w-0',
                         isExpanded
-                          ? 'border-atlas-accent bg-atlas-accent/5 ring-1 ring-atlas-accent/30'
-                          : 'border-atlas-border hover:border-atlas-heather-300 hover:bg-atlas-heather-50'
+                          ? 'border-auriga-accent bg-auriga-accent/5 ring-1 ring-auriga-accent/30'
+                          : 'border-auriga-border hover:border-auriga-heather-300 hover:bg-auriga-heather-50'
                       )}
                     >
                       <img src={flagUrl(acc.currency)} alt={acc.currency} className="w-6 h-6 rounded-full" />
-                      <p className="text-[13px] font-semibold text-atlas-text-primary mt-1 tabular-nums truncate">
+                      <p className="text-[13px] font-semibold text-auriga-text-primary mt-1 tabular-nums truncate">
                         {formatAmount(acc.balanceCents, acc.currency)}
                       </p>
-                      <p className="text-[11px] text-atlas-text-secondary">{acc.currency}</p>
+                      <p className="text-[11px] text-auriga-text-secondary">{acc.currency}</p>
                     </button>
                   );
                 })}
@@ -662,16 +662,16 @@ export default function DashboardPage() {
                 {availableCurrencies.length > 0 && (
                   <button
                     onClick={() => setShowAddAccount(true)}
-                    className="text-left px-4 py-3 rounded-xl border border-dashed border-atlas-border hover:border-atlas-accent hover:bg-atlas-accent/5 transition-all duration-200 min-w-0 flex flex-col items-start justify-center gap-1 group"
+                    className="text-left px-4 py-3 rounded-xl border border-dashed border-auriga-border hover:border-auriga-accent hover:bg-auriga-accent/5 transition-all duration-200 min-w-0 flex flex-col items-start justify-center gap-1 group"
                     aria-label="Add a new currency account"
                   >
-                    <span className="w-6 h-6 rounded-full bg-atlas-accent/15 group-hover:bg-atlas-accent/25 flex items-center justify-center transition-colors">
-                      <svg className="w-3.5 h-3.5 text-atlas-accent-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <span className="w-6 h-6 rounded-full bg-auriga-accent/15 group-hover:bg-auriga-accent/25 flex items-center justify-center transition-colors">
+                      <svg className="w-3.5 h-3.5 text-auriga-accent-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                       </svg>
                     </span>
-                    <p className="text-[13px] font-semibold text-atlas-text-primary mt-1">Add</p>
-                    <p className="text-[11px] text-atlas-text-secondary">Currency</p>
+                    <p className="text-[13px] font-semibold text-auriga-text-primary mt-1">Add</p>
+                    <p className="text-[11px] text-auriga-text-secondary">Currency</p>
                   </button>
                 )}
               </div>
@@ -682,10 +682,10 @@ export default function DashboardPage() {
                 expandedCurrency !== null ? 'max-h-[400px] opacity-100 mt-5' : 'max-h-0 opacity-0 mt-0'
               )}>
                 {expandedCurrency !== null && (
-                  <div className="bg-atlas-bg-subtle rounded-xl p-4">
+                  <div className="bg-auriga-bg-subtle rounded-xl p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <img src={flagUrl(accounts[expandedCurrency].currency)} alt={accounts[expandedCurrency].currency} className="w-5 h-5 rounded-full" />
-                      <p className="text-sm font-semibold text-atlas-text-primary">{accounts[expandedCurrency].currency} Account details</p>
+                      <p className="text-sm font-semibold text-auriga-text-primary">{accounts[expandedCurrency].currency} Account details</p>
                     </div>
                     <div className="space-y-2.5">
                       {Object.entries(accounts[expandedCurrency].details).map(([key, val]) => {
@@ -694,8 +694,8 @@ export default function DashboardPage() {
                         return (
                           <div key={key} className="flex items-center justify-between gap-4">
                             <div className="min-w-0">
-                              <p className="text-[10px] font-medium text-atlas-text-secondary uppercase tracking-wider">{key}</p>
-                              <p className="font-mono text-sm text-atlas-text-primary truncate">{displayVal}</p>
+                              <p className="text-[10px] font-medium text-auriga-text-secondary uppercase tracking-wider">{key}</p>
+                              <p className="font-mono text-sm text-auriga-text-primary truncate">{displayVal}</p>
                             </div>
                             <button
                               onClick={(e) => { e.stopPropagation(); copyDetail(val, copyKey); }}
@@ -703,11 +703,11 @@ export default function DashboardPage() {
                               title={`Copy ${key}`}
                             >
                               {copied === copyKey ? (
-                                <svg className="w-3.5 h-3.5 text-atlas-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <svg className="w-3.5 h-3.5 text-auriga-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                   <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                                 </svg>
                               ) : (
-                                <svg className="w-3.5 h-3.5 text-atlas-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                                <svg className="w-3.5 h-3.5 text-auriga-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                                   <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" />
                                 </svg>
                               )}
@@ -724,12 +724,12 @@ export default function DashboardPage() {
               <div className="flex gap-4 mt-8">
                 {quickActions.map(action => (
                   <Link key={action.label} href={action.href as any} className="flex flex-col items-center gap-1.5 group">
-                    <div className="w-12 h-12 rounded-2xl bg-atlas-accent/15 flex items-center justify-center group-hover:bg-atlas-accent/30 transition-colors">
-                      <svg className="w-5 h-5 text-atlas-text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <div className="w-12 h-12 rounded-2xl bg-auriga-accent/15 flex items-center justify-center group-hover:bg-auriga-accent/30 transition-colors">
+                      <svg className="w-5 h-5 text-auriga-text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                         {action.icon}
                       </svg>
                     </div>
-                    <span className="text-xs font-medium text-atlas-text-secondary group-hover:text-atlas-text-primary transition-colors">{action.label}</span>
+                    <span className="text-xs font-medium text-auriga-text-secondary group-hover:text-auriga-text-primary transition-colors">{action.label}</span>
                   </Link>
                 ))}
               </div>
@@ -737,15 +737,15 @@ export default function DashboardPage() {
           </div>
 
           {/* Jars */}
-          <div className="bg-white rounded-2xl border border-atlas-border shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-6">
+          <div className="bg-white rounded-2xl border border-auriga-border shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-6">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <p className="text-[13px] font-medium text-atlas-text-secondary uppercase tracking-wider">Jars</p>
-                <p className="text-xs text-atlas-text-secondary mt-0.5">Set money aside for your goals</p>
+                <p className="text-[13px] font-medium text-auriga-text-secondary uppercase tracking-wider">Jars</p>
+                <p className="text-xs text-auriga-text-secondary mt-0.5">Set money aside for your goals</p>
               </div>
               <button
                 onClick={() => setShowCreateJar(true)}
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-atlas-accent-700 hover:text-atlas-accent transition-colors"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-auriga-accent-700 hover:text-auriga-accent transition-colors"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -757,11 +757,11 @@ export default function DashboardPage() {
             {jars.length === 0 ? (
               <button
                 onClick={() => setShowCreateJar(true)}
-                className="w-full py-8 rounded-xl border border-dashed border-atlas-border hover:border-atlas-accent hover:bg-atlas-accent/5 transition-all flex flex-col items-center gap-2 group"
+                className="w-full py-8 rounded-xl border border-dashed border-auriga-border hover:border-auriga-accent hover:bg-auriga-accent/5 transition-all flex flex-col items-center gap-2 group"
               >
                 <span className="text-2xl">🫙</span>
-                <span className="text-sm font-medium text-atlas-text-primary">Create your first jar</span>
-                <span className="text-xs text-atlas-text-secondary">Save for a holiday, a deposit, a rainy day…</span>
+                <span className="text-sm font-medium text-auriga-text-primary">Create your first jar</span>
+                <span className="text-xs text-auriga-text-secondary">Save for a holiday, a deposit, a rainy day…</span>
               </button>
             ) : (
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -773,22 +773,22 @@ export default function DashboardPage() {
                     <button
                       key={jar.id}
                       onClick={() => setManageJar(jar)}
-                      className="text-left p-4 rounded-xl border border-atlas-border hover:border-atlas-heather-300 hover:bg-atlas-heather-50 transition-all min-w-0"
+                      className="text-left p-4 rounded-xl border border-auriga-border hover:border-auriga-heather-300 hover:bg-auriga-heather-50 transition-all min-w-0"
                     >
                       <div className="flex items-center gap-2">
                         <span className="text-lg leading-none">{jar.emoji || '🫙'}</span>
                         <img src={flagUrl(jar.currency)} alt={jar.currency} className="w-4 h-4 rounded-full" />
                       </div>
-                      <p className="text-sm font-medium text-atlas-text-primary truncate mt-2">{jar.name}</p>
-                      <p className="text-[15px] font-semibold tabular-nums text-atlas-text-primary mt-0.5">
-                        {formatAmount(jar.balanceCents, jar.currency)} <span className="text-[11px] font-normal text-atlas-text-secondary">{jar.currency}</span>
+                      <p className="text-sm font-medium text-auriga-text-primary truncate mt-2">{jar.name}</p>
+                      <p className="text-[15px] font-semibold tabular-nums text-auriga-text-primary mt-0.5">
+                        {formatAmount(jar.balanceCents, jar.currency)} <span className="text-[11px] font-normal text-auriga-text-secondary">{jar.currency}</span>
                       </p>
                       {pct !== null && (
                         <div className="mt-2">
-                          <div className="h-1 bg-atlas-bg-subtle rounded-full overflow-hidden">
-                            <div className="h-full bg-atlas-accent rounded-full transition-all duration-500" style={{ width: `${pct}%` }} />
+                          <div className="h-1 bg-auriga-bg-subtle rounded-full overflow-hidden">
+                            <div className="h-full bg-auriga-accent rounded-full transition-all duration-500" style={{ width: `${pct}%` }} />
                           </div>
-                          <p className="text-[10px] text-atlas-text-secondary mt-1 tabular-nums">
+                          <p className="text-[10px] text-auriga-text-secondary mt-1 tabular-nums">
                             {Math.round(pct)}% of {formatAmount(jar.targetCents!, jar.currency)}
                           </p>
                         </div>
@@ -802,39 +802,39 @@ export default function DashboardPage() {
 
           {/* Active Transfers */}
           {activeTransfers.length > 0 && (
-            <div className="bg-white rounded-2xl border border-atlas-border shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-6">
-              <p className="text-[13px] font-medium text-atlas-text-secondary uppercase tracking-wider mb-4">Scheduled</p>
+            <div className="bg-white rounded-2xl border border-auriga-border shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-6">
+              <p className="text-[13px] font-medium text-auriga-text-secondary uppercase tracking-wider mb-4">Scheduled</p>
               <div className="space-y-3">
                 {activeTransfers.map(t => (
                   <Link
                     key={t.id}
                     href={`/app/transfer/${t.id}` as any}
-                    className="flex items-center gap-3 p-3 -mx-3 rounded-xl hover:bg-atlas-bg-subtle/50 transition-colors"
+                    className="flex items-center gap-3 p-3 -mx-3 rounded-xl hover:bg-auriga-bg-subtle/50 transition-colors"
                   >
-                    <div className="w-9 h-9 rounded-full bg-atlas-accent/15 flex items-center justify-center flex-shrink-0">
-                      <svg className="w-4 h-4 text-atlas-accent-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <div className="w-9 h-9 rounded-full bg-auriga-accent/15 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-4 h-4 text-auriga-accent-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
                       </svg>
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <p className="text-sm font-medium text-atlas-text-primary truncate">
+                        <p className="text-sm font-medium text-auriga-text-primary truncate">
                           To {t.creditorName}
                         </p>
-                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-atlas-accent/15 text-atlas-accent-700">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-auriga-accent/15 text-auriga-accent-700">
                           Scheduled
                         </span>
                       </div>
-                      <p className="text-xs text-atlas-text-secondary">
+                      <p className="text-xs text-auriga-text-secondary">
                         Should arrive within seconds
                       </p>
                     </div>
                     <div className="text-right flex-shrink-0">
-                      <p className="text-sm font-semibold tabular-nums text-atlas-text-primary">
+                      <p className="text-sm font-semibold tabular-nums text-auriga-text-primary">
                         −{formatMoney(t.amountCents)}
                       </p>
                     </div>
-                    <svg className="w-4 h-4 text-atlas-text-secondary flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <svg className="w-4 h-4 text-auriga-text-secondary flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                     </svg>
                   </Link>
@@ -844,10 +844,10 @@ export default function DashboardPage() {
           )}
 
           {/* Transactions */}
-          <div className="bg-white rounded-2xl border border-atlas-border shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+          <div className="bg-white rounded-2xl border border-auriga-border shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
             <div className="p-6 pb-0">
-              <p className="text-[13px] font-medium text-atlas-text-secondary uppercase tracking-wider mb-4">Transactions</p>
-              <div className="flex gap-1 p-1 bg-atlas-bg-subtle rounded-xl w-fit">
+              <p className="text-[13px] font-medium text-auriga-text-secondary uppercase tracking-wider mb-4">Transactions</p>
+              <div className="flex gap-1 p-1 bg-auriga-bg-subtle rounded-xl w-fit">
                 {(['all', 'in', 'out'] as const).map(tab => (
                   <button
                     key={tab}
@@ -855,8 +855,8 @@ export default function DashboardPage() {
                     className={clsx(
                       'px-4 py-1.5 rounded-lg text-xs font-medium transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]',
                       txFilter === tab
-                        ? 'bg-white text-atlas-text-primary shadow-sm'
-                        : 'text-atlas-text-secondary hover:text-atlas-text-primary'
+                        ? 'bg-white text-auriga-text-primary shadow-sm'
+                        : 'text-auriga-text-secondary hover:text-auriga-text-primary'
                     )}
                   >
                     {tab === 'all' ? 'All' : tab === 'in' ? 'In' : 'Out'}
@@ -873,23 +873,23 @@ export default function DashboardPage() {
               )}
               {Object.entries(grouped).map(([date, txs]) => (
                 <div key={date} className="mb-6 last:mb-0">
-                  <p className="text-[13px] font-medium text-atlas-text-secondary uppercase tracking-wider mb-3">{date}</p>
+                  <p className="text-[13px] font-medium text-auriga-text-secondary uppercase tracking-wider mb-3">{date}</p>
                   <div className="space-y-0.5">
                     {txs.map(tx => (
-                      <div key={tx.id} onClick={() => setSelectedTx(tx)} className="flex items-center gap-3 py-3 px-3 -mx-3 rounded-xl hover:bg-atlas-bg-subtle/50 transition-colors cursor-pointer">
+                      <div key={tx.id} onClick={() => setSelectedTx(tx)} className="flex items-center gap-3 py-3 px-3 -mx-3 rounded-xl hover:bg-auriga-bg-subtle/50 transition-colors cursor-pointer">
                         <MerchantLogo name={tx.counterpartyName} size={36} />
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
-                            <p className="text-sm font-medium text-atlas-text-primary truncate">{tx.counterpartyName}</p>
+                            <p className="text-sm font-medium text-auriga-text-primary truncate">{tx.counterpartyName}</p>
                             {tx.status === 'pending' && <Badge variant="warning" className="text-[10px] py-0 px-1.5">Pending</Badge>}
                           </div>
-                          <p className="text-xs text-atlas-text-secondary truncate">{tx.reference}</p>
+                          <p className="text-xs text-auriga-text-secondary truncate">{tx.reference}</p>
                         </div>
                         <div className="text-right flex-shrink-0">
-                          <p className={clsx('text-sm font-semibold tabular-nums', tx.direction === 'inbound' ? 'text-atlas-success' : 'text-atlas-text-primary')}>
+                          <p className={clsx('text-sm font-semibold tabular-nums', tx.direction === 'inbound' ? 'text-auriga-success' : 'text-auriga-text-primary')}>
                             {tx.direction === 'inbound' ? '+' : '−'}{formatMoney(tx.amountCents, tx.currency)}
                           </p>
-                          <p className="text-[10px] text-atlas-text-secondary">
+                          <p className="text-[10px] text-auriga-text-secondary">
                             {new Date(tx.createdAt).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
                           </p>
                         </div>
@@ -900,7 +900,7 @@ export default function DashboardPage() {
               ))}
               {filtered.length === 0 && (
                 <div className="py-16 text-center">
-                  <p className="text-sm text-atlas-text-secondary">No transactions</p>
+                  <p className="text-sm text-auriga-text-secondary">No transactions</p>
                 </div>
               )}
             </div>
@@ -910,14 +910,14 @@ export default function DashboardPage() {
         {/* Right column */}
         <div className="space-y-6">
           {/* Card widget */}
-          <div className="bg-white rounded-2xl border border-atlas-border shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-6">
+          <div className="bg-white rounded-2xl border border-auriga-border shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-6">
             <div className="flex items-center justify-between mb-4">
-              <p className="text-[13px] font-medium text-atlas-text-secondary uppercase tracking-wider">Card</p>
-              <Link href="/app/card" className="text-xs text-atlas-text-secondary hover:text-atlas-text-primary transition-colors">Manage</Link>
+              <p className="text-[13px] font-medium text-auriga-text-secondary uppercase tracking-wider">Card</p>
+              <Link href="/app/card" className="text-xs text-auriga-text-secondary hover:text-auriga-text-primary transition-colors">Manage</Link>
             </div>
-            <div className="bg-atlas-black rounded-xl p-4 aspect-[1.7/1] flex flex-col justify-between mb-4">
+            <div className="bg-auriga-black rounded-xl p-4 aspect-[1.7/1] flex flex-col justify-between mb-4">
               <div className="flex justify-between items-start">
-                <span className="text-[10px] uppercase tracking-widest text-white/60">Atlas</span>
+                <span className="text-[10px] uppercase tracking-widest text-white/60">Auriga</span>
                 <svg className="w-8 h-5" viewBox="0 0 48 30" fill="none">
                   <circle cx="15" cy="15" r="15" fill="#EB001B" opacity="0.9" />
                   <circle cx="33" cy="15" r="15" fill="#F79E1B" opacity="0.9" />
@@ -928,26 +928,26 @@ export default function DashboardPage() {
             {card && card.limit > 0 ? (
               <div>
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-xs text-atlas-text-secondary">Spent this month</span>
-                  <span className="text-xs font-medium text-atlas-text-primary">{formatMoney(card.spent)} / {formatMoney(card.limit)}</span>
+                  <span className="text-xs text-auriga-text-secondary">Spent this month</span>
+                  <span className="text-xs font-medium text-auriga-text-primary">{formatMoney(card.spent)} / {formatMoney(card.limit)}</span>
                 </div>
-                <div className="h-1.5 bg-atlas-bg-subtle rounded-full overflow-hidden">
+                <div className="h-1.5 bg-auriga-bg-subtle rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-atlas-accent rounded-full transition-all duration-500"
+                    className="h-full bg-auriga-accent rounded-full transition-all duration-500"
                     style={{ width: `${Math.min((card.spent / card.limit) * 100, 100)}%` }}
                   />
                 </div>
               </div>
             ) : (
-              <p className="text-xs text-atlas-text-secondary">No spending limit set</p>
+              <p className="text-xs text-auriga-text-secondary">No spending limit set</p>
             )}
           </div>
 
           {/* Spending insights */}
-          <div className="bg-white rounded-2xl border border-atlas-border shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-6">
-            <p className="text-[13px] font-medium text-atlas-text-secondary uppercase tracking-wider mb-4">Spending</p>
+          <div className="bg-white rounded-2xl border border-auriga-border shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-6">
+            <p className="text-[13px] font-medium text-auriga-text-secondary uppercase tracking-wider mb-4">Spending</p>
             {spendingCategories.length === 0 && (
-              <p className="text-xs text-atlas-text-secondary">No spending yet this period.</p>
+              <p className="text-xs text-auriga-text-secondary">No spending yet this period.</p>
             )}
             <div className="space-y-3">
               {spendingCategories.map(cat => {
@@ -955,10 +955,10 @@ export default function DashboardPage() {
                 return (
                   <div key={cat.label}>
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs font-medium text-atlas-text-primary">{cat.label}</span>
-                      <span className="text-xs text-atlas-text-secondary tabular-nums">{formatMoney(cat.amount)}</span>
+                      <span className="text-xs font-medium text-auriga-text-primary">{cat.label}</span>
+                      <span className="text-xs text-auriga-text-secondary tabular-nums">{formatMoney(cat.amount)}</span>
                     </div>
-                    <div className="h-1 bg-atlas-bg-subtle rounded-full overflow-hidden">
+                    <div className="h-1 bg-auriga-bg-subtle rounded-full overflow-hidden">
                       <div className={clsx('h-full rounded-full', cat.color)} style={{ width: `${Math.min(pct, 100)}%` }} />
                     </div>
                   </div>
@@ -998,17 +998,17 @@ export default function DashboardPage() {
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
           <div className="absolute inset-0 bg-black/40 backdrop-blur-sm animate-in fade-in duration-200" onClick={() => !openingCurrency && setShowAddAccount(false)} />
           <div className="relative w-full sm:max-w-md bg-white rounded-t-3xl sm:rounded-3xl shadow-xl animate-in fade-in slide-in-from-bottom-4 duration-200 max-h-[85vh] overflow-hidden flex flex-col">
-            <div className="px-6 pt-6 pb-4 border-b border-atlas-border">
+            <div className="px-6 pt-6 pb-4 border-b border-auriga-border">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <h2 className="text-lg font-semibold tracking-tight">Open a new account</h2>
-                  <p className="text-sm text-atlas-text-secondary mt-0.5">
+                  <p className="text-sm text-auriga-text-secondary mt-0.5">
                     Add a currency jar with its own balance and IBAN.
                   </p>
                 </div>
                 <button
                   onClick={() => !openingCurrency && setShowAddAccount(false)}
-                  className="p-2 -m-2 rounded-xl hover:bg-atlas-bg-subtle transition-colors flex-shrink-0"
+                  className="p-2 -m-2 rounded-xl hover:bg-auriga-bg-subtle transition-colors flex-shrink-0"
                   aria-label="Close"
                 >
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -1020,7 +1020,7 @@ export default function DashboardPage() {
 
             <div className="p-3 overflow-y-auto">
               {availableCurrencies.length === 0 ? (
-                <p className="py-10 text-center text-sm text-atlas-text-secondary">
+                <p className="py-10 text-center text-sm text-auriga-text-secondary">
                   You already hold every supported currency.
                 </p>
               ) : (
@@ -1032,17 +1032,17 @@ export default function DashboardPage() {
                         key={c.code}
                         onClick={() => handleOpenAccount(c.code)}
                         disabled={!!openingCurrency}
-                        className="w-full flex items-center gap-3 px-3 py-3 rounded-2xl text-left hover:bg-atlas-bg-subtle/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full flex items-center gap-3 px-3 py-3 rounded-2xl text-left hover:bg-auriga-bg-subtle/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         <Flag code={currencyFlag(c.code)} name={c.name} className="w-9 h-9 flex-shrink-0" />
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-atlas-text-primary">{c.code} <span className="text-atlas-text-secondary font-normal">· {c.name}</span></p>
-                          <p className="text-xs text-atlas-text-secondary">No fees to open · Get a dedicated IBAN</p>
+                          <p className="text-sm font-medium text-auriga-text-primary">{c.code} <span className="text-auriga-text-secondary font-normal">· {c.name}</span></p>
+                          <p className="text-xs text-auriga-text-secondary">No fees to open · Get a dedicated IBAN</p>
                         </div>
                         {isOpening ? (
-                          <div className="w-5 h-5 border-2 border-atlas-accent border-t-transparent rounded-full animate-spin flex-shrink-0" />
+                          <div className="w-5 h-5 border-2 border-auriga-accent border-t-transparent rounded-full animate-spin flex-shrink-0" />
                         ) : (
-                          <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-atlas-accent/15 text-atlas-accent-700">
+                          <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-auriga-accent/15 text-auriga-accent-700">
                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                             </svg>

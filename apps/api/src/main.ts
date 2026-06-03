@@ -63,8 +63,8 @@ async function bootstrap() {
   app.setGlobalPrefix('api/v1');
 
   const swaggerConfig = new DocumentBuilder()
-    .setTitle('Atlas Bank API')
-    .setDescription('Atlas Bank BFF / API Gateway')
+    .setTitle('Auriga Money API')
+    .setDescription('Auriga Money BFF / API Gateway')
     .setVersion('0.1.0')
     .addBearerAuth()
     .build();
@@ -78,7 +78,7 @@ async function bootstrap() {
 
   const port = process.env.PORT || 4000;
   await app.listen(port, '0.0.0.0');
-  logger.log(`Atlas API listening on :${port}`);
+  logger.log(`Auriga API listening on :${port}`);
 }
 
 bootstrap();

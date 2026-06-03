@@ -9,7 +9,7 @@ const badgeVariants = cva(
       variant: {
         default: 'border-transparent bg-secondary text-secondary-foreground',
         success: 'border-transparent bg-success/10 text-success',
-        warning: 'border-transparent bg-atlas-accent/15 text-atlas-accent-700',
+        warning: 'border-transparent bg-auriga-accent/15 text-auriga-accent-700',
         destructive: 'border-transparent bg-destructive/10 text-destructive',
         outline: 'border-border text-foreground',
       },

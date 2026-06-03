@@ -6,7 +6,7 @@
 export const SITE_URL = (
   process.env.NEXT_PUBLIC_SITE_URL ||
   process.env.NEXT_PUBLIC_APP_URL ||
-  'https://atlasbank.io'
+  'https://aurigamoney.com'
 ).replace(/\/$/, '');
 
 /** Public, indexable marketing routes. App routes are auth-gated and excluded. */

@@ -6,11 +6,11 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        atlas: {
-          // ---- Official Atlas brand palette ----
-          // Robin Neon (primary brand) — #CCFF00
+        auriga: {
+          // ---- Official Auriga brand palette ----
+          // Auriga Neon (primary brand) — #CCFF00
           neon: '#CCFF00',
-          // Robin Black (text & dark surfaces) — #1C180D
+          // Auriga Black (text & dark surfaces) — #1C180D
           black: '#1C180D',
           bg: '#FFFFFF',
           'bg-subtle': '#F5F3F0',
@@ -26,7 +26,7 @@ const config: Config = {
             600: '#8FB300',
             700: '#6E8A00',
           },
-          // Robinhood UI green — #5AC53A
+          // Auriga UI green — #5AC53A
           green: {
             DEFAULT: '#5AC53A',
             50: '#F2FAEF',

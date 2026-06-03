@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { CurrencySelect, currencyFlag } from '@/components/ui/currency-select';
 import { Flag } from '@/components/ui/flag';
-import { formatMoney } from '@atlas-bank/shared';
+import { formatMoney } from '@auriga-money/shared';
 import { clsx } from 'clsx';
 import { api } from '@/lib/api';
 import { toast } from 'sonner';
@@ -143,8 +143,8 @@ export default function ConvertPage() {
       {step === 'form' && (
         <div className="space-y-5 animate-fade-in">
           {/* You send */}
-          <div className="bg-white rounded-2xl border border-atlas-border/70 p-5">
-            <p className="text-[13px] font-medium uppercase tracking-wider text-atlas-text-secondary mb-3">
+          <div className="bg-white rounded-2xl border border-auriga-border/70 p-5">
+            <p className="text-[13px] font-medium uppercase tracking-wider text-auriga-text-secondary mb-3">
               You send
             </p>
             <div className="flex items-center gap-3">
@@ -155,7 +155,7 @@ export default function ConvertPage() {
                 step="0.01"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                className="flex-1 text-3xl font-semibold bg-transparent focus:outline-none placeholder:text-atlas-text-secondary/20 min-w-0"
+                className="flex-1 text-3xl font-semibold bg-transparent focus:outline-none placeholder:text-auriga-text-secondary/20 min-w-0"
               />
               <CurrencySelect
                 value={fromCurrency}
@@ -163,37 +163,37 @@ export default function ConvertPage() {
                 exclude={toCurrency}
               />
             </div>
-            <p className="text-xs text-atlas-text-secondary mt-3">
+            <p className="text-xs text-auriga-text-secondary mt-3">
               Available: {formatMoney(sourceBalance, fromCurrency)}
             </p>
           </div>
 
           {/* Rate + Swap */}
           <div className="flex items-center justify-center gap-3 -my-1">
-            <div className="h-px flex-1 bg-atlas-border/50" />
+            <div className="h-px flex-1 bg-auriga-border/50" />
             <button
               onClick={handleSwap}
               className={clsx(
-                'w-10 h-10 rounded-full border border-atlas-border/70 bg-white flex items-center justify-center',
-                `hover:border-atlas-accent hover:bg-atlas-accent/5 transition-all ${SPRING} hover:scale-110 active:scale-95`,
+                'w-10 h-10 rounded-full border border-auriga-border/70 bg-white flex items-center justify-center',
+                `hover:border-auriga-accent hover:bg-auriga-accent/5 transition-all ${SPRING} hover:scale-110 active:scale-95`,
               )}
               aria-label="Swap currencies"
             >
-              <svg className="w-4 h-4 text-atlas-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg className="w-4 h-4 text-auriga-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
               </svg>
             </button>
             {quote && (
-              <span className="text-xs text-atlas-text-secondary font-medium">
+              <span className="text-xs text-auriga-text-secondary font-medium">
                 1 {fromCurrency} = {quote.rate.toFixed(4)} {toCurrency}
               </span>
             )}
-            <div className="h-px flex-1 bg-atlas-border/50" />
+            <div className="h-px flex-1 bg-auriga-border/50" />
           </div>
 
           {/* They receive */}
-          <div className="bg-white rounded-2xl border border-atlas-border/70 p-5">
-            <p className="text-[13px] font-medium uppercase tracking-wider text-atlas-text-secondary mb-3">
+          <div className="bg-white rounded-2xl border border-auriga-border/70 p-5">
+            <p className="text-[13px] font-medium uppercase tracking-wider text-auriga-text-secondary mb-3">
               They receive
             </p>
             <div className="flex items-center gap-3">
@@ -213,24 +213,24 @@ export default function ConvertPage() {
 
           {/* Fee breakdown */}
           {quote && (
-            <div className={`bg-atlas-bg-subtle/50 rounded-xl px-5 py-4 space-y-2 transition-all ${SPRING}`}>
+            <div className={`bg-auriga-bg-subtle/50 rounded-xl px-5 py-4 space-y-2 transition-all ${SPRING}`}>
               <div className="flex justify-between text-sm">
-                <span className="text-atlas-text-secondary">Fee</span>
+                <span className="text-auriga-text-secondary">Fee</span>
                 <span className="font-medium">
                   {formatMoney(quote.feeCents, fromCurrency)}{' '}
-                  <span className="text-atlas-text-secondary font-normal">
+                  <span className="text-auriga-text-secondary font-normal">
                     ({(quote.feeRate * 100).toFixed(2)}%)
                   </span>
                 </span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-atlas-text-secondary">Rate</span>
+                <span className="text-auriga-text-secondary">Rate</span>
                 <span className="font-medium">
                   1 {fromCurrency} = {quote.rate.toFixed(4)} {toCurrency}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-atlas-text-secondary">You&apos;ll convert</span>
+                <span className="text-auriga-text-secondary">You&apos;ll convert</span>
                 <span className="font-medium">
                   {formatMoney(quote.amountCents - quote.feeCents, fromCurrency)}
                 </span>
@@ -251,13 +251,13 @@ export default function ConvertPage() {
       )}
 
       {step === 'confirm' && quote && (
-        <div className="bg-white rounded-2xl border border-atlas-border/70 overflow-hidden animate-fade-in">
+        <div className="bg-white rounded-2xl border border-auriga-border/70 overflow-hidden animate-fade-in">
           <div className="px-8 py-10 text-center">
-            <p className="text-sm text-atlas-text-secondary mb-1">Converting</p>
+            <p className="text-sm text-auriga-text-secondary mb-1">Converting</p>
             <p className="text-3xl sm:text-4xl font-semibold tracking-tight">
               {formatMoney(quote.amountCents, fromCurrency)}
             </p>
-            <p className="flex items-center justify-center gap-2 text-lg text-atlas-text-secondary mt-2">
+            <p className="flex items-center justify-center gap-2 text-lg text-auriga-text-secondary mt-2">
               <Flag code={currencyFlag(fromCurrency)} name={fromCurrency} className="w-5 h-5" />
               {fromCurrency}
               <span className="mx-1">→</span>
@@ -266,7 +266,7 @@ export default function ConvertPage() {
             </p>
           </div>
 
-          <div className="mx-6 border-t border-atlas-border/50" />
+          <div className="mx-6 border-t border-auriga-border/50" />
 
           <div className="px-6 py-5 space-y-0">
             <ConfirmRow label="You send" value={formatMoney(quote.amountCents, fromCurrency)} />
@@ -275,16 +275,16 @@ export default function ConvertPage() {
             <ConfirmRow label="They receive" value={formatMoney(quote.convertedCents, toCurrency)} highlight />
           </div>
 
-          <div className="mx-6 border-t border-atlas-border/50" />
+          <div className="mx-6 border-t border-auriga-border/50" />
 
           {/* Countdown */}
           <div className="px-6 py-4 flex items-center justify-center gap-2">
             <div className="relative w-5 h-5">
               <svg className="w-5 h-5 -rotate-90" viewBox="0 0 20 20">
-                <circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" strokeWidth="2" className="text-atlas-border/30" />
+                <circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" strokeWidth="2" className="text-auriga-border/30" />
                 <circle
                   cx="10" cy="10" r="8" fill="none" stroke="currentColor" strokeWidth="2"
-                  className="text-atlas-accent"
+                  className="text-auriga-accent"
                   strokeDasharray={2 * Math.PI * 8}
                   strokeDashoffset={2 * Math.PI * 8 * (1 - countdown / 30)}
                   strokeLinecap="round"
@@ -293,7 +293,7 @@ export default function ConvertPage() {
             </div>
             <span className={clsx(
               'text-sm font-medium',
-              countdown <= 10 ? 'text-atlas-error' : 'text-atlas-text-secondary',
+              countdown <= 10 ? 'text-auriga-error' : 'text-auriga-text-secondary',
             )}>
               Rate locked for {countdown}s
             </span>
@@ -311,31 +311,31 @@ export default function ConvertPage() {
       )}
 
       {step === 'success' && (
-        <div className="bg-white rounded-2xl border border-atlas-border/70 px-8 py-12 text-center animate-scale-in">
-          <div className={`w-16 h-16 mx-auto mb-5 rounded-full bg-atlas-accent-50 flex items-center justify-center transition-transform ${SPRING}`}>
-            <svg className="w-8 h-8 text-atlas-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <div className="bg-white rounded-2xl border border-auriga-border/70 px-8 py-12 text-center animate-scale-in">
+          <div className={`w-16 h-16 mx-auto mb-5 rounded-full bg-auriga-accent-50 flex items-center justify-center transition-transform ${SPRING}`}>
+            <svg className="w-8 h-8 text-auriga-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
           </div>
           <h2 className="text-xl font-semibold mb-1">Conversion complete</h2>
-          <p className="text-sm text-atlas-text-secondary mb-6 max-w-xs mx-auto leading-relaxed">
+          <p className="text-sm text-auriga-text-secondary mb-6 max-w-xs mx-auto leading-relaxed">
             You converted {formatMoney(quote?.amountCents ?? 0, fromCurrency)} to{' '}
             {formatMoney(result?.convertedCents ?? quote?.convertedCents ?? 0, toCurrency)}
           </p>
 
-          <div className="bg-atlas-bg-subtle/50 rounded-xl px-5 py-4 space-y-2 mb-8 text-left">
+          <div className="bg-auriga-bg-subtle/50 rounded-xl px-5 py-4 space-y-2 mb-8 text-left">
             <div className="flex justify-between text-sm">
-              <span className="text-atlas-text-secondary">Sent</span>
+              <span className="text-auriga-text-secondary">Sent</span>
               <span className="font-medium">{formatMoney(quote?.amountCents ?? 0, fromCurrency)}</span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-atlas-text-secondary">Received</span>
-              <span className="font-medium text-atlas-success">
+              <span className="text-auriga-text-secondary">Received</span>
+              <span className="font-medium text-auriga-success">
                 {formatMoney(result?.convertedCents ?? quote?.convertedCents ?? 0, toCurrency)}
               </span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-atlas-text-secondary">Rate</span>
+              <span className="text-auriga-text-secondary">Rate</span>
               <span className="font-medium">
                 1 {fromCurrency} = {(result?.rate ?? quote?.rate ?? 0).toFixed(4)} {toCurrency}
               </span>
@@ -366,9 +366,9 @@ function ConfirmRow({
   highlight?: boolean;
 }) {
   return (
-    <div className="flex justify-between items-center py-3 border-b border-atlas-border/40 last:border-0">
-      <span className="text-sm text-atlas-text-secondary">{label}</span>
-      <span className={clsx('text-sm font-medium', highlight && 'text-atlas-success')}>
+    <div className="flex justify-between items-center py-3 border-b border-auriga-border/40 last:border-0">
+      <span className="text-sm text-auriga-text-secondary">{label}</span>
+      <span className={clsx('text-sm font-medium', highlight && 'text-auriga-success')}>
         {value}
       </span>
     </div>

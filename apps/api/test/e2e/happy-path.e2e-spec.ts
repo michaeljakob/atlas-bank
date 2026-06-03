@@ -4,7 +4,7 @@ import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify
 import fastifyCookie from '@fastify/cookie';
 import { AppModule } from '@/app.module';
 import { PAYMENT_PROVIDER } from '@/providers/providers.module';
-import type { PaymentConsent, PaymentDetails } from '@atlas-bank/provider-contracts';
+import type { PaymentConsent, PaymentDetails } from '@auriga-money/provider-contracts';
 
 /**
  * End-to-end happy path against the full Nest app (Fastify + in-memory SQLite,

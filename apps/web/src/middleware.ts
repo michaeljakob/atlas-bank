@@ -11,7 +11,7 @@ export function middleware(request: NextRequest) {
 
   if (!pathname.startsWith('/app')) return NextResponse.next();
 
-  const token = request.cookies.get('atlas_token')?.value ||
+  const token = request.cookies.get('auriga_token')?.value ||
     request.headers.get('authorization')?.replace('Bearer ', '');
 
   if (!token) {

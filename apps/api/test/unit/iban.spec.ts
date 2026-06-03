@@ -1,4 +1,4 @@
-import { isValidIban, formatIban } from '@atlas-bank/shared';
+import { isValidIban, formatIban } from '@auriga-money/shared';
 
 describe('IBAN validation', () => {
   it('accepts valid IBANs (mod-97)', () => {

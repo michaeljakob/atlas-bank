@@ -9,9 +9,9 @@ import {
 
 const faqs = [
   {
-    question: 'Is Atlas a bank?',
+    question: 'Is Auriga a bank?',
     answer:
-      'Atlas partners with Swan, an Electronic Money Institution licensed and supervised by the ACPR in France. Your funds are safeguarded in dedicated accounts at leading European credit institutions, in full compliance with EU e-money regulations.',
+      'Auriga partners with Swan, an Electronic Money Institution licensed and supervised by the ACPR in France. Your funds are safeguarded in dedicated accounts at leading European credit institutions, in full compliance with EU e-money regulations.',
   },
   {
     question: 'How is my money protected?',
@@ -21,7 +21,7 @@ const faqs = [
   {
     question: 'Which countries are supported?',
     answer:
-      'Atlas is available across 30+ countries in the European Economic Area. You can open an account from anywhere in the EEA \u2014 no local address or residency required.',
+      'Auriga is available across 30+ countries in the European Economic Area. You can open an account from anywhere in the EEA \u2014 no local address or residency required.',
   },
   {
     question: 'What does it cost?',
@@ -39,9 +39,9 @@ const faqs = [
       'Yes. Your Mastercard works everywhere Mastercard is accepted \u2014 online and in-store, in every country. Add it to Apple Pay or Google Pay instantly.',
   },
   {
-    question: 'How is Atlas different from Wise or Revolut?',
+    question: 'How is Auriga different from Wise or Revolut?',
     answer:
-      'Atlas gives you a full, dedicated EUR IBAN in your name \u2014 not a pooled sub-account. Combined with SEPA Instant, a Mastercard, and zero FX markup, Atlas is built to be your primary account, not a side tool.',
+      'Auriga gives you a full, dedicated EUR IBAN in your name \u2014 not a pooled sub-account. Combined with SEPA Instant, a Mastercard, and zero FX markup, Auriga is built to be your primary account, not a side tool.',
   },
 ];
 
@@ -50,10 +50,10 @@ export function FAQ() {
     <section id="faq" className="py-24 sm:py-36 bg-white">
       <Container>
         <Reveal as="div" className="mb-14 sm:mb-16 max-w-3xl">
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-atlas-text-primary leading-[1.1]">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-auriga-text-primary leading-[1.1]">
             Questions? Straight answers.
           </h2>
-          <p className="mt-5 text-lg sm:text-xl text-atlas-text-secondary leading-relaxed">
+          <p className="mt-5 text-lg sm:text-xl text-auriga-text-secondary leading-relaxed">
             Everything you need to know before you open your account.
           </p>
         </Reveal>

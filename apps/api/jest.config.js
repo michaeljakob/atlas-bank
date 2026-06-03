@@ -7,8 +7,8 @@ module.exports = {
   moduleFileExtensions: ['ts', 'js', 'json'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
-    '^@atlas-bank/provider-contracts$': '<rootDir>/../../packages/provider-contracts/src',
-    '^@atlas-bank/shared$': '<rootDir>/../../packages/shared/src',
+    '^@auriga-money/provider-contracts$': '<rootDir>/../../packages/provider-contracts/src',
+    '^@auriga-money/shared$': '<rootDir>/../../packages/shared/src',
   },
   transform: {
     '^.+\\.ts$': [

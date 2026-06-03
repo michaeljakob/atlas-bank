@@ -1,5 +1,5 @@
 {
-  "name": "@atlas-bank/api",
+  "name": "@auriga-money/api",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -16,8 +16,8 @@
     "migration:revert": "typeorm-ts-node-commonjs migration:revert -d src/database/data-source.ts"
   },
   "dependencies": {
-    "@atlas-bank/provider-contracts": "*",
-    "@atlas-bank/shared": "*",
+    "@auriga-money/provider-contracts": "*",
+    "@auriga-money/shared": "*",
     "@fastify/cookie": "^9.3.1",
     "@fastify/helmet": "^11.1.1",
     "@fastify/static": "^7.0.4",

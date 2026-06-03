@@ -10,8 +10,8 @@ export function AnalyticsProvider() {
     const onConsent = (e: Event) => {
       if ((e as CustomEvent).detail === 'accepted') void initAnalytics();
     };
-    window.addEventListener('atlas:cookie-consent', onConsent);
-    return () => window.removeEventListener('atlas:cookie-consent', onConsent);
+    window.addEventListener('auriga:cookie-consent', onConsent);
+    return () => window.removeEventListener('auriga:cookie-consent', onConsent);
   }, []);
 
   return null;

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Account, Card, PersonalDetails } from '@atlas-bank/provider-contracts';
+import { Account, Card, PersonalDetails } from '@auriga-money/provider-contracts';
 
 interface MockOnboardingRecord {
   details: PersonalDetails;

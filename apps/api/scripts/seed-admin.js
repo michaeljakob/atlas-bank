@@ -471,8 +471,8 @@ async function main() {
     }
 
     // Income (account-level, no card)
-    await addTx({ direction: 'inbound', amountCents: 615000, counterpartyName: 'Atlas Capital GmbH', counterpartyIban: 'DE12500105170648489890', reference: 'Salary — June', category: 'income', daysAgo: 1 });
-    await addTx({ direction: 'inbound', amountCents: 615000, counterpartyName: 'Atlas Capital GmbH', counterpartyIban: 'DE12500105170648489890', reference: 'Salary — May', category: 'income', daysAgo: 31 });
+    await addTx({ direction: 'inbound', amountCents: 615000, counterpartyName: 'Auriga Capital GmbH', counterpartyIban: 'DE12500105170648489890', reference: 'Salary — June', category: 'income', daysAgo: 1 });
+    await addTx({ direction: 'inbound', amountCents: 615000, counterpartyName: 'Auriga Capital GmbH', counterpartyIban: 'DE12500105170648489890', reference: 'Salary — May', category: 'income', daysAgo: 31 });
     await addTx({ direction: 'inbound', amountCents: 24500, counterpartyName: 'Stripe Payments', reference: 'Payout', category: 'income', daysAgo: 8 });
     await addTx({ direction: 'inbound', amountCents: 5000, counterpartyName: 'Anna Schmidt', reference: 'Dinner split', category: 'transfer', daysAgo: 5 });
 
@@ -535,7 +535,7 @@ async function main() {
       { name: 'James Carter', iban: 'GB29NWBK60161331926819', bic: 'NWBKGB2L', bank: 'NatWest', country: 'GB', email: 'james@example.co.uk', isFavorite: true },
       { name: 'Lukas Müller', iban: 'DE21700519950000007229', bic: 'BYLADEM1KMS', bank: 'Sparkasse', country: 'DE', notes: 'Rent' },
       { name: 'Sophie Laurent', iban: 'FR1420041010050500013M02606', bic: 'PSSTFRPPXXX', bank: 'La Banque Postale', country: 'FR', email: 'sophie.laurent@example.fr' },
-      { name: 'Atlas Savings', iban: 'DE02100110012620191901', bic: 'NTSBDEB1XXX', bank: 'N26', country: 'DE', notes: 'My savings pot' },
+      { name: 'Auriga Savings', iban: 'DE02100110012620191901', bic: 'NTSBDEB1XXX', bank: 'N26', country: 'DE', notes: 'My savings pot' },
     ];
     for (const r of recipients) {
       await client.query(
@@ -549,10 +549,10 @@ async function main() {
     // --- Notifications ---
     const notifications = [
       { type: 'transaction', title: 'Payment sent', body: 'You sent €184.50 to Nobu.', read: false, daysAgo: 5 },
-      { type: 'transaction', title: 'Money received', body: 'You received €6,150.00 from Atlas Capital GmbH.', read: false, daysAgo: 1 },
+      { type: 'transaction', title: 'Money received', body: 'You received €6,150.00 from Auriga Capital GmbH.', read: false, daysAgo: 1 },
       { type: 'card', title: 'Card frozen', body: 'Your Travel card ending 1190 was frozen.', read: true, daysAgo: 9 },
       { type: 'security', title: 'New login', body: 'New sign-in from München, Germany.', read: true, daysAgo: 2 },
-      { type: 'system', title: 'Welcome to Atlas', body: 'Your account is ready. Add money to get started.', read: true, daysAgo: 120 },
+      { type: 'system', title: 'Welcome to Auriga', body: 'Your account is ready. Add money to get started.', read: true, daysAgo: 120 },
     ];
     for (const n of notifications) {
       await client.query(

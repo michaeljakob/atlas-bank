@@ -12,8 +12,8 @@
     "strictPropertyInitialization": false,
     "paths": {
       "@/*": ["./src/*"],
-      "@atlas-bank/provider-contracts": ["../../packages/provider-contracts/src"],
-      "@atlas-bank/shared": ["../../packages/shared/dist"]
+      "@auriga-money/provider-contracts": ["../../packages/provider-contracts/src"],
+      "@auriga-money/shared": ["../../packages/shared/dist"]
     }
   },
   "include": ["src/**/*"]

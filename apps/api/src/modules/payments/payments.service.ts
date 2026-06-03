@@ -1,10 +1,10 @@
 import { Injectable, Inject, Logger, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { PaymentProvider } from '@atlas-bank/provider-contracts';
+import { PaymentProvider } from '@auriga-money/provider-contracts';
 import { AccountEntity, UserEntity } from '@/database/entities';
 import { PAYMENT_PROVIDER } from '@/providers/providers.module';
-import { isValidIban } from '@atlas-bank/shared';
+import { isValidIban } from '@auriga-money/shared';
 import { EmailService } from '@/modules/email/email.service';
 
 @Injectable()
@@ -93,7 +93,7 @@ export class PaymentsService {
       amountCents: status?.amount?.amount || 0,
       currency: status?.amount?.currency || 'EUR',
       creditorName: status?.creditorName || '',
-      senderName: status?.debtorName || 'Atlas user',
+      senderName: status?.debtorName || 'Auriga user',
       reference: status?.reference,
       createdAt: status?.createdAt || new Date().toISOString(),
       updatedAt: status?.updatedAt || new Date().toISOString(),

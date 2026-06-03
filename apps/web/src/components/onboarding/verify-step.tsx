@@ -81,10 +81,10 @@ export function VerifyStep({ email, onComplete, onBack }: Props) {
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-atlas-border p-8 shadow-sm">
+    <div className="bg-white rounded-2xl border border-auriga-border p-8 shadow-sm">
       <h1 className="text-2xl font-medium text-center mb-2">Enter your code</h1>
-      <p className="text-atlas-text-secondary text-center mb-8">
-        We just emailed a 6-digit code to <strong className="text-atlas-text-primary">{email}</strong>. This is how you&apos;ll sign in too — no password to remember.
+      <p className="text-auriga-text-secondary text-center mb-8">
+        We just emailed a 6-digit code to <strong className="text-auriga-text-primary">{email}</strong>. This is how you&apos;ll sign in too — no password to remember.
       </p>
 
       <div className="flex justify-center gap-2 mb-4">
@@ -100,19 +100,19 @@ export function VerifyStep({ email, onComplete, onBack }: Props) {
             onChange={(e) => handleChange(i, e.target.value)}
             onKeyDown={(e) => handleKeyDown(i, e)}
             onPaste={handlePaste}
-            className="w-12 h-14 text-center text-xl font-medium border border-atlas-border rounded-xl focus:outline-none focus:ring-2 focus:ring-atlas-accent focus:border-transparent"
+            className="w-12 h-14 text-center text-xl font-medium border border-auriga-border rounded-xl focus:outline-none focus:ring-2 focus:ring-auriga-accent focus:border-transparent"
           />
         ))}
       </div>
 
-      {error && <p className="text-sm text-atlas-error text-center mb-4">{error}</p>}
+      {error && <p className="text-sm text-auriga-error text-center mb-4">{error}</p>}
 
       {loading && (
-        <p className="text-sm text-atlas-text-secondary text-center mb-4">Verifying...</p>
+        <p className="text-sm text-auriga-text-secondary text-center mb-4">Verifying...</p>
       )}
 
       <div className="flex justify-between items-center mt-6">
-        <button onClick={onBack} className="text-sm text-atlas-text-secondary hover:text-atlas-text-primary">
+        <button onClick={onBack} className="text-sm text-auriga-text-secondary hover:text-auriga-text-primary">
           Use a different email
         </button>
         <Button variant="ghost" size="sm" onClick={() => api.sendOtp(email)}>

@@ -7,7 +7,7 @@ import {
   Transaction,
   CreateAccountInput,
   ListTransactionsInput,
-} from '@atlas-bank/provider-contracts';
+} from '@auriga-money/provider-contracts';
 import { SwanClient } from './swan.client';
 
 @Injectable()

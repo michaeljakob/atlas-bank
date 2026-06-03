@@ -40,21 +40,21 @@ export default function OnboardingPage() {
   const progress = ((currentIndex + 1) / steps.length) * 100;
 
   return (
-    <div className="min-h-screen bg-atlas-bg-subtle">
-      <div className="fixed top-0 left-0 right-0 h-1 bg-atlas-border z-50">
+    <div className="min-h-screen bg-auriga-bg-subtle">
+      <div className="fixed top-0 left-0 right-0 h-1 bg-auriga-border z-50">
         <div
-          className="h-full bg-atlas-accent transition-all duration-500 ease-out"
+          className="h-full bg-auriga-accent transition-all duration-500 ease-out"
           style={{ width: `${progress}%` }}
         />
       </div>
 
       <Container className="py-12 sm:py-20 max-w-lg">
         <div className="flex items-center justify-center mb-6">
-          <img src="/atlas-lockup.svg" alt="Atlas" className="h-9 w-auto" />
+          <img src="/auriga-lockup.svg" alt="Auriga" className="h-9 w-auto" />
         </div>
 
         {step !== 'success' && (
-          <p className="text-center text-xs font-medium uppercase tracking-wide text-atlas-text-secondary mb-8">
+          <p className="text-center text-xs font-medium uppercase tracking-wide text-auriga-text-secondary mb-8">
             Step {currentIndex + 1} of {steps.length - 1} · {stepLabels[step]}
           </p>
         )}

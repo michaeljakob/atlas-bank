@@ -6,7 +6,7 @@ import {
   PaymentDetails,
   InitiatePaymentInput,
   Transaction,
-} from '@atlas-bank/provider-contracts';
+} from '@auriga-money/provider-contracts';
 
 /** Dev-only payment provider — auto-accepts transfers without a real bank. */
 @Injectable()

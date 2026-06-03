@@ -4,22 +4,22 @@
 
 @layer base {
   :root {
-    /* Atlas official brand palette */
-    --atlas-bg: 255 255 255;
-    --atlas-bg-subtle: 245 243 240; /* Heather 50 */
-    --atlas-text-primary: 28 24 13; /* Robin Black #1C180D */
-    --atlas-text-secondary: 111 108 104; /* Heather 500 */
-    --atlas-accent: 204 255 0; /* Robin Neon #CCFF00 */
-    --atlas-green: 90 197 58; /* UI green #5AC53A */
-    --atlas-dark-surface: 28 24 13; /* Robin Black */
-    --atlas-border: 228 225 219; /* Heather border #E4E1DB */
-    --atlas-success: 90 197 58;
-    --atlas-error: 214 69 61;
+    /* Auriga official brand palette */
+    --auriga-bg: 255 255 255;
+    --auriga-bg-subtle: 245 243 240; /* Heather 50 */
+    --auriga-text-primary: 28 24 13; /* Auriga Black #1C180D */
+    --auriga-text-secondary: 111 108 104; /* Heather 500 */
+    --auriga-accent: 204 255 0; /* Auriga Neon #CCFF00 */
+    --auriga-green: 90 197 58; /* UI green #5AC53A */
+    --auriga-dark-surface: 28 24 13; /* Auriga Black */
+    --auriga-border: 228 225 219; /* Heather border #E4E1DB */
+    --auriga-success: 90 197 58;
+    --auriga-error: 214 69 61;
 
     --background: 0 0% 100%;
-    --foreground: 44 37% 8%; /* Robin Black */
-    --primary: 72 100% 50%; /* Robin Neon */
-    --primary-foreground: 44 37% 8%; /* Robin Black on neon */
+    --foreground: 44 37% 8%; /* Auriga Black */
+    --primary: 72 100% 50%; /* Auriga Neon */
+    --primary-foreground: 44 37% 8%; /* Auriga Black on neon */
     --secondary: 43 16% 91%; /* Heather 100 */
     --secondary-foreground: 44 37% 8%;
     --destructive: 3 64% 54%;
@@ -29,14 +29,14 @@
   }
 
   .dark {
-    --atlas-bg: 28 24 13; /* Robin Black */
-    --atlas-bg-subtle: 38 34 22;
-    --atlas-text-primary: 245 243 240;
-    --atlas-text-secondary: 180 177 171; /* Heather 300 */
-    --atlas-dark-surface: 245 243 240;
-    --atlas-border: 56 52 42;
+    --auriga-bg: 28 24 13; /* Auriga Black */
+    --auriga-bg-subtle: 38 34 22;
+    --auriga-text-primary: 245 243 240;
+    --auriga-text-secondary: 180 177 171; /* Heather 300 */
+    --auriga-dark-surface: 245 243 240;
+    --auriga-border: 56 52 42;
 
-    --background: 44 37% 8%; /* Robin Black */
+    --background: 44 37% 8%; /* Auriga Black */
     --foreground: 43 16% 95%;
     --primary: 72 100% 50%;
     --primary-foreground: 44 37% 8%;
@@ -55,7 +55,7 @@
   }
 
   body {
-    @apply bg-atlas-bg text-atlas-text-primary font-sans;
+    @apply bg-auriga-bg text-auriga-text-primary font-sans;
   }
 
   h1,

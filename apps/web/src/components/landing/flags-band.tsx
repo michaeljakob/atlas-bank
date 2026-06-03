@@ -24,14 +24,14 @@ const countries = [
 
 export function FlagsBand() {
   return (
-    <section className="py-24 sm:py-36 bg-atlas-dark-surface">
+    <section className="py-24 sm:py-36 bg-auriga-dark-surface">
       <Container>
         <h2 className="text-5xl sm:text-6xl lg:text-7xl font-heading text-white uppercase tracking-tight leading-[0.95] mb-6">
           One account.
           <br />
           Every country.
         </h2>
-        <p className="text-lg sm:text-xl text-atlas-heather-300 max-w-lg mb-16 leading-relaxed">
+        <p className="text-lg sm:text-xl text-auriga-heather-300 max-w-lg mb-16 leading-relaxed">
           One IBAN that works the same in every EEA member state. No borders,
           no local paperwork, no second account.
         </p>

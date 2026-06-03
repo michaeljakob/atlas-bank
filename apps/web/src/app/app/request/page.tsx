@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { CurrencySelect, CURRENCIES } from '@/components/ui/currency-select';
-import { formatMoney } from '@atlas-bank/shared';
+import { formatMoney } from '@auriga-money/shared';
 import { clsx } from 'clsx';
 import { api } from '@/lib/api';
 import { toast } from 'sonner';
@@ -134,7 +134,7 @@ export default function RequestPage() {
       </h1>
 
       {/* Tab switcher */}
-      <div className="flex gap-1 p-1 rounded-xl bg-atlas-bg-subtle mb-6">
+      <div className="flex gap-1 p-1 rounded-xl bg-auriga-bg-subtle mb-6">
         {(['create', 'history'] as const).map((t) => (
           <button
             key={t}
@@ -142,8 +142,8 @@ export default function RequestPage() {
             className={clsx(
               `flex-1 py-2.5 text-sm font-medium rounded-lg transition-all ${SPRING}`,
               tab === t
-                ? 'bg-white text-atlas-text-primary shadow-sm'
-                : 'text-atlas-text-secondary hover:text-atlas-text-primary',
+                ? 'bg-white text-auriga-text-primary shadow-sm'
+                : 'text-auriga-text-secondary hover:text-auriga-text-primary',
             )}
           >
             {t === 'create' ? 'Create' : 'History'}
@@ -154,14 +154,14 @@ export default function RequestPage() {
       {/* ── Create tab ───────────────────────────────── */}
       {tab === 'create' && !generatedLink && (
         <form onSubmit={handleCreate} className="space-y-6 animate-fade-in">
-          <div className="bg-white rounded-2xl border border-atlas-border/70 p-6 space-y-5">
+          <div className="bg-white rounded-2xl border border-auriga-border/70 p-6 space-y-5">
             {/* Amount */}
             <div>
-              <label className="text-[13px] font-medium uppercase tracking-wider text-atlas-text-secondary mb-2 block">
+              <label className="text-[13px] font-medium uppercase tracking-wider text-auriga-text-secondary mb-2 block">
                 Amount
               </label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-3xl font-semibold text-atlas-text-primary/40 pointer-events-none select-none">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-3xl font-semibold text-auriga-text-primary/40 pointer-events-none select-none">
                   {currencySymbol}
                 </span>
                 <input
@@ -172,14 +172,14 @@ export default function RequestPage() {
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
                   required
-                  className="w-full pl-12 pr-4 py-4 text-3xl font-semibold rounded-xl border border-atlas-border/60 bg-atlas-bg-subtle/30 focus:outline-none focus:ring-2 focus:ring-atlas-accent/20 focus:border-atlas-accent/40 transition-all placeholder:text-atlas-text-secondary/20"
+                  className="w-full pl-12 pr-4 py-4 text-3xl font-semibold rounded-xl border border-auriga-border/60 bg-auriga-bg-subtle/30 focus:outline-none focus:ring-2 focus:ring-auriga-accent/20 focus:border-auriga-accent/40 transition-all placeholder:text-auriga-text-secondary/20"
                 />
               </div>
             </div>
 
             {/* Currency */}
             <div>
-              <p className="text-[13px] font-medium uppercase tracking-wider text-atlas-text-secondary mb-3">
+              <p className="text-[13px] font-medium uppercase tracking-wider text-auriga-text-secondary mb-3">
                 Currency
               </p>
               <CurrencySelect
@@ -214,26 +214,26 @@ export default function RequestPage() {
 
       {/* ── Success / link view ──────────────────────── */}
       {tab === 'create' && generatedLink && (
-        <div className="bg-white rounded-2xl border border-atlas-border/70 px-6 py-10 text-center space-y-6 animate-scale-in">
-          <div className="w-16 h-16 mx-auto rounded-full bg-atlas-accent-50 flex items-center justify-center">
-            <svg className="w-8 h-8 text-atlas-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <div className="bg-white rounded-2xl border border-auriga-border/70 px-6 py-10 text-center space-y-6 animate-scale-in">
+          <div className="w-16 h-16 mx-auto rounded-full bg-auriga-accent-50 flex items-center justify-center">
+            <svg className="w-8 h-8 text-auriga-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
           </div>
 
           <div>
             <h2 className="text-xl font-semibold mb-1">Request created</h2>
-            <p className="text-sm text-atlas-text-secondary max-w-xs mx-auto leading-relaxed">
+            <p className="text-sm text-auriga-text-secondary max-w-xs mx-auto leading-relaxed">
               Share this link with anyone to receive{' '}
-              <span className="font-medium text-atlas-text-primary">
+              <span className="font-medium text-auriga-text-primary">
                 {formatMoney(Math.round(parseFloat(amount) * 100), currency)}
               </span>
             </p>
           </div>
 
           {/* Link display */}
-          <div className="flex items-center gap-2 p-3 rounded-xl bg-atlas-bg-subtle border border-atlas-border/50">
-            <p className="flex-1 text-sm font-mono text-atlas-text-secondary truncate text-left">
+          <div className="flex items-center gap-2 p-3 rounded-xl bg-auriga-bg-subtle border border-auriga-border/50">
+            <p className="flex-1 text-sm font-mono text-auriga-text-secondary truncate text-left">
               {generatedLink}
             </p>
             <Button
@@ -266,7 +266,7 @@ export default function RequestPage() {
             <a
               href={`mailto:${recipientEmail}?subject=Payment%20request&body=Hey!%20Here%27s%20my%20payment%20link%3A%20${encodeURIComponent(generatedLink)}`}
               className={clsx(
-                `inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-atlas-border/70 text-sm font-medium text-atlas-text-secondary hover:text-atlas-text-primary hover:border-atlas-text-secondary/30 transition-all ${SPRING}`,
+                `inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-auriga-border/70 text-sm font-medium text-auriga-text-secondary hover:text-auriga-text-primary hover:border-auriga-text-secondary/30 transition-all ${SPRING}`,
               )}
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -279,7 +279,7 @@ export default function RequestPage() {
               target="_blank"
               rel="noopener noreferrer"
               className={clsx(
-                `inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-atlas-border/70 text-sm font-medium text-atlas-text-secondary hover:text-atlas-text-primary hover:border-atlas-text-secondary/30 transition-all ${SPRING}`,
+                `inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-auriga-border/70 text-sm font-medium text-auriga-text-secondary hover:text-auriga-text-primary hover:border-auriga-text-secondary/30 transition-all ${SPRING}`,
               )}
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
@@ -299,24 +299,24 @@ export default function RequestPage() {
       {tab === 'history' && (
         <div className="space-y-3 animate-fade-in">
           {loadingRequests && (
-            <div className="bg-white rounded-2xl border border-atlas-border/70 p-12 text-center">
-              <svg className="animate-spin h-6 w-6 mx-auto text-atlas-text-secondary" viewBox="0 0 24 24" fill="none">
+            <div className="bg-white rounded-2xl border border-auriga-border/70 p-12 text-center">
+              <svg className="animate-spin h-6 w-6 mx-auto text-auriga-text-secondary" viewBox="0 0 24 24" fill="none">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
               </svg>
-              <p className="text-sm text-atlas-text-secondary mt-3">Loading requests…</p>
+              <p className="text-sm text-auriga-text-secondary mt-3">Loading requests…</p>
             </div>
           )}
 
           {!loadingRequests && requests.length === 0 && (
-            <div className="bg-white rounded-2xl border border-atlas-border/70 px-6 py-12 text-center">
-              <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-atlas-bg-subtle flex items-center justify-center">
-                <svg className="w-6 h-6 text-atlas-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <div className="bg-white rounded-2xl border border-auriga-border/70 px-6 py-12 text-center">
+              <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-auriga-bg-subtle flex items-center justify-center">
+                <svg className="w-6 h-6 text-auriga-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" />
                 </svg>
               </div>
-              <p className="text-sm font-medium text-atlas-text-primary mb-1">No requests yet</p>
-              <p className="text-sm text-atlas-text-secondary">
+              <p className="text-sm font-medium text-auriga-text-primary mb-1">No requests yet</p>
+              <p className="text-sm text-auriga-text-secondary">
                 Create your first payment request to get started.
               </p>
               <Button variant="secondary" size="sm" className="mt-4" onClick={() => setTab('create')}>
@@ -331,7 +331,7 @@ export default function RequestPage() {
               return (
                 <div
                   key={req.id}
-                  className={`bg-white rounded-2xl border border-atlas-border/70 p-5 transition-all ${SPRING} hover:shadow-sm`}
+                  className={`bg-white rounded-2xl border border-auriga-border/70 p-5 transition-all ${SPRING} hover:shadow-sm`}
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0 flex-1">
@@ -342,23 +342,23 @@ export default function RequestPage() {
                         <Badge variant={config.variant}>{config.label}</Badge>
                       </div>
                       {req.recipientEmail && (
-                        <p className="text-sm text-atlas-text-secondary truncate">
+                        <p className="text-sm text-auriga-text-secondary truncate">
                           To: {req.recipientEmail}
                         </p>
                       )}
                       {req.note && (
-                        <p className="text-sm text-atlas-text-secondary mt-0.5 truncate">
+                        <p className="text-sm text-auriga-text-secondary mt-0.5 truncate">
                           &ldquo;{req.note}&rdquo;
                         </p>
                       )}
-                      <p className="text-xs text-atlas-text-secondary/60 mt-2">
+                      <p className="text-xs text-auriga-text-secondary/60 mt-2">
                         {new Date(req.createdAt).toLocaleDateString('en-GB', {
                           day: 'numeric',
                           month: 'short',
                           year: 'numeric',
                         })}
                         {req.paidAt && req.paidByName && (
-                          <span className="text-atlas-success">
+                          <span className="text-auriga-success">
                             {' · Paid by '}
                             {req.paidByName}
                           </span>
@@ -372,7 +372,7 @@ export default function RequestPage() {
                         size="sm"
                         loading={cancellingId === req.id}
                         onClick={() => handleCancel(req.id)}
-                        className="flex-shrink-0 text-atlas-text-secondary hover:text-atlas-error hover:border-atlas-error/40"
+                        className="flex-shrink-0 text-auriga-text-secondary hover:text-auriga-error hover:border-auriga-error/40"
                       >
                         Cancel
                       </Button>

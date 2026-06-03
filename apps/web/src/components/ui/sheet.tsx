@@ -58,7 +58,7 @@ const SheetContent = React.forwardRef<
       {children}
       {showClose && (
         <DialogPrimitive.Close
-          className="absolute right-4 top-4 rounded-xl p-2 text-atlas-text-secondary transition-colors hover:bg-atlas-bg-subtle focus:outline-none focus:ring-2 focus:ring-atlas-accent/30"
+          className="absolute right-4 top-4 rounded-xl p-2 text-auriga-text-secondary transition-colors hover:bg-auriga-bg-subtle focus:outline-none focus:ring-2 focus:ring-auriga-accent/30"
           aria-label="Close"
         >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>

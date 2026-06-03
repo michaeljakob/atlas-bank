@@ -1,12 +1,12 @@
 <svg width="168" height="167" viewBox="0 0 168 167" fill="none" xmlns="http://www.w3.org/2000/svg">
-<mask id="atlas-cut" maskUnits="userSpaceOnUse" x="0" y="0" width="168" height="167">
+<mask id="auriga-cut" maskUnits="userSpaceOnUse" x="0" y="0" width="168" height="167">
 <circle cx="83.5298" cy="35" r="35" fill="white"/>
 <circle cx="133" cy="84" r="35" fill="white"/>
 <circle cx="84" cy="132" r="35" fill="white"/>
 <circle cx="35" cy="84" r="35" fill="white"/>
 <rect x="83.0833" y="37" width="68" height="68" rx="15" transform="rotate(45 83.0833 37)" fill="black"/>
 </mask>
-<g mask="url(#atlas-cut)">
+<g mask="url(#auriga-cut)">
 <circle cx="83.5298" cy="35" r="35" fill="#1C180D"/>
 <circle cx="133" cy="84" r="35" fill="#1C180D"/>
 <circle cx="84" cy="132" r="35" fill="#1C180D"/>

@@ -1,5 +1,5 @@
 {
-  "name": "@atlas-bank/provider-contracts",
+  "name": "@auriga-money/provider-contracts",
   "version": "0.1.0",
   "private": true,
   "main": "./src/index.ts",

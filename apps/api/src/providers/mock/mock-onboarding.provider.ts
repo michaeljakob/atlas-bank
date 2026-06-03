@@ -4,7 +4,7 @@ import {
   OnboardingProvider,
   OnboardingSession,
   CreateOnboardingInput,
-} from '@atlas-bank/provider-contracts';
+} from '@auriga-money/provider-contracts';
 import { MockProviderStore } from './mock-store';
 
 /**

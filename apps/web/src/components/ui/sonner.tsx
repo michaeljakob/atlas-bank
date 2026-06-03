@@ -12,9 +12,9 @@ function Toaster({ ...props }: ToasterProps) {
         classNames: {
           toast:
             'group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-elevated group-[.toaster]:rounded-xl',
-          description: 'group-[.toast]:text-atlas-text-secondary',
+          description: 'group-[.toast]:text-auriga-text-secondary',
           actionButton: 'group-[.toast]:bg-primary group-[.toast]:text-primary-foreground',
-          cancelButton: 'group-[.toast]:bg-atlas-bg-subtle group-[.toast]:text-atlas-text-secondary',
+          cancelButton: 'group-[.toast]:bg-auriga-bg-subtle group-[.toast]:text-auriga-text-secondary',
         },
       }}
       {...props}

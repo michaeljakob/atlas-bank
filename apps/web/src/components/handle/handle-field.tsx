@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { api } from '@/lib/api';
-import { isValidHandle, normalizeHandle } from '@atlas-bank/shared';
+import { isValidHandle, normalizeHandle } from '@auriga-money/shared';
 import { clsx } from 'clsx';
 import { toast } from 'sonner';
 
@@ -76,16 +76,16 @@ export function HandleField({ initialHandle, ctaLabel = 'Claim handle', onClaime
 
   const hintColor =
     status === 'available' || (status === 'idle' && unchanged)
-      ? 'text-atlas-success'
+      ? 'text-auriga-success'
       : status === 'taken' || status === 'invalid'
-        ? 'text-atlas-error'
-        : 'text-atlas-text-secondary';
+        ? 'text-auriga-error'
+        : 'text-auriga-text-secondary';
 
   return (
     <div>
       <div className="flex gap-2">
         <div className="relative flex-1">
-          <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-atlas-text-secondary/70">@</span>
+          <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-auriga-text-secondary/70">@</span>
           <input
             type="text"
             inputMode="text"
@@ -94,7 +94,7 @@ export function HandleField({ initialHandle, ctaLabel = 'Claim handle', onClaime
             placeholder="yourname"
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            className="w-full h-11 rounded-xl border border-atlas-border/70 bg-white pl-7 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-atlas-accent/20 focus:border-atlas-accent/40"
+            className="w-full h-11 rounded-xl border border-auriga-border/70 bg-white pl-7 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-auriga-accent/20 focus:border-auriga-accent/40"
           />
         </div>
         <Button

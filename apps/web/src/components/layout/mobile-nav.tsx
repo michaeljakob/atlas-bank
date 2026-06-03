@@ -16,7 +16,7 @@ export function MobileNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-t border-atlas-border/50 safe-area-bottom">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-t border-auriga-border/50 safe-area-bottom">
       <div className="flex items-center justify-around h-14 px-2">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
@@ -26,11 +26,11 @@ export function MobileNav() {
               href={item.href as any}
               className={clsx(
                 'flex flex-col items-center justify-center gap-0.5 w-14 h-12 rounded-xl transition-colors',
-                isActive ? 'text-atlas-text-primary' : 'text-atlas-text-secondary/50'
+                isActive ? 'text-auriga-text-primary' : 'text-auriga-text-secondary/50'
               )}
             >
               <svg
-                className={clsx('w-[22px] h-[22px] transition-colors', isActive && 'text-atlas-accent')}
+                className={clsx('w-[22px] h-[22px] transition-colors', isActive && 'text-auriga-accent')}
                 fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}
               >
                 <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />

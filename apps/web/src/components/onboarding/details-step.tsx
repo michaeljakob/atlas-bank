@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { CountrySelect } from '@/components/ui/country-select';
 import { api } from '@/lib/api';
 import { track, AnalyticsEvent } from '@/lib/analytics';
-import { SUPPORTED_COUNTRIES } from '@atlas-bank/shared';
+import { SUPPORTED_COUNTRIES } from '@auriga-money/shared';
 
 interface Props {
   onComplete: (kycUrl: string) => void;
@@ -62,9 +62,9 @@ export function DetailsStep({ onComplete }: Props) {
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-atlas-border p-8 shadow-sm">
+    <div className="bg-white rounded-2xl border border-auriga-border p-8 shadow-sm">
       <h1 className="text-2xl font-medium text-center mb-2">Tell us about you</h1>
-      <p className="text-atlas-text-secondary text-center mb-8">
+      <p className="text-auriga-text-secondary text-center mb-8">
         A few quick details so your account is legally yours. This is the longest step — almost there.
       </p>
 
@@ -83,7 +83,7 @@ export function DetailsStep({ onComplete }: Props) {
         />
 
         <div className="space-y-1.5">
-          <label className="block text-sm font-medium text-atlas-text-secondary">Nationality</label>
+          <label className="block text-sm font-medium text-auriga-text-secondary">Nationality</label>
           <CountrySelect
             value={form.nationality}
             onChange={(code) => update('nationality', code)}
@@ -92,7 +92,7 @@ export function DetailsStep({ onComplete }: Props) {
         </div>
 
         <div className="space-y-1.5">
-          <label className="block text-sm font-medium text-atlas-text-secondary">Country of residence</label>
+          <label className="block text-sm font-medium text-auriga-text-secondary">Country of residence</label>
           <CountrySelect
             value={form.residenceCountry}
             onChange={(code) => update('residenceCountry', code)}
@@ -100,8 +100,8 @@ export function DetailsStep({ onComplete }: Props) {
           />
         </div>
 
-        <div className="border-t border-atlas-border pt-4 mt-4">
-          <p className="text-sm font-medium text-atlas-text-secondary mb-3">Residence address</p>
+        <div className="border-t border-auriga-border pt-4 mt-4">
+          <p className="text-sm font-medium text-auriga-text-secondary mb-3">Residence address</p>
           <div className="space-y-3">
             <Input label="Address line 1" value={form.line1} onChange={(e) => update('line1', e.target.value)} required />
             <Input label="Address line 2 (optional)" value={form.line2} onChange={(e) => update('line2', e.target.value)} />
@@ -112,12 +112,12 @@ export function DetailsStep({ onComplete }: Props) {
           </div>
         </div>
 
-        {error && <p className="text-sm text-atlas-error">{error}</p>}
+        {error && <p className="text-sm text-auriga-error">{error}</p>}
 
         <Button type="submit" className="w-full" size="lg" loading={loading}>
           {loading ? 'Saving your details…' : 'Continue to ID check'}
         </Button>
-        <p className="flex items-center justify-center gap-1.5 text-center text-xs text-atlas-text-secondary">
+        <p className="flex items-center justify-center gap-1.5 text-center text-xs text-auriga-text-secondary">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
             <path d="M7 11V7a5 5 0 0 1 10 0v4" />

@@ -18,7 +18,7 @@ const DropdownMenuContent = React.forwardRef<
       ref={ref}
       sideOffset={sideOffset}
       className={cn(
-        'z-50 min-w-[12rem] overflow-hidden rounded-xl border border-atlas-border/70 bg-white p-1.5 shadow-lg shadow-black/[0.08]',
+        'z-50 min-w-[12rem] overflow-hidden rounded-xl border border-auriga-border/70 bg-white p-1.5 shadow-lg shadow-black/[0.08]',
         'data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95',
         'data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95',
         className,
@@ -36,8 +36,8 @@ const DropdownMenuItem = React.forwardRef<
   <DropdownMenuPrimitive.Item
     ref={ref}
     className={cn(
-      'relative flex cursor-pointer select-none items-center gap-2.5 rounded-lg px-2.5 py-2 text-[13px] font-medium text-atlas-text-primary outline-none transition-colors',
-      'focus:bg-atlas-bg-subtle/80 data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      'relative flex cursor-pointer select-none items-center gap-2.5 rounded-lg px-2.5 py-2 text-[13px] font-medium text-auriga-text-primary outline-none transition-colors',
+      'focus:bg-auriga-bg-subtle/80 data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       inset && 'pl-8',
       className,
     )}
@@ -52,7 +52,7 @@ const DropdownMenuLabel = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DropdownMenuPrimitive.Label
     ref={ref}
-    className={cn('px-2.5 py-1.5 text-[11px] font-medium uppercase tracking-wide text-atlas-text-secondary', className)}
+    className={cn('px-2.5 py-1.5 text-[11px] font-medium uppercase tracking-wide text-auriga-text-secondary', className)}
     {...props}
   />
 ));
@@ -64,7 +64,7 @@ const DropdownMenuSeparator = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DropdownMenuPrimitive.Separator
     ref={ref}
-    className={cn('-mx-1.5 my-1.5 h-px bg-atlas-border/50', className)}
+    className={cn('-mx-1.5 my-1.5 h-px bg-auriga-border/50', className)}
     {...props}
   />
 ));

@@ -6,7 +6,7 @@ import {
   UpdateCardInput,
   CardSecureDetailsUrl,
   WalletProvisioningData,
-} from '@atlas-bank/provider-contracts';
+} from '@auriga-money/provider-contracts';
 import { SwanClient } from './swan.client';
 
 @Injectable()
@@ -39,7 +39,7 @@ export class SwanCardProvider implements CardProvider {
     const variables = {
       input: {
         accountId: input.accountId,
-        name: 'Atlas Card',
+        name: 'Auriga Card',
         ...(input.spendingLimit && {
           spendingLimit: {
             amount: { value: String(input.spendingLimit.amount / 100), currency: 'EUR' },

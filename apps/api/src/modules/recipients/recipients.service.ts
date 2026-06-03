@@ -2,7 +2,7 @@ import { Injectable, NotFoundException, ConflictException } from '@nestjs/common
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { RecipientEntity } from '@/database/entities';
-import { isValidIban } from '@atlas-bank/shared';
+import { isValidIban } from '@auriga-money/shared';
 
 @Injectable()
 export class RecipientsService {

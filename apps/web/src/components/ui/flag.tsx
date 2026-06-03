@@ -27,7 +27,7 @@ export function Flag({ code, name, className }: FlagProps) {
         title={code.toUpperCase()}
         className={cn(
           'inline-flex items-center justify-center shrink-0 rounded-full',
-          'bg-atlas-bg-subtle text-atlas-text-secondary ring-1 ring-black/5 shadow-sm',
+          'bg-auriga-bg-subtle text-auriga-text-secondary ring-1 ring-black/5 shadow-sm',
           'text-[8px] font-semibold uppercase leading-none',
           className,
         )}

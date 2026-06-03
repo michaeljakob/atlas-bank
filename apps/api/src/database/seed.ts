@@ -12,7 +12,7 @@ async function seed() {
   const userRepo = ds.getRepository(UserEntity);
   const rateRepo = ds.getRepository(ExchangeRateEntity);
 
-  const demoEmail = 'demo@atlas-bank.local';
+  const demoEmail = 'demo@auriga-money.local';
   let user = await userRepo.findOne({ where: { email: demoEmail } });
   if (!user) {
     user = userRepo.create({

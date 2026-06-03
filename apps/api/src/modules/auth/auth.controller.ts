@@ -21,8 +21,8 @@ class VerifyOtpDto {
   code: string;
 }
 
-export const ACCESS_COOKIE = 'atlas_token';
-export const REFRESH_COOKIE = 'atlas_refresh';
+export const ACCESS_COOKIE = 'auriga_token';
+export const REFRESH_COOKIE = 'auriga_refresh';
 
 @ApiTags('auth')
 @Public()

@@ -32,13 +32,13 @@ const faqs = [
 
 export function BusinessFAQ() {
   return (
-    <section id="faq" className="py-24 sm:py-36 bg-atlas-bg-subtle border-y border-atlas-border">
+    <section id="faq" className="py-24 sm:py-36 bg-auriga-bg-subtle border-y border-auriga-border">
       <Container>
         <Reveal as="div" className="mb-14 sm:mb-16 max-w-3xl">
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-atlas-text-primary leading-[1.1]">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-auriga-text-primary leading-[1.1]">
             Questions? Straight answers.
           </h2>
-          <p className="mt-5 text-lg sm:text-xl text-atlas-text-secondary leading-relaxed">
+          <p className="mt-5 text-lg sm:text-xl text-auriga-text-secondary leading-relaxed">
             Everything you need to know before you open your business account.
           </p>
         </Reveal>

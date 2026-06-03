@@ -62,7 +62,7 @@ export class DevSeederService implements OnModuleInit {
       await this.userRepo.save(
         this.userRepo.create({
           id: DEV_USER_ID,
-          email: 'dev@atlas-bank.local',
+          email: 'dev@auriga-money.local',
           role: 'admin',
           firstName: 'Alex',
           lastName: 'Johnson',

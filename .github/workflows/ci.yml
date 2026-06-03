@@ -18,13 +18,13 @@ jobs:
       postgres:
         image: postgres:15-alpine
         env:
-          POSTGRES_USER: atlas
-          POSTGRES_PASSWORD: atlas
-          POSTGRES_DB: atlas_bank
+          POSTGRES_USER: auriga
+          POSTGRES_PASSWORD: auriga
+          POSTGRES_DB: auriga_bank
         ports:
           - 5432:5432
         options: >-
-          --health-cmd "pg_isready -U atlas"
+          --health-cmd "pg_isready -U auriga"
           --health-interval 5s
           --health-timeout 5s
           --health-retries 5
@@ -42,7 +42,7 @@ jobs:
       NODE_ENV: test
       JWT_SECRET: ci-test-secret
       ENCRYPTION_KEY: 0000000000000000000000000000000000000000000000000000000000000000
-      DATABASE_URL: postgresql://atlas:atlas@localhost:5432/atlas_bank
+      DATABASE_URL: postgresql://auriga:auriga@localhost:5432/auriga_bank
       REDIS_URL: redis://localhost:6379
 
     steps:

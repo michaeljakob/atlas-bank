@@ -5,7 +5,7 @@
 > movement. Start this on **day one**, in parallel with engineering Workstreams A & B.
 > Nothing in this repo can move real money until this is complete.
 
-This runbook captures everything Atlas must do to take the Swan integration from
+This runbook captures everything Auriga must do to take the Swan integration from
 sandbox to a live, regulated production programme. The code is already wired for
 both modes; the remaining work is commercial, compliance, and a controlled cutover.
 
@@ -22,7 +22,7 @@ both modes; the remaining work is commercial, compliance, and a controlled cutov
 
 ## 2. Compliance package Swan will require
 
-Swan (as the regulated EMI / ASPSP) owns the licence; Atlas operates as a programme
+Swan (as the regulated EMI / ASPSP) owns the licence; Auriga operates as a programme
 on top of it. Expect Swan compliance to request:
 
 - [ ] Company KYB documents (incorporation, UBOs, directors).
@@ -35,14 +35,14 @@ on top of it. Expect Swan compliance to request:
 
 ### Division of responsibility to confirm in writing with Swan
 - [ ] **Transaction monitoring** — confirm Swan performs ongoing AML monitoring and
-      what alerts/cases Atlas must action.
+      what alerts/cases Auriga must action.
 - [ ] **Sanctions / PEP screening** — confirm screening at onboarding and on payments,
       and who owns remediation.
 - [ ] **SCA** — Swan owns Strong Customer Authentication on payment consents
       (`PaymentProvider.initiatePayment` returns a `consentUrl`). Confirm the
       production consent UX and redirect URLs.
 - [ ] **Safeguarding** — confirm safeguarding account arrangements and the exact
-      legal wording Atlas must display (must match our copy).
+      legal wording Auriga must display (must match our copy).
 - [ ] **Complaints & dispute** handling responsibilities.
 
 ## 3. Engineering cutover checklist (code is ready; flip config only)

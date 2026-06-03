@@ -41,7 +41,7 @@ export class TopUpService {
         iban: a.iban,
         bic: a.bic,
         holderName: a.holderName,
-        reference: `ATLAS-${a.id.slice(0, 8).toUpperCase()}`,
+        reference: `AURIGA-${a.id.slice(0, 8).toUpperCase()}`,
         methods: [
           { name: 'Standard SEPA', processingTime: '1 business day', cost: 'Free' },
           { name: 'Instant SEPA', processingTime: 'Within seconds', cost: 'Depends on your bank' },

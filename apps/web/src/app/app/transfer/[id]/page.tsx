@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { api } from '@/lib/api';
-import { formatMoney } from '@atlas-bank/shared';
+import { formatMoney } from '@auriga-money/shared';
 import { clsx } from 'clsx';
 import { toast } from 'sonner';
 import Link from 'next/link';
@@ -24,7 +24,7 @@ interface TransferDetails {
 }
 
 const STEPS: { key: TransferStatus; label: string; sublabel: string }[] = [
-  { key: 'initiated', label: 'You set up your transfer', sublabel: 'Payment order received by Atlas' },
+  { key: 'initiated', label: 'You set up your transfer', sublabel: 'Payment order received by Auriga' },
   { key: 'processing', label: 'We\'re processing your transfer', sublabel: 'Running compliance checks' },
   { key: 'in_transit', label: 'Money is on its way', sublabel: 'Funds sent to recipient\'s bank' },
   { key: 'delivered', label: 'Your transfer\'s complete', sublabel: 'Money has arrived' },
@@ -68,7 +68,7 @@ export default function TransferStatusPage() {
     } catch {
       // Fallback: use localStorage data if API unavailable
       try {
-        const stored = JSON.parse(localStorage.getItem('atlas_active_transfers') || '[]');
+        const stored = JSON.parse(localStorage.getItem('auriga_active_transfers') || '[]');
         const match = stored.find((t: any) => t.id === id);
         if (match) {
           setTransfer({
@@ -91,9 +91,9 @@ export default function TransferStatusPage() {
   function updateLocalStorage(data: TransferDetails) {
     if (data.status === 'delivered' || data.status === 'failed') {
       try {
-        const stored = JSON.parse(localStorage.getItem('atlas_active_transfers') || '[]');
+        const stored = JSON.parse(localStorage.getItem('auriga_active_transfers') || '[]');
         const filtered = stored.filter((t: any) => t.id !== id);
-        localStorage.setItem('atlas_active_transfers', JSON.stringify(filtered));
+        localStorage.setItem('auriga_active_transfers', JSON.stringify(filtered));
       } catch {}
     }
   }
@@ -113,7 +113,7 @@ export default function TransferStatusPage() {
   if (loading) {
     return (
       <div className="min-h-[calc(100vh-5rem)] flex items-center justify-center px-4">
-        <div className="w-6 h-6 border-2 border-atlas-accent border-t-transparent rounded-full animate-spin" />
+        <div className="w-6 h-6 border-2 border-auriga-accent border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -130,10 +130,10 @@ export default function TransferStatusPage() {
 
         {/* Header */}
         <div className="text-center">
-          <p className="text-xs text-atlas-text-secondary/70 mb-3">
+          <p className="text-xs text-auriga-text-secondary/70 mb-3">
             {formatDate(transfer.createdAt)} at {formatTime(transfer.createdAt)}
           </p>
-          <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-atlas-text-primary">
+          <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-auriga-text-primary">
             {isComplete
               ? 'Your transfer\'s complete'
               : isFailed
@@ -141,14 +141,14 @@ export default function TransferStatusPage() {
                 : 'Your transfer is on its way'}
           </h1>
           {transfer.amountCents > 0 && (
-            <p className="text-base text-atlas-text-secondary mt-2">
+            <p className="text-base text-auriga-text-secondary mt-2">
               {formatMoney(transfer.amountCents)} → {transfer.creditorName}
             </p>
           )}
         </div>
 
       {/* Timeline */}
-      <div className="bg-white rounded-2xl border border-atlas-border/60 p-6 sm:p-8">
+      <div className="bg-white rounded-2xl border border-auriga-border/60 p-6 sm:p-8">
         <div className="relative">
           {STEPS.map((step, i) => {
             const isActive = i === currentStep;
@@ -163,7 +163,7 @@ export default function TransferStatusPage() {
                     className={clsx(
                       'absolute left-[15px] top-[34px] w-[2px]',
                       i === STEPS.length - 2 ? 'h-[calc(100%-20px)]' : 'h-full',
-                      isDone ? 'bg-atlas-success' : isActive ? 'bg-atlas-success' : 'bg-atlas-border/50',
+                      isDone ? 'bg-auriga-success' : isActive ? 'bg-auriga-success' : 'bg-auriga-border/50',
                     )}
                   />
                 )}
@@ -173,10 +173,10 @@ export default function TransferStatusPage() {
                   <div
                     className={clsx(
                       'w-[32px] h-[32px] rounded-full flex items-center justify-center transition-all',
-                      isDone && 'bg-atlas-success text-white',
-                      isActive && !isFailed && 'bg-atlas-success text-white ring-4 ring-atlas-success/15',
-                      isActive && isFailed && 'bg-atlas-error text-white ring-4 ring-atlas-error/15',
-                      isPending && 'bg-white border-2 border-atlas-border/60',
+                      isDone && 'bg-auriga-success text-white',
+                      isActive && !isFailed && 'bg-auriga-success text-white ring-4 ring-auriga-success/15',
+                      isActive && isFailed && 'bg-auriga-error text-white ring-4 ring-auriga-error/15',
+                      isPending && 'bg-white border-2 border-auriga-border/60',
                     )}
                   >
                     {isDone || (isActive && !isFailed) ? (
@@ -188,7 +188,7 @@ export default function TransferStatusPage() {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                       </svg>
                     ) : (
-                      <div className="w-2 h-2 rounded-full bg-atlas-border" />
+                      <div className="w-2 h-2 rounded-full bg-auriga-border" />
                     )}
                   </div>
                 </div>
@@ -198,21 +198,21 @@ export default function TransferStatusPage() {
                   <p
                     className={clsx(
                       'text-sm font-medium leading-tight',
-                      (isDone || isActive) && !isFailed && 'text-atlas-text-primary',
-                      isActive && isFailed && 'text-atlas-error',
-                      isPending && 'text-atlas-text-secondary/60',
+                      (isDone || isActive) && !isFailed && 'text-auriga-text-primary',
+                      isActive && isFailed && 'text-auriga-error',
+                      isPending && 'text-auriga-text-secondary/60',
                     )}
                   >
                     {step.label}
                   </p>
                   <p className={clsx(
                     'text-xs mt-0.5',
-                    (isDone || isActive) ? 'text-atlas-text-secondary' : 'text-atlas-text-secondary/40',
+                    (isDone || isActive) ? 'text-auriga-text-secondary' : 'text-auriga-text-secondary/40',
                   )}>
                     {step.sublabel}
                   </p>
                   {(isDone || isActive) && (
-                    <p className="text-[11px] text-atlas-text-secondary/60 mt-1">
+                    <p className="text-[11px] text-auriga-text-secondary/60 mt-1">
                       {formatTime(i === 0 ? transfer.createdAt : transfer.updatedAt)}
                     </p>
                   )}
@@ -224,13 +224,13 @@ export default function TransferStatusPage() {
 
         {/* Delivery estimate */}
         {!isComplete && !isFailed && (
-          <div className="mt-6 pt-5 border-t border-atlas-border/40">
+          <div className="mt-6 pt-5 border-t border-auriga-border/40">
             <div className="flex items-center gap-2">
-              <svg className="w-4 h-4 text-atlas-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <svg className="w-4 h-4 text-auriga-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <p className="text-sm text-atlas-text-secondary">
-                Should arrive <span className="font-medium text-atlas-text-primary">within seconds</span>
+              <p className="text-sm text-auriga-text-secondary">
+                Should arrive <span className="font-medium text-auriga-text-primary">within seconds</span>
               </p>
             </div>
           </div>
@@ -240,22 +240,22 @@ export default function TransferStatusPage() {
       {/* Share button */}
       <button
         onClick={handleShare}
-        className="w-full flex items-center gap-3 bg-white rounded-2xl border border-atlas-border/60 px-5 py-4 text-left hover:bg-atlas-bg-subtle/30 transition-colors"
+        className="w-full flex items-center gap-3 bg-white rounded-2xl border border-auriga-border/60 px-5 py-4 text-left hover:bg-auriga-bg-subtle/30 transition-colors"
       >
-        <div className="w-9 h-9 rounded-full bg-atlas-bg-subtle flex items-center justify-center flex-shrink-0">
-          <svg className="w-4 h-4 text-atlas-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <div className="w-9 h-9 rounded-full bg-auriga-bg-subtle flex items-center justify-center flex-shrink-0">
+          <svg className="w-4 h-4 text-auriga-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
           </svg>
         </div>
         <div className="flex-1">
-          <p className="text-sm font-medium text-atlas-text-primary">
+          <p className="text-sm font-medium text-auriga-text-primary">
             {copied ? 'Link copied!' : 'Share this transfer'}
           </p>
-          <p className="text-xs text-atlas-text-secondary">
+          <p className="text-xs text-auriga-text-secondary">
             Anyone with the link can track the status
           </p>
         </div>
-        <svg className="w-4 h-4 text-atlas-text-secondary flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <svg className="w-4 h-4 text-auriga-text-secondary flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
         </svg>
       </button>
@@ -264,20 +264,20 @@ export default function TransferStatusPage() {
       {transfer.creditorName && (
         <Link
           href={`/app/send?name=${encodeURIComponent(transfer.creditorName)}&iban=${encodeURIComponent(transfer.creditorIban || '')}&amount=${transfer.amountCents ? (transfer.amountCents / 100).toFixed(2) : ''}`}
-          className="w-full flex items-center gap-3 bg-white rounded-2xl border border-atlas-border/60 px-5 py-4 text-left hover:bg-atlas-bg-subtle/30 transition-colors"
+          className="w-full flex items-center gap-3 bg-white rounded-2xl border border-auriga-border/60 px-5 py-4 text-left hover:bg-auriga-bg-subtle/30 transition-colors"
         >
-          <div className="w-9 h-9 rounded-full bg-atlas-accent-50 flex items-center justify-center flex-shrink-0">
-            <svg className="w-4 h-4 text-atlas-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <div className="w-9 h-9 rounded-full bg-auriga-accent-50 flex items-center justify-center flex-shrink-0">
+            <svg className="w-4 h-4 text-auriga-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
             </svg>
           </div>
           <div className="flex-1">
-            <p className="text-sm font-medium text-atlas-text-primary">Repeat this transfer</p>
-            <p className="text-xs text-atlas-text-secondary">
+            <p className="text-sm font-medium text-auriga-text-primary">Repeat this transfer</p>
+            <p className="text-xs text-auriga-text-secondary">
               Send {transfer.amountCents > 0 ? formatMoney(transfer.amountCents) : 'money'} to {transfer.creditorName} again
             </p>
           </div>
-          <svg className="w-4 h-4 text-atlas-text-secondary flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <svg className="w-4 h-4 text-auriga-text-secondary flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
           </svg>
         </Link>

@@ -1,11 +1,11 @@
-# Atlas Bank
+# Auriga Money
 
 A neobank for people who live and earn across borders. EUR IBAN in under a minute, virtual Mastercard instantly.
 
 ## Architecture
 
 ```
-atlas-bank/
+auriga-money/
 ├── apps/
 │   ├── web/          # Next.js 15 (App Router) — landing + app
 │   └── api/          # NestJS + Fastify — BFF / API gateway
@@ -19,7 +19,7 @@ atlas-bank/
 
 - **Provider abstraction layer**: Swan is the EMI rail, but all product code depends on interfaces (`AccountProvider`, `CardProvider`, `OnboardingProvider`, `PaymentProvider`), never on Swan types directly. Adding Airwallex (phase 2 FX) means implementing the interface — no product code changes.
 - **Reconciliation read-model**: Balances and transactions in our DB are a cache/projection. Swan is always authoritative. We never hold funds.
-- **PCI out-of-scope**: Card PANs are never stored or transmitted by Atlas. Card details render via Swan's secure/tokenised components only.
+- **PCI out-of-scope**: Card PANs are never stored or transmitted by Auriga. Card details render via Swan's secure/tokenised components only.
 
 ## Prerequisites
 
@@ -39,12 +39,12 @@ cp apps/api/.env.example apps/api/.env
 cp apps/web/.env.example apps/web/.env.local
 
 # Start the database
-docker run -d --name atlas-db -p 5432:5432 \
-  -e POSTGRES_USER=atlas -e POSTGRES_PASSWORD=atlas -e POSTGRES_DB=atlas_bank \
+docker run -d --name auriga-db -p 5432:5432 \
+  -e POSTGRES_USER=auriga -e POSTGRES_PASSWORD=auriga -e POSTGRES_DB=auriga_bank \
   postgres:15
 
 # Start Redis
-docker run -d --name atlas-redis -p 6379:6379 redis:7
+docker run -d --name auriga-redis -p 6379:6379 redis:7
 
 # Run both apps in development
 npm run dev
@@ -92,9 +92,9 @@ TypeScript interfaces that define the contract between product code and banking 
 
 ## Regulatory notes
 
-- Atlas is **not a bank**. Banking services are provided by Swan SAS (ACPR-licensed EMI).
+- Auriga is **not a bank**. Banking services are provided by Swan SAS (ACPR-licensed EMI).
 - Customer funds are safeguarded per EU e-money regulations.
-- Atlas is PCI out-of-scope by design.
+- Auriga is PCI out-of-scope by design.
 - GDPR: data minimisation, encrypt PII at rest, processor agreement with Swan.
 - Strong Customer Authentication (SCA/PSD2) is handled by Swan.
 

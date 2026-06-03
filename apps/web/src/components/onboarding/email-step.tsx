@@ -38,14 +38,14 @@ export function EmailStep({ onComplete }: Props) {
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-atlas-border p-8 shadow-sm">
+    <div className="bg-white rounded-2xl border border-auriga-border p-8 shadow-sm">
       <h1 className="text-2xl font-medium text-center mb-2">Open your free account</h1>
-      <p className="text-atlas-text-secondary text-center mb-6">
+      <p className="text-auriga-text-secondary text-center mb-6">
         Just your email to start — your EUR account and card are ready in about 2 minutes.
       </p>
 
       <div className="flex items-center justify-center gap-2 mb-8">
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-atlas-bg-subtle px-3 py-1.5 text-xs font-medium text-atlas-text-secondary">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-auriga-bg-subtle px-3 py-1.5 text-xs font-medium text-auriga-text-secondary">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
             <path d="M7 11V7a5 5 0 0 1 10 0v4" />
@@ -70,15 +70,15 @@ export function EmailStep({ onComplete }: Props) {
             type="checkbox"
             checked={consent}
             onChange={(e) => setConsent(e.target.checked)}
-            className="mt-0.5 h-4 w-4 rounded border-atlas-border text-atlas-accent focus:ring-atlas-accent"
+            className="mt-0.5 h-4 w-4 rounded border-auriga-border text-auriga-accent focus:ring-auriga-accent"
           />
-          <span className="text-xs text-atlas-text-secondary leading-relaxed">
+          <span className="text-xs text-auriga-text-secondary leading-relaxed">
             I agree to the{' '}
-            <Link href="/terms" target="_blank" className="text-atlas-text-primary font-medium underline">
+            <Link href="/terms" target="_blank" className="text-auriga-text-primary font-medium underline">
               Terms of Service
             </Link>{' '}
             and{' '}
-            <Link href="/privacy" target="_blank" className="text-atlas-text-primary font-medium underline">
+            <Link href="/privacy" target="_blank" className="text-auriga-text-primary font-medium underline">
               Privacy Policy
             </Link>
             .
@@ -87,7 +87,7 @@ export function EmailStep({ onComplete }: Props) {
         <Button type="submit" className="w-full" size="lg" loading={loading} disabled={!consent}>
           {loading ? 'Sending your code…' : 'Email me a code'}
         </Button>
-        <p className="text-center text-xs text-atlas-text-secondary">
+        <p className="text-center text-xs text-auriga-text-secondary">
           Free to open · No monthly fees · Cancel anytime
         </p>
       </form>

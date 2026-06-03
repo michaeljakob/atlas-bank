@@ -9,12 +9,12 @@ import './globals.css';
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Atlas Bank — Your account for everywhere',
-    template: '%s — Atlas Bank',
+    default: 'Auriga Money — Your account for everywhere',
+    template: '%s — Auriga Money',
   },
   description:
     'A bank account and card for people who live and earn across borders. Get a EUR IBAN in under a minute and a virtual Mastercard instantly.',
-  applicationName: 'Atlas Bank',
+  applicationName: 'Auriga Money',
   keywords: [
     'neobank',
     'digital bank',
@@ -38,16 +38,16 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: 'Atlas Bank — Your account for everywhere',
+    title: 'Auriga Money — Your account for everywhere',
     description: 'EUR IBAN in a minute. Virtual Mastercard instantly.',
     url: SITE_URL,
-    siteName: 'Atlas Bank',
+    siteName: 'Auriga Money',
     type: 'website',
     locale: 'en_EU',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Atlas Bank — Your account for everywhere',
+    title: 'Auriga Money — Your account for everywhere',
     description: 'EUR IBAN in a minute. Virtual Mastercard instantly.',
   },
 };

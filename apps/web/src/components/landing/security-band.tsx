@@ -43,15 +43,15 @@ const points = [
 
 export function SecurityBand() {
   return (
-    <section className="py-24 sm:py-36 bg-atlas-bg-subtle border-y border-atlas-border">
+    <section className="py-24 sm:py-36 bg-auriga-bg-subtle border-y border-auriga-border">
       <Container>
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           <Reveal direction="right">
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-atlas-text-primary leading-[1.1]">
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-auriga-text-primary leading-[1.1]">
               Safe at{' '}
               <Highlight>every step</Highlight>
             </h2>
-            <p className="mt-5 text-lg sm:text-xl text-atlas-text-secondary leading-relaxed max-w-md">
+            <p className="mt-5 text-lg sm:text-xl text-auriga-text-secondary leading-relaxed max-w-md">
               Your money is protected by EU regulation, bank-grade encryption, and dedicated anti-fraud systems. Here&apos;s how we keep every euro safe.
             </p>
 
@@ -59,27 +59,27 @@ export function SecurityBand() {
             <div className="mt-10 grid grid-cols-3 gap-6">
               {stats.map((stat) => (
                 <div key={stat.label}>
-                  <p className="text-3xl sm:text-4xl font-bold text-atlas-text-primary tracking-tight">{stat.value}</p>
-                  <p className="text-sm text-atlas-text-secondary font-medium mt-1">{stat.label}</p>
+                  <p className="text-3xl sm:text-4xl font-bold text-auriga-text-primary tracking-tight">{stat.value}</p>
+                  <p className="text-sm text-auriga-text-secondary font-medium mt-1">{stat.label}</p>
                 </div>
               ))}
             </div>
 
-            <p className="text-xs text-atlas-text-secondary mt-10 leading-relaxed max-w-md">
+            <p className="text-xs text-auriga-text-secondary mt-10 leading-relaxed max-w-md">
               Banking services provided by Swan, an Electronic Money Institution authorised by the ACPR (Autorité de Contrôle Prudentiel et de Résolution) in France.
             </p>
           </Reveal>
 
           <div className="space-y-6">
             {points.map((point, i) => (
-              <Reveal key={point.title} direction="left" delay={i * 100} className="bg-white rounded-2xl border border-atlas-border p-7">
+              <Reveal key={point.title} direction="left" delay={i * 100} className="bg-white rounded-2xl border border-auriga-border p-7">
                 <div className="flex items-start gap-5">
-                  <div className="w-12 h-12 rounded-2xl bg-atlas-accent/15 flex items-center justify-center text-atlas-text-primary shrink-0">
+                  <div className="w-12 h-12 rounded-2xl bg-auriga-accent/15 flex items-center justify-center text-auriga-text-primary shrink-0">
                     {point.icon}
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-atlas-text-primary mb-1.5">{point.title}</h3>
-                    <p className="text-base text-atlas-text-secondary leading-relaxed">{point.description}</p>
+                    <h3 className="text-lg font-bold text-auriga-text-primary mb-1.5">{point.title}</h3>
+                    <p className="text-base text-auriga-text-secondary leading-relaxed">{point.description}</p>
                   </div>
                 </div>
               </Reveal>

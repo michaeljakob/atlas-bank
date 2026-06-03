@@ -52,26 +52,26 @@ export function logoUrl(name: string, size = 64): string | null {
 }
 
 export const CATEGORY_COLORS: Record<string, string> = {
-  subscription: 'bg-atlas-black',
-  shopping: 'bg-atlas-heather-600',
-  food: 'bg-atlas-green-700',
-  groceries: 'bg-atlas-green-500',
-  transport: 'bg-atlas-heather-500',
-  travel: 'bg-atlas-black',
-  utilities: 'bg-atlas-heather-700',
-  salary: 'bg-atlas-accent',
-  freelance: 'bg-atlas-black',
-  transfer: 'bg-atlas-green-500',
-  other: 'bg-atlas-heather-400',
+  subscription: 'bg-auriga-black',
+  shopping: 'bg-auriga-heather-600',
+  food: 'bg-auriga-green-700',
+  groceries: 'bg-auriga-green-500',
+  transport: 'bg-auriga-heather-500',
+  travel: 'bg-auriga-black',
+  utilities: 'bg-auriga-heather-700',
+  salary: 'bg-auriga-accent',
+  freelance: 'bg-auriga-black',
+  transfer: 'bg-auriga-green-500',
+  other: 'bg-auriga-heather-400',
 };
 
 const INITIAL_COLORS = [
-  'bg-atlas-heather-100 text-atlas-text-primary',
-  'bg-atlas-green-50 text-atlas-green-700',
-  'bg-atlas-accent-100 text-atlas-accent-700',
-  'bg-atlas-heather-200 text-atlas-text-primary',
-  'bg-atlas-green-100 text-atlas-green-800',
-  'bg-atlas-heather-100 text-atlas-text-secondary',
+  'bg-auriga-heather-100 text-auriga-text-primary',
+  'bg-auriga-green-50 text-auriga-green-700',
+  'bg-auriga-accent-100 text-auriga-accent-700',
+  'bg-auriga-heather-200 text-auriga-text-primary',
+  'bg-auriga-green-100 text-auriga-green-800',
+  'bg-auriga-heather-100 text-auriga-text-secondary',
 ];
 
 export function hashColor(name: string): string {

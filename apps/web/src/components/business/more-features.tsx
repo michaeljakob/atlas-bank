@@ -46,11 +46,11 @@ export function MoreFeatures() {
     <section className="py-24 sm:py-36 bg-white">
       <Container>
         <Reveal as="div" className="max-w-3xl mb-12 sm:mb-16">
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-atlas-text-primary leading-[1.1]">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-auriga-text-primary leading-[1.1]">
             Everything else your{' '}
             <Highlight>business needs</Highlight>
           </h2>
-          <p className="mt-5 text-lg sm:text-xl text-atlas-text-secondary leading-relaxed">
+          <p className="mt-5 text-lg sm:text-xl text-auriga-text-secondary leading-relaxed">
             From team cards to accounting sync — the tools to run your finances,
             built into one beautifully simple account.
           </p>
@@ -61,13 +61,13 @@ export function MoreFeatures() {
             <Reveal
               key={feature.title}
               delay={(i % 2) * 90}
-              className="rounded-3xl border border-atlas-border/70 bg-white p-7 sm:p-8"
+              className="rounded-3xl border border-auriga-border/70 bg-white p-7 sm:p-8"
             >
-              <div className="w-12 h-12 rounded-2xl bg-atlas-accent/15 flex items-center justify-center text-atlas-text-primary mb-5">
+              <div className="w-12 h-12 rounded-2xl bg-auriga-accent/15 flex items-center justify-center text-auriga-text-primary mb-5">
                 {feature.icon}
               </div>
-              <h3 className="text-xl font-bold text-atlas-text-primary tracking-tight mb-2">{feature.title}</h3>
-              <p className="text-[15px] text-atlas-text-secondary leading-relaxed">{feature.description}</p>
+              <h3 className="text-xl font-bold text-auriga-text-primary tracking-tight mb-2">{feature.title}</h3>
+              <p className="text-[15px] text-auriga-text-secondary leading-relaxed">{feature.description}</p>
             </Reveal>
           ))}
         </div>

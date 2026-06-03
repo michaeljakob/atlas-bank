@@ -1,7 +1,7 @@
 import { Injectable, Inject, Logger, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { OnboardingProvider, AccountProvider, CardProvider } from '@atlas-bank/provider-contracts';
+import { OnboardingProvider, AccountProvider, CardProvider } from '@auriga-money/provider-contracts';
 import { OnboardingEntity, UserEntity, AccountEntity, CardEntity } from '@/database/entities';
 import { ONBOARDING_PROVIDER, ACCOUNT_PROVIDER, CARD_PROVIDER } from '@/providers/providers.module';
 import { EmailService } from '@/modules/email/email.service';

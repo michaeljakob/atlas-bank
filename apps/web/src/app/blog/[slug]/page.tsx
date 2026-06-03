@@ -56,7 +56,7 @@ export default async function BlogPostPage({ params }: Params) {
     datePublished: post.date,
     dateModified: post.date,
     author: { '@type': 'Organization', name: post.author },
-    publisher: { '@type': 'Organization', name: 'Atlas Bank' },
+    publisher: { '@type': 'Organization', name: 'Auriga Money' },
     mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE_URL}/blog/${post.slug}` },
     keywords: post.tags.join(', '),
   };
@@ -67,7 +67,7 @@ export default async function BlogPostPage({ params }: Params) {
       <main>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <Container className="max-w-2xl py-12 sm:py-16">
-          <Link href="/blog" className="inline-flex items-center gap-1.5 text-sm font-medium text-atlas-text-secondary hover:text-atlas-text-primary">
+          <Link href="/blog" className="inline-flex items-center gap-1.5 text-sm font-medium text-auriga-text-secondary hover:text-auriga-text-primary">
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
             </svg>
@@ -75,16 +75,16 @@ export default async function BlogPostPage({ params }: Params) {
           </Link>
 
           <article className="mt-8">
-            <header className="mb-8 border-b border-atlas-border/60 pb-8">
-              <div className="flex items-center gap-2 text-xs text-atlas-text-secondary">
+            <header className="mb-8 border-b border-auriga-border/60 pb-8">
+              <div className="flex items-center gap-2 text-xs text-auriga-text-secondary">
                 <time dateTime={post.date}>{formatDate(post.date)}</time>
                 <span aria-hidden>·</span>
                 <span>{post.readingMinutes} min read</span>
               </div>
-              <h1 className="mt-3 text-3xl sm:text-4xl font-semibold tracking-tight text-atlas-text-primary">
+              <h1 className="mt-3 text-3xl sm:text-4xl font-semibold tracking-tight text-auriga-text-primary">
                 {post.title}
               </h1>
-              <p className="mt-3 text-lg text-atlas-text-secondary">{post.description}</p>
+              <p className="mt-3 text-lg text-auriga-text-secondary">{post.description}</p>
             </header>
 
             <div>
@@ -92,12 +92,12 @@ export default async function BlogPostPage({ params }: Params) {
             </div>
           </article>
 
-          <div className="mt-12 rounded-2xl bg-atlas-dark-surface p-8 text-center">
+          <div className="mt-12 rounded-2xl bg-auriga-dark-surface p-8 text-center">
             <h2 className="text-xl font-semibold text-white">Open your free EUR account</h2>
             <p className="mt-2 text-sm text-white/70">A real EUR IBAN and a virtual Mastercard in about a minute.</p>
             <Link
               href="/onboarding"
-              className="mt-5 inline-flex h-11 items-center rounded-full bg-atlas-accent px-6 text-sm font-semibold text-atlas-dark-surface transition-transform hover:scale-[1.02]"
+              className="mt-5 inline-flex h-11 items-center rounded-full bg-auriga-accent px-6 text-sm font-semibold text-auriga-dark-surface transition-transform hover:scale-[1.02]"
             >
               Get started
             </Link>

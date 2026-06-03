@@ -7,7 +7,7 @@ import {
   UpdateCardInput,
   CardSecureDetailsUrl,
   WalletProvisioningData,
-} from '@atlas-bank/provider-contracts';
+} from '@auriga-money/provider-contracts';
 import { MockProviderStore } from './mock-store';
 
 /** Dev-only card provider backed by the in-memory mock store. */

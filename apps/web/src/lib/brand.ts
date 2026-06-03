@@ -1,5 +1,5 @@
 /**
- * Atlas Branding Kit — single source of truth for the official palette.
+ * Auriga Branding Kit — single source of truth for the official palette.
  *
  * These are the canonical brand colors. The same values are mirrored into the
  * Tailwind config (`tailwind.config.ts`) and CSS variables (`globals.css`).
@@ -21,17 +21,17 @@ export interface BrandColor {
   usage: string;
 }
 
-/** The five official Atlas brand colors. */
+/** The five official Auriga brand colors. */
 export const BRAND = {
   neon: {
-    name: 'Robin Neon',
+    name: 'Auriga Neon',
     hex: '#CCFF00',
     rgb: [204, 255, 0],
     pms: 'PMS 380 C',
     usage: 'Primary brand color. CTAs, highlights, key accents.',
   },
   black: {
-    name: 'Robin Black',
+    name: 'Auriga Black',
     hex: '#1C180D',
     rgb: [28, 24, 13],
     pms: 'PMS Black 2 C',
@@ -68,7 +68,7 @@ export const BRAND = {
 
 /** Tints/shades derived from the brand colors, used across the UI. */
 export const BRAND_SCALES = {
-  /** Robin Neon (#CCFF00) accent scale. */
+  /** Auriga Neon (#CCFF00) accent scale. */
   accent: {
     50: '#FAFFE5',
     100: '#F2FFB3',

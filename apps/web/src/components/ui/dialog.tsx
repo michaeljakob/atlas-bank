@@ -47,7 +47,7 @@ const DialogContent = React.forwardRef<
       {children}
       {showClose && (
         <DialogPrimitive.Close
-          className="absolute right-4 top-4 rounded-xl p-2 text-atlas-text-secondary transition-colors hover:bg-atlas-bg-subtle focus:outline-none focus:ring-2 focus:ring-atlas-accent/30"
+          className="absolute right-4 top-4 rounded-xl p-2 text-auriga-text-secondary transition-colors hover:bg-auriga-bg-subtle focus:outline-none focus:ring-2 focus:ring-auriga-accent/30"
           aria-label="Close"
         >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -67,7 +67,7 @@ function DialogHeader({ className, ...props }: React.HTMLAttributes<HTMLDivEleme
 function DialogTitle({ className, ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>) {
   return (
     <DialogPrimitive.Title
-      className={cn('text-xl font-semibold tracking-tight text-atlas-text-primary', className)}
+      className={cn('text-xl font-semibold tracking-tight text-auriga-text-primary', className)}
       {...props}
     />
   );
@@ -76,7 +76,7 @@ function DialogTitle({ className, ...props }: React.ComponentPropsWithoutRef<typ
 function DialogDescription({ className, ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>) {
   return (
     <DialogPrimitive.Description
-      className={cn('text-sm text-atlas-text-secondary', className)}
+      className={cn('text-sm text-auriga-text-secondary', className)}
       {...props}
     />
   );

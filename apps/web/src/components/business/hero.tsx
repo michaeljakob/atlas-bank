@@ -7,7 +7,7 @@ import { Highlight } from '@/components/ui/highlight';
 
 function CheckIcon() {
   return (
-    <svg className="w-4 h-4 text-atlas-black shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+    <svg className="w-4 h-4 text-auriga-black shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
     </svg>
   );
@@ -15,11 +15,11 @@ function CheckIcon() {
 
 function BusinessCard() {
   return (
-    <div className="relative aspect-[1.586/1] w-full rounded-2xl bg-atlas-black p-6 overflow-hidden shadow-[0_24px_60px_-12px_rgba(0,0,0,0.55)] ring-1 ring-white/10">
+    <div className="relative aspect-[1.586/1] w-full rounded-2xl bg-auriga-black p-6 overflow-hidden shadow-[0_24px_60px_-12px_rgba(0,0,0,0.55)] ring-1 ring-white/10">
       <div className="pointer-events-none absolute -inset-x-10 -top-24 h-40 rotate-12 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
       <div className="relative flex h-full flex-col justify-between">
         <div className="flex items-start justify-between">
-          <img src="/atlas-lockup-light.svg" alt="Atlas" className="h-5 w-auto opacity-90" />
+          <img src="/auriga-lockup-light.svg" alt="Auriga" className="h-5 w-auto opacity-90" />
           <span className="text-[9px] font-bold tracking-widest text-white/50">BUSINESS</span>
         </div>
         <div className="flex items-center gap-3">
@@ -47,15 +47,15 @@ export function BusinessHero() {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center pt-4 sm:pt-10 pb-16 sm:pb-24">
           {/* Left */}
           <Reveal direction="up">
-            <p className="text-[11px] font-bold uppercase tracking-widest text-atlas-text-secondary mb-5">
-              Atlas Business
+            <p className="text-[11px] font-bold uppercase tracking-widest text-auriga-text-secondary mb-5">
+              Auriga Business
             </p>
 
-            <h1 className="text-[2.75rem] sm:text-6xl lg:text-[4.25rem] font-bold tracking-tight text-atlas-text-primary leading-[1.08]">
+            <h1 className="text-[2.75rem] sm:text-6xl lg:text-[4.25rem] font-bold tracking-tight text-auriga-text-primary leading-[1.08]">
               The business account for{' '}
               <Highlight>going global</Highlight>
             </h1>
-            <p className="mt-6 text-lg sm:text-xl text-atlas-text-secondary leading-relaxed max-w-lg">
+            <p className="mt-6 text-lg sm:text-xl text-auriga-text-secondary leading-relaxed max-w-lg">
               Make payments, get paid, and manage finances in EUR. One account for
               your startup, agency, or freelance practice — without the bureaucracy.
             </p>
@@ -69,7 +69,7 @@ export function BusinessHero() {
               </Button>
             </div>
 
-            <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-atlas-text-secondary">
+            <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-auriga-text-secondary">
               <span className="flex items-center gap-1.5"><CheckIcon />No monthly fee</span>
               <span className="flex items-center gap-1.5"><CheckIcon />Team cards</span>
               <span className="flex items-center gap-1.5"><CheckIcon />EU regulated</span>

@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { MerchantLogo } from '@/components/ui/merchant-logo';
 import { api } from '@/lib/api';
-import { formatMoney } from '@atlas-bank/shared';
+import { formatMoney } from '@auriga-money/shared';
 import { clsx } from 'clsx';
 import { toast } from 'sonner';
 
@@ -102,7 +102,7 @@ export default function TransactionDetailPage() {
   if (loading) {
     return (
       <div className="min-h-[calc(100vh-5rem)] flex items-center justify-center px-4">
-        <div className="w-6 h-6 border-2 border-atlas-accent border-t-transparent rounded-full animate-spin" />
+        <div className="w-6 h-6 border-2 border-auriga-accent border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -110,13 +110,13 @@ export default function TransactionDetailPage() {
   if (!transaction) {
     return (
       <div className="min-h-[calc(100vh-5rem)] flex flex-col items-center justify-center px-4 text-center">
-        <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-atlas-bg-subtle">
-          <svg className="h-7 w-7 text-atlas-text-secondary/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.2}>
+        <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-auriga-bg-subtle">
+          <svg className="h-7 w-7 text-auriga-text-secondary/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </div>
         <h1 className="text-lg font-semibold tracking-tight">Transaction not found</h1>
-        <p className="text-sm text-atlas-text-secondary mt-1 mb-6">We couldn&apos;t find the transaction you&apos;re looking for.</p>
+        <p className="text-sm text-auriga-text-secondary mt-1 mb-6">We couldn&apos;t find the transaction you&apos;re looking for.</p>
         <Button variant="secondary" onClick={() => router.back()}>Go back</Button>
       </div>
     );
@@ -137,7 +137,7 @@ export default function TransactionDetailPage() {
         {/* Back */}
         <button
           onClick={() => router.back()}
-          className="flex items-center gap-1.5 text-sm text-atlas-text-secondary hover:text-atlas-text-primary transition-colors"
+          className="flex items-center gap-1.5 text-sm text-auriga-text-secondary hover:text-auriga-text-primary transition-colors"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
@@ -146,61 +146,61 @@ export default function TransactionDetailPage() {
         </button>
 
         {/* Hero */}
-        <div className="bg-white rounded-2xl border border-atlas-border/70 p-8 text-center">
+        <div className="bg-white rounded-2xl border border-auriga-border/70 p-8 text-center">
           <div className="inline-flex">
             <MerchantLogo name={transaction.counterpartyName} size={64} className="text-xl" />
           </div>
           <p className="text-base font-semibold mt-4">{transaction.counterpartyName}</p>
           <p className={clsx(
             'text-4xl font-semibold mt-3 tabular-nums tracking-tight',
-            isOutbound ? 'text-atlas-text-primary' : 'text-atlas-success',
+            isOutbound ? 'text-auriga-text-primary' : 'text-auriga-success',
           )}>
             {isOutbound ? '−' : '+'}{formatMoney(transaction.amountCents, transaction.currency)}
           </p>
           <span className={clsx(
             'inline-flex items-center gap-1.5 mt-3 px-3 py-1 rounded-full text-xs font-medium',
             transaction.status === 'pending'
-              ? 'bg-atlas-accent/15 text-atlas-accent-700'
+              ? 'bg-auriga-accent/15 text-auriga-accent-700'
               : transaction.status === 'scheduled'
-                ? 'bg-atlas-heather-100 text-atlas-heather-600'
-                : 'bg-atlas-green-50 text-atlas-green-700',
+                ? 'bg-auriga-heather-100 text-auriga-heather-600'
+                : 'bg-auriga-green-50 text-auriga-green-700',
           )}>
             <span className={clsx(
               'w-1.5 h-1.5 rounded-full',
-              transaction.status === 'pending' ? 'bg-atlas-accent-600' : transaction.status === 'scheduled' ? 'bg-atlas-heather-400' : 'bg-atlas-black',
+              transaction.status === 'pending' ? 'bg-auriga-accent-600' : transaction.status === 'scheduled' ? 'bg-auriga-heather-400' : 'bg-auriga-black',
             )} />
             {STATUS_LABEL[transaction.status]}
           </span>
         </div>
 
         {/* Details */}
-        <div className="bg-white rounded-2xl border border-atlas-border/70 p-5">
-          <p className="text-[13px] font-medium uppercase tracking-wider text-atlas-text-secondary mb-2">
+        <div className="bg-white rounded-2xl border border-auriga-border/70 p-5">
+          <p className="text-[13px] font-medium uppercase tracking-wider text-auriga-text-secondary mb-2">
             Details
           </p>
           <div className="space-y-0">
             {detailRows.map((row) => (
-              <div key={row.label} className="flex justify-between items-center gap-4 py-3 border-b border-atlas-border/40 last:border-0">
-                <span className="text-sm text-atlas-text-secondary">{row.label}</span>
-                <span className="text-sm font-medium text-atlas-text-primary text-right">{row.value}</span>
+              <div key={row.label} className="flex justify-between items-center gap-4 py-3 border-b border-auriga-border/40 last:border-0">
+                <span className="text-sm text-auriga-text-secondary">{row.label}</span>
+                <span className="text-sm font-medium text-auriga-text-primary text-right">{row.value}</span>
               </div>
             ))}
             {transaction.counterpartyIban && (
-              <div className="flex justify-between items-center gap-4 py-3 border-t border-atlas-border/40">
-                <span className="text-sm text-atlas-text-secondary">IBAN</span>
+              <div className="flex justify-between items-center gap-4 py-3 border-t border-auriga-border/40">
+                <span className="text-sm text-auriga-text-secondary">IBAN</span>
                 <button
                   onClick={() => copy(transaction.counterpartyIban!, 'iban')}
-                  className="text-xs font-mono font-medium text-atlas-text-primary text-right hover:text-atlas-accent transition-colors"
+                  className="text-xs font-mono font-medium text-auriga-text-primary text-right hover:text-auriga-accent transition-colors"
                 >
                   {copied === 'iban' ? 'Copied!' : transaction.counterpartyIban}
                 </button>
               </div>
             )}
-            <div className="flex justify-between items-center gap-4 py-3 border-t border-atlas-border/40">
-              <span className="text-sm text-atlas-text-secondary">Transaction ID</span>
+            <div className="flex justify-between items-center gap-4 py-3 border-t border-auriga-border/40">
+              <span className="text-sm text-auriga-text-secondary">Transaction ID</span>
               <button
                 onClick={() => copy(transaction.id, 'id')}
-                className="text-xs font-mono font-medium text-atlas-text-primary text-right hover:text-atlas-accent transition-colors truncate max-w-[60%]"
+                className="text-xs font-mono font-medium text-auriga-text-primary text-right hover:text-auriga-accent transition-colors truncate max-w-[60%]"
               >
                 {copied === 'id' ? 'Copied!' : transaction.id}
               </button>

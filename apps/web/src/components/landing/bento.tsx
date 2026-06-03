@@ -9,12 +9,12 @@ import { CardChip, ContactlessIcon } from '@/components/ui/card-art';
 /** App-icon style square used inside the accent pill CTA (à la bento references). */
 function AppGlyph() {
   return (
-    <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-atlas-accent">
+    <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-auriga-accent">
       <span className="grid grid-cols-3 gap-[2px]">
         {Array.from({ length: 9 }).map((_, i) => (
           <span
             key={i}
-            className="h-[3px] w-[3px] rounded-[1px] bg-atlas-black/80"
+            className="h-[3px] w-[3px] rounded-[1px] bg-auriga-black/80"
           />
         ))}
       </span>
@@ -34,7 +34,7 @@ function PillCTA({
   return (
     <Link
       href={href as Route}
-      className={`group inline-flex items-center gap-2.5 rounded-full bg-atlas-black py-1.5 pl-1.5 pr-5 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5 ${className ?? ''}`}
+      className={`group inline-flex items-center gap-2.5 rounded-full bg-auriga-black py-1.5 pl-1.5 pr-5 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5 ${className ?? ''}`}
     >
       <AppGlyph />
       {label}
@@ -46,7 +46,7 @@ function Badge({ children, light = false }: { children: React.ReactNode; light?:
   return (
     <span
       className={`text-[11px] font-bold uppercase tracking-widest ${
-        light ? 'text-white/50' : 'text-atlas-text-secondary'
+        light ? 'text-white/50' : 'text-auriga-text-secondary'
       }`}
     >
       {children}
@@ -58,14 +58,14 @@ const flagCluster = ['DE', 'FR', 'ES', 'IT', 'NL', 'PT', 'AT', 'IE'];
 
 export function Bento() {
   return (
-    <section className="py-24 sm:py-36 bg-atlas-bg-subtle">
+    <section className="py-24 sm:py-36 bg-auriga-bg-subtle">
       <Container>
         <Reveal as="div" className="max-w-3xl mb-12 sm:mb-16">
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-atlas-text-primary leading-[1.1]">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-auriga-text-primary leading-[1.1]">
             One account.{' '}
             <Highlight>Everything you need.</Highlight>
           </h2>
-          <p className="mt-5 text-lg sm:text-xl text-atlas-text-secondary leading-relaxed">
+          <p className="mt-5 text-lg sm:text-xl text-auriga-text-secondary leading-relaxed">
             A real EUR IBAN, an instant Mastercard, lightning-fast SEPA, and
             bank-grade security — all in one beautifully simple app.
           </p>
@@ -74,14 +74,14 @@ export function Bento() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 sm:gap-5 auto-rows-[minmax(176px,auto)]">
           {/* A — Card showcase (dark, tall) */}
           <Reveal
-            className="md:col-span-2 lg:col-span-4 lg:row-span-2 relative overflow-hidden rounded-3xl bg-atlas-black p-7 sm:p-8 flex flex-col"
+            className="md:col-span-2 lg:col-span-4 lg:row-span-2 relative overflow-hidden rounded-3xl bg-auriga-black p-7 sm:p-8 flex flex-col"
           >
             <div className="relative">
               <Badge light>Mastercard Debit</Badge>
               <h3 className="mt-3 text-2xl sm:text-3xl font-bold text-white tracking-tight">
                 Spend anywhere, instantly
               </h3>
-              <p className="mt-3 text-[15px] text-atlas-heather-300 leading-relaxed max-w-xs">
+              <p className="mt-3 text-[15px] text-auriga-heather-300 leading-relaxed max-w-xs">
                 A virtual Mastercard the second you sign up. Add it to Apple Pay
                 &amp; Google Pay and tap to pay in 210+ countries.
               </p>
@@ -89,10 +89,10 @@ export function Bento() {
 
             {/* Mini card visual */}
             <div className="relative mt-8 mb-8 flex-1 flex items-center">
-              <div className="relative w-full max-w-[300px] mx-auto aspect-[1.586/1] rounded-2xl bg-atlas-black p-5 overflow-hidden shadow-[0_20px_50px_-20px_rgba(0,0,0,0.8)] ring-1 ring-white/10">
+              <div className="relative w-full max-w-[300px] mx-auto aspect-[1.586/1] rounded-2xl bg-auriga-black p-5 overflow-hidden shadow-[0_20px_50px_-20px_rgba(0,0,0,0.8)] ring-1 ring-white/10">
                 <div className="relative flex h-full flex-col justify-between">
                   <div className="flex items-start justify-between">
-                    <img src="/atlas-lockup-light.svg" alt="Atlas" className="h-5 w-auto opacity-90" />
+                    <img src="/auriga-lockup-light.svg" alt="Auriga" className="h-5 w-auto opacity-90" />
                     <span className="text-[9px] font-bold tracking-widest text-white/50">DEBIT</span>
                   </div>
                   <div className="flex items-center gap-3">
@@ -120,25 +120,25 @@ export function Bento() {
           {/* B — IBAN (white) */}
           <Reveal
             delay={80}
-            className="lg:col-span-4 relative overflow-hidden rounded-3xl bg-white border border-atlas-border/70 p-7 sm:p-8 flex flex-col justify-between"
+            className="lg:col-span-4 relative overflow-hidden rounded-3xl bg-white border border-auriga-border/70 p-7 sm:p-8 flex flex-col justify-between"
           >
             <div>
               <Badge>Your own IBAN</Badge>
-              <h3 className="mt-3 text-xl sm:text-2xl font-bold text-atlas-text-primary tracking-tight">
+              <h3 className="mt-3 text-xl sm:text-2xl font-bold text-auriga-text-primary tracking-tight">
                 A real IBAN, in your name
               </h3>
-              <p className="mt-2 text-[15px] text-atlas-text-secondary leading-relaxed">
+              <p className="mt-2 text-[15px] text-auriga-text-secondary leading-relaxed">
                 Receive salary and invoices, set up direct debits — like a local.
               </p>
             </div>
-            <div className="mt-6 flex items-center gap-3 rounded-2xl bg-atlas-bg-subtle px-4 py-3.5">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-atlas-accent/20 text-xs font-bold text-atlas-text-primary">
+            <div className="mt-6 flex items-center gap-3 rounded-2xl bg-auriga-bg-subtle px-4 py-3.5">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-auriga-accent/20 text-xs font-bold text-auriga-text-primary">
                 €
               </span>
-              <span className="font-mono text-sm tracking-wide text-atlas-text-primary">
+              <span className="font-mono text-sm tracking-wide text-auriga-text-primary">
                 DE89 3704 0044 •••• •••• 00
               </span>
-              <span className="ml-auto text-[10px] font-bold uppercase tracking-wider text-atlas-green-700 bg-atlas-green-50 px-2 py-1 rounded-full">
+              <span className="ml-auto text-[10px] font-bold uppercase tracking-wider text-auriga-green-700 bg-auriga-green-50 px-2 py-1 rounded-full">
                 Active
               </span>
             </div>
@@ -147,14 +147,14 @@ export function Bento() {
           {/* C — Security (dark) */}
           <Reveal
             delay={160}
-            className="md:col-span-1 lg:col-span-4 relative overflow-hidden rounded-3xl bg-atlas-black p-7 sm:p-8 flex flex-col justify-between"
+            className="md:col-span-1 lg:col-span-4 relative overflow-hidden rounded-3xl bg-auriga-black p-7 sm:p-8 flex flex-col justify-between"
           >
             <div className="relative">
               <Badge light>Security</Badge>
               <h3 className="mt-3 text-xl sm:text-2xl font-bold text-white tracking-tight">
                 Protected by design
               </h3>
-              <p className="mt-2 text-[15px] text-atlas-heather-300 leading-relaxed">
+              <p className="mt-2 text-[15px] text-auriga-heather-300 leading-relaxed">
                 EU-regulated, funds safeguarded, real-time fraud monitoring.
               </p>
             </div>
@@ -166,7 +166,7 @@ export function Bento() {
               </span>
               <div className="text-sm">
                 <p className="font-semibold text-white">ACPR regulated</p>
-                <p className="text-atlas-heather-300">PSD2 · 3-D Secure · 24/7 monitoring</p>
+                <p className="text-auriga-heather-300">PSD2 · 3-D Secure · 24/7 monitoring</p>
               </div>
             </div>
           </Reveal>
@@ -174,14 +174,14 @@ export function Bento() {
           {/* D — SEPA Instant (white) */}
           <Reveal
             delay={120}
-            className="lg:col-span-4 relative overflow-hidden rounded-3xl bg-white border border-atlas-border/70 p-7 sm:p-8 flex flex-col justify-between"
+            className="lg:col-span-4 relative overflow-hidden rounded-3xl bg-white border border-auriga-border/70 p-7 sm:p-8 flex flex-col justify-between"
           >
             <div>
               <Badge>SEPA Instant</Badge>
-              <h3 className="mt-3 text-xl sm:text-2xl font-bold text-atlas-text-primary tracking-tight">
+              <h3 className="mt-3 text-xl sm:text-2xl font-bold text-auriga-text-primary tracking-tight">
                 Send money in seconds
               </h3>
-              <p className="mt-2 text-[15px] text-atlas-text-secondary leading-relaxed">
+              <p className="mt-2 text-[15px] text-auriga-text-secondary leading-relaxed">
                 Transfers land in under 10 seconds, 24/7. Zero FX markup.
               </p>
             </div>
@@ -191,9 +191,9 @@ export function Bento() {
                 { v: '24/7', l: 'Always on' },
                 { v: '0%', l: 'FX markup' },
               ].map((s) => (
-                <div key={s.l} className="rounded-2xl bg-atlas-bg-subtle px-3 py-3 text-center">
-                  <p className="text-lg font-bold tracking-tight text-atlas-text-primary">{s.v}</p>
-                  <p className="text-[11px] font-medium text-atlas-text-secondary">{s.l}</p>
+                <div key={s.l} className="rounded-2xl bg-auriga-bg-subtle px-3 py-3 text-center">
+                  <p className="text-lg font-bold tracking-tight text-auriga-text-primary">{s.v}</p>
+                  <p className="text-[11px] font-medium text-auriga-text-secondary">{s.l}</p>
                 </div>
               ))}
             </div>
@@ -202,14 +202,14 @@ export function Bento() {
           {/* E — Countries (white) */}
           <Reveal
             delay={200}
-            className="lg:col-span-4 relative overflow-hidden rounded-3xl bg-white border border-atlas-border/70 p-7 sm:p-8 flex flex-col justify-between"
+            className="lg:col-span-4 relative overflow-hidden rounded-3xl bg-white border border-auriga-border/70 p-7 sm:p-8 flex flex-col justify-between"
           >
             <div>
               <Badge>30+ countries</Badge>
-              <h3 className="mt-3 text-xl sm:text-2xl font-bold text-atlas-text-primary tracking-tight">
+              <h3 className="mt-3 text-xl sm:text-2xl font-bold text-auriga-text-primary tracking-tight">
                 Borderless by default
               </h3>
-              <p className="mt-2 text-[15px] text-atlas-text-secondary leading-relaxed">
+              <p className="mt-2 text-[15px] text-auriga-text-secondary leading-relaxed">
                 Open from anywhere in the EEA. No local address required.
               </p>
             </div>
@@ -219,7 +219,7 @@ export function Bento() {
                   <Flag key={code} code={code} className="h-8 w-8 ring-2 ring-white" />
                 ))}
               </div>
-              <span className="ml-3 text-sm font-semibold text-atlas-text-secondary">+22 more</span>
+              <span className="ml-3 text-sm font-semibold text-auriga-text-secondary">+22 more</span>
             </div>
           </Reveal>
         </div>

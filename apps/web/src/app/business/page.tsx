@@ -14,7 +14,7 @@ import { BusinessFAQ } from '@/components/business/faq';
 import { BusinessCTA } from '@/components/business/cta';
 
 export const metadata: Metadata = {
-  title: 'Atlas Business — The business account for going global',
+  title: 'Auriga Business — The business account for going global',
   description:
     'Make payments, get paid, spend and manage finances across borders. The only account your startup or scale-up needs to thrive internationally.',
 };

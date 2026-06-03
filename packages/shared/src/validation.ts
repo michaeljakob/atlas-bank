@@ -64,7 +64,7 @@ export const HANDLE_MAX_LENGTH = 20;
 
 /** Handles reserved for routes/system use and therefore not claimable. */
 export const RESERVED_HANDLES = new Set([
-  'atlas', 'admin', 'support', 'help', 'about', 'login', 'signup', 'onboarding',
+  'auriga', 'admin', 'support', 'help', 'about', 'login', 'signup', 'onboarding',
   'app', 'api', 'pay', 'me', 'settings', 'business', 'careers', 'legal', 'terms',
   'privacy', 'blog', 'root', 'system', 'security', 'team', 'contact', 'billing',
 ]);

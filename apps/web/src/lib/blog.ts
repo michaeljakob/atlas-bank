@@ -29,7 +29,7 @@ function readPostFile(slug: string): Post | null {
     title: String(data.title ?? slug),
     description: String(data.description ?? ''),
     date: String(data.date ?? new Date().toISOString()),
-    author: String(data.author ?? 'Atlas'),
+    author: String(data.author ?? 'Auriga'),
     tags: Array.isArray(data.tags) ? data.tags.map(String) : [],
     readingMinutes: Math.max(1, Math.round(words / 200)),
     content,

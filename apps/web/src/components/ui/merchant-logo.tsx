@@ -32,7 +32,7 @@ export function MerchantLogo({ name, size = 36, className }: MerchantLogoProps) 
 
   return (
     <div
-      className={clsx('rounded-full overflow-hidden flex-shrink-0 bg-atlas-bg-subtle', className)}
+      className={clsx('rounded-full overflow-hidden flex-shrink-0 bg-auriga-bg-subtle', className)}
       style={dimension}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}

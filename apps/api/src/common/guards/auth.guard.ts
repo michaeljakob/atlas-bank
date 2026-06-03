@@ -31,7 +31,7 @@ export class AuthGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
 
     if (isAuthBypassEnabled()) {
-      request.user = { id: 'dev-user', email: 'dev@atlas-bank.local', role: 'admin' };
+      request.user = { id: 'dev-user', email: 'dev@auriga-money.local', role: 'admin' };
       return true;
     }
 

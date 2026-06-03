@@ -1,9 +1,9 @@
-# Render blueprint for the Atlas Bank API (the web app is deployed on Vercel).
+# Render blueprint for the Auriga Money API (the web app is deployed on Vercel).
 # Secrets (JWT_SECRET, ENCRYPTION_KEY, SWAN_*, RESEND_API_KEY, SENTRY_DSN) are
 # set in the Render dashboard / env groups, never committed.
 services:
   - type: web
-    name: atlas-api
+    name: auriga-api
     runtime: docker
     dockerfilePath: ./apps/api/Dockerfile
     dockerContext: .
@@ -16,21 +16,21 @@ services:
         value: 4000
       - key: DATABASE_URL
         fromDatabase:
-          name: atlas-postgres
+          name: auriga-postgres
           property: connectionString
       - key: REDIS_URL
         fromService:
-          name: atlas-redis
+          name: auriga-redis
           type: redis
           property: connectionString
-      - fromGroup: atlas-secrets
+      - fromGroup: auriga-secrets
 
   - type: redis
-    name: atlas-redis
+    name: auriga-redis
     plan: standard
     ipAllowList: []
 
 databases:
-  - name: atlas-postgres
+  - name: auriga-postgres
     plan: standard
     postgresMajorVersion: "15"

@@ -5,8 +5,8 @@ import { Reveal } from '@/components/ui/reveal';
 
 const features = [
   {
-    accent: 'bg-atlas-accent/10',
-    iconBg: 'bg-atlas-accent/20',
+    accent: 'bg-auriga-accent/10',
+    iconBg: 'bg-auriga-accent/20',
     icon: (
       <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
@@ -68,7 +68,7 @@ const features = [
 
 function FeatureCheck() {
   return (
-    <svg className="w-4 h-4 text-atlas-accent-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+    <svg className="w-4 h-4 text-auriga-accent-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
     </svg>
   );
@@ -79,11 +79,11 @@ export function Features() {
     <section className="py-24 sm:py-36 bg-white">
       <Container>
         <Reveal as="div" className="max-w-3xl mb-16 sm:mb-20">
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-atlas-text-primary leading-[1.1]">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-auriga-text-primary leading-[1.1]">
             Make your money{' '}
-            <span className="text-atlas-accent">do more</span>
+            <span className="text-auriga-accent">do more</span>
           </h2>
-          <p className="mt-5 text-lg sm:text-xl text-atlas-text-secondary leading-relaxed">
+          <p className="mt-5 text-lg sm:text-xl text-auriga-text-secondary leading-relaxed">
             Receive, spend, and manage money across Europe as easily as you do at home. 
             One account. Everything you need.
           </p>
@@ -98,19 +98,19 @@ export function Features() {
             >
               <div className="grid lg:grid-cols-2 gap-8 lg:gap-14 items-start">
                 <div>
-                  <div className={`w-14 h-14 rounded-2xl ${feature.iconBg} flex items-center justify-center text-atlas-text-primary mb-6`}>
+                  <div className={`w-14 h-14 rounded-2xl ${feature.iconBg} flex items-center justify-center text-auriga-text-primary mb-6`}>
                     {feature.icon}
                   </div>
-                  <span className="text-xs font-bold text-atlas-text-secondary uppercase tracking-widest">{feature.badge}</span>
-                  <h3 className="text-2xl sm:text-3xl font-bold text-atlas-text-primary tracking-tight mt-2 mb-4">
+                  <span className="text-xs font-bold text-auriga-text-secondary uppercase tracking-widest">{feature.badge}</span>
+                  <h3 className="text-2xl sm:text-3xl font-bold text-auriga-text-primary tracking-tight mt-2 mb-4">
                     {feature.headline}
                   </h3>
-                  <p className="text-base sm:text-lg text-atlas-text-secondary leading-relaxed">
+                  <p className="text-base sm:text-lg text-auriga-text-secondary leading-relaxed">
                     {feature.description}
                   </p>
                   <Link
                     href={feature.href as Route}
-                    className="inline-flex items-center gap-2 mt-6 text-sm font-semibold text-atlas-text-primary hover:text-atlas-accent-600 transition-colors group"
+                    className="inline-flex items-center gap-2 mt-6 text-sm font-semibold text-auriga-text-primary hover:text-auriga-accent-600 transition-colors group"
                   >
                     {feature.cta}
                     <svg className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -123,7 +123,7 @@ export function Features() {
                     {feature.details.map((detail) => (
                       <li key={detail} className="flex items-start gap-3">
                         <FeatureCheck />
-                        <span className="text-base font-medium text-atlas-text-primary">{detail}</span>
+                        <span className="text-base font-medium text-auriga-text-primary">{detail}</span>
                       </li>
                     ))}
                   </ul>

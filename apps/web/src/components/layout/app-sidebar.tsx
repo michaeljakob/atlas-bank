@@ -37,9 +37,9 @@ export function AppSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="hidden md:flex flex-col w-[240px] border-r border-atlas-border bg-white py-6 px-4 sticky top-0 h-screen">
+    <aside className="hidden md:flex flex-col w-[240px] border-r border-auriga-border bg-white py-6 px-4 sticky top-0 h-screen">
       <Link href="/app/dashboard" className="flex items-center px-3 mb-10">
-        <img src="/atlas-lockup.svg" alt="Atlas" className="h-7 w-auto" />
+        <img src="/auriga-lockup.svg" alt="Auriga" className="h-7 w-auto" />
       </Link>
 
       <nav className="space-y-0.5 flex-1">
@@ -52,8 +52,8 @@ export function AppSidebar() {
               className={clsx(
                 'flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-150',
                 isActive
-                  ? 'bg-atlas-bg-subtle text-atlas-text-primary'
-                  : 'text-atlas-text-secondary hover:text-atlas-text-primary'
+                  ? 'bg-auriga-bg-subtle text-auriga-text-primary'
+                  : 'text-auriga-text-secondary hover:text-auriga-text-primary'
               )}
             >
               <svg className="w-[18px] h-[18px] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -65,7 +65,7 @@ export function AppSidebar() {
         })}
       </nav>
 
-      <div className="border-t border-atlas-border pt-4">
+      <div className="border-t border-auriga-border pt-4">
         <AccountSwitcher />
       </div>
     </aside>

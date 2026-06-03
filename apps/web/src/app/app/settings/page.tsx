@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Flag } from '@/components/ui/flag';
 import { HandleSettings } from '@/components/handle/handle-settings';
-import { REGULATORY_DISCLOSURE } from '@atlas-bank/shared';
+import { REGULATORY_DISCLOSURE } from '@auriga-money/shared';
 import { api } from '@/lib/api';
 import { clsx } from 'clsx';
 
@@ -40,8 +40,8 @@ export default function SettingsPage() {
                 className={clsx(
                   'flex items-center gap-2.5 px-3 py-2 rounded-xl text-[13px] font-medium transition-colors whitespace-nowrap',
                   activeTab === tab.id
-                    ? 'bg-atlas-bg-subtle text-atlas-text-primary'
-                    : 'text-atlas-text-secondary hover:text-atlas-text-primary'
+                    ? 'bg-auriga-bg-subtle text-auriga-text-primary'
+                    : 'text-auriga-text-secondary hover:text-auriga-text-primary'
                 )}
               >
                 <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -69,7 +69,7 @@ export default function SettingsPage() {
 
 function SectionHeader({ children }: { children: React.ReactNode }) {
   return (
-    <h3 className="text-[13px] font-semibold uppercase tracking-wider text-atlas-text-secondary mb-4">
+    <h3 className="text-[13px] font-semibold uppercase tracking-wider text-auriga-text-secondary mb-4">
       {children}
     </h3>
   );
@@ -77,7 +77,7 @@ function SectionHeader({ children }: { children: React.ReactNode }) {
 
 function Card({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={clsx('bg-white rounded-2xl border border-atlas-border/70 p-5', className)}>
+    <div className={clsx('bg-white rounded-2xl border border-auriga-border/70 p-5', className)}>
       {children}
     </div>
   );
@@ -96,7 +96,7 @@ function PersonalSection() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `atlas-data-export-${new Date().toISOString().slice(0, 10)}.json`;
+      a.download = `auriga-data-export-${new Date().toISOString().slice(0, 10)}.json`;
       a.click();
       URL.revokeObjectURL(url);
       toast.success('Your data export has been downloaded');
@@ -127,19 +127,19 @@ function PersonalSection() {
   return (
     <div className="space-y-5">
       <Card>
-        <div className="flex items-center gap-4 pb-5 mb-5 border-b border-atlas-border/50">
-          <div className="w-14 h-14 rounded-full bg-atlas-accent flex items-center justify-center">
-            <span className="text-base font-bold text-atlas-black">AJ</span>
+        <div className="flex items-center gap-4 pb-5 mb-5 border-b border-auriga-border/50">
+          <div className="w-14 h-14 rounded-full bg-auriga-accent flex items-center justify-center">
+            <span className="text-base font-bold text-auriga-black">AJ</span>
           </div>
           <div className="flex-1 min-w-0">
             <h2 className="text-base font-semibold">Alex Johnson</h2>
-            <p className="text-[13px] text-atlas-text-secondary">Personal account</p>
+            <p className="text-[13px] text-auriga-text-secondary">Personal account</p>
           </div>
           <Badge variant="success">Verified</Badge>
         </div>
 
         <SectionHeader>Basic information</SectionHeader>
-        <div className="divide-y divide-atlas-border/50">
+        <div className="divide-y divide-auriga-border/50">
           <DetailRow label="Full name" value="Alex Johnson" />
           <DetailRow label="Email" value="alex@example.com" />
           <DetailRow label="Phone" value="+49 170 •••• 4589" />
@@ -151,7 +151,7 @@ function PersonalSection() {
 
       <Card>
         <SectionHeader>Payment handle</SectionHeader>
-        <p className="text-[13px] text-atlas-text-secondary mb-4">
+        <p className="text-[13px] text-auriga-text-secondary mb-4">
           Your @handle lets others send and request money without sharing your IBAN.
         </p>
         <HandleSettings />
@@ -159,7 +159,7 @@ function PersonalSection() {
 
       <Card>
         <SectionHeader>Residential address</SectionHeader>
-        <div className="divide-y divide-atlas-border/50">
+        <div className="divide-y divide-auriga-border/50">
           <DetailRow label="Street" value="Friedrichstraße 123" />
           <DetailRow label="Apartment / Floor" value="4. OG, Apt 12" />
           <DetailRow label="Postal code" value="10117" />
@@ -167,14 +167,14 @@ function PersonalSection() {
           <DetailRow label="State" value="Berlin" />
           <DetailRow label="Country" value={<><Flag code="DE" name="Germany" className="w-4 h-4" />Germany</>} />
         </div>
-        <p className="text-xs text-atlas-text-secondary mt-4">
+        <p className="text-xs text-auriga-text-secondary mt-4">
           To update your address, please contact support with proof of residency.
         </p>
       </Card>
 
       <Card>
         <SectionHeader>Tax & employment</SectionHeader>
-        <div className="divide-y divide-atlas-border/50">
+        <div className="divide-y divide-auriga-border/50">
           <DetailRow label="Tax residency" value="Germany" />
           <DetailRow label="Tax ID (TIN)" value="•••••••••• 47" />
           <DetailRow label="Employment status" value="Employed" />
@@ -185,7 +185,7 @@ function PersonalSection() {
 
       <Card>
         <SectionHeader>Account details</SectionHeader>
-        <div className="divide-y divide-atlas-border/50">
+        <div className="divide-y divide-auriga-border/50">
           <DetailRow label="Account ID" value="ATL-8291-4523" />
           <DetailRow label="IBAN" value="DE89 •••• •••• •••• •••• 42" />
           <DetailRow label="BIC / SWIFT" value="ATLSDEFFXXX" />
@@ -196,7 +196,7 @@ function PersonalSection() {
 
       <Card>
         <SectionHeader>Your data</SectionHeader>
-        <p className="text-[13px] text-atlas-text-secondary leading-relaxed mb-4">
+        <p className="text-[13px] text-auriga-text-secondary leading-relaxed mb-4">
           Download a machine-readable copy of your personal data, accounts and transactions (GDPR Art. 20).
         </p>
         <Button variant="outline" size="sm" onClick={handleExport} loading={exporting}>
@@ -205,20 +205,20 @@ function PersonalSection() {
       </Card>
 
       <details className="group">
-        <summary className="text-[13px] text-atlas-text-secondary cursor-pointer hover:text-atlas-text-primary transition-colors list-none flex items-center gap-1.5">
+        <summary className="text-[13px] text-auriga-text-secondary cursor-pointer hover:text-auriga-text-primary transition-colors list-none flex items-center gap-1.5">
           <svg className="w-3.5 h-3.5 transition-transform group-open:rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
           </svg>
           Close my account
         </summary>
-        <div className="mt-4 bg-white rounded-2xl border border-atlas-error/20 p-5">
-          <p className="text-[13px] text-atlas-text-secondary leading-relaxed mb-4">
+        <div className="mt-4 bg-white rounded-2xl border border-auriga-error/20 p-5">
+          <p className="text-[13px] text-auriga-text-secondary leading-relaxed mb-4">
             Closing your account will permanently deactivate your IBAN and card and erase your data (GDPR Art. 17). Any remaining balance must be transferred out first.
           </p>
           <Button
             variant="ghost"
             size="sm"
-            className="text-atlas-error hover:bg-atlas-error/10"
+            className="text-auriga-error hover:bg-auriga-error/10"
             onClick={handleCloseAccount}
             loading={deleting}
           >
@@ -243,7 +243,7 @@ function PreferencesSection() {
     <div className="space-y-5">
       <Card>
         <SectionHeader>Display & currency</SectionHeader>
-        <div className="divide-y divide-atlas-border/50">
+        <div className="divide-y divide-auriga-border/50">
           <SelectRow
             label="Main display currency"
             description="All balances and totals shown in this currency"
@@ -290,7 +290,7 @@ function PreferencesSection() {
 
       <Card>
         <SectionHeader>Language & region</SectionHeader>
-        <div className="divide-y divide-atlas-border/50">
+        <div className="divide-y divide-auriga-border/50">
           <SelectRow
             label="App language"
             description="Interface language"
@@ -327,7 +327,7 @@ function PreferencesSection() {
 
       <Card>
         <SectionHeader>Statements & exports</SectionHeader>
-        <div className="divide-y divide-atlas-border/50">
+        <div className="divide-y divide-auriga-border/50">
           <SelectRow
             label="Statement format"
             description="Format for monthly account statements"
@@ -355,7 +355,7 @@ function PreferencesSection() {
 
       <Card>
         <SectionHeader>Banking features</SectionHeader>
-        <div className="divide-y divide-atlas-border/50">
+        <div className="divide-y divide-auriga-border/50">
           <NotifToggle
             title="Round-up savings"
             description="Round up card payments and save the difference"
@@ -381,14 +381,14 @@ function PreferencesSection() {
 
       <Card>
         <SectionHeader>Transaction limits</SectionHeader>
-        <div className="divide-y divide-atlas-border/50">
+        <div className="divide-y divide-auriga-border/50">
           <DetailRow label="Daily transfer limit" value="€50,000" />
           <DetailRow label="Single transfer limit" value="€25,000" />
           <DetailRow label="Daily card spending" value="€10,000" />
           <DetailRow label="ATM withdrawal (daily)" value="€2,000" />
           <DetailRow label="Contactless limit" value="€50 per tap" />
         </div>
-        <p className="text-xs text-atlas-text-secondary mt-4">
+        <p className="text-xs text-auriga-text-secondary mt-4">
           Contact support to request limit increases.
         </p>
       </Card>
@@ -401,17 +401,17 @@ function SecuritySection() {
     <div className="space-y-5">
       <Card>
         <SectionHeader>Authentication</SectionHeader>
-        <div className="divide-y divide-atlas-border/50">
+        <div className="divide-y divide-auriga-border/50">
           <div className="flex items-center justify-between py-3 first:pt-0 last:pb-0">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-atlas-bg-subtle flex items-center justify-center">
-                <svg className="w-[18px] h-[18px] text-atlas-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <div className="w-9 h-9 rounded-xl bg-auriga-bg-subtle flex items-center justify-center">
+                <svg className="w-[18px] h-[18px] text-auriga-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
                 </svg>
               </div>
               <div>
                 <p className="text-[13px] font-medium">Email login (OTP)</p>
-                <p className="text-xs text-atlas-text-secondary">One-time code sent to your email</p>
+                <p className="text-xs text-auriga-text-secondary">One-time code sent to your email</p>
               </div>
             </div>
             <Badge variant="success">Active</Badge>
@@ -419,14 +419,14 @@ function SecuritySection() {
 
           <div className="flex items-center justify-between py-3 first:pt-0 last:pb-0">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-atlas-bg-subtle flex items-center justify-center">
-                <svg className="w-[18px] h-[18px] text-atlas-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <div className="w-9 h-9 rounded-xl bg-auriga-bg-subtle flex items-center justify-center">
+                <svg className="w-[18px] h-[18px] text-auriga-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M7.864 4.243A7.5 7.5 0 0119.5 10.5c0 2.92-.556 5.709-1.568 8.268M5.742 6.364A7.465 7.465 0 004.5 10.5a7.464 7.464 0 01-1.15 3.993m1.989 3.559A11.209 11.209 0 008.25 10.5a3.75 3.75 0 117.5 0c0 .527-.021 1.049-.064 1.565M12 10.5a14.94 14.94 0 01-3.6 9.75m6.633-4.596a18.666 18.666 0 01-2.485 5.33" />
                 </svg>
               </div>
               <div>
                 <p className="text-[13px] font-medium">Biometric authentication</p>
-                <p className="text-xs text-atlas-text-secondary">Face ID or fingerprint on mobile</p>
+                <p className="text-xs text-auriga-text-secondary">Face ID or fingerprint on mobile</p>
               </div>
             </div>
             <Button variant="secondary" size="sm">Enable</Button>
@@ -436,7 +436,7 @@ function SecuritySection() {
 
       <Card>
         <SectionHeader>Active sessions</SectionHeader>
-        <div className="divide-y divide-atlas-border/50">
+        <div className="divide-y divide-auriga-border/50">
           <SessionRow device="MacBook Pro" location="Berlin, Germany" current />
           <SessionRow device="iPhone 15 Pro" location="Berlin, Germany" />
           <SessionRow device="Chrome on Windows" location="Munich, Germany" />
@@ -450,7 +450,7 @@ function NotificationsSection() {
   return (
     <Card>
       <SectionHeader>Preferences</SectionHeader>
-      <div className="divide-y divide-atlas-border/50">
+      <div className="divide-y divide-auriga-border/50">
         <NotifToggle title="Transaction alerts" description="Every card transaction" defaultOn />
         <NotifToggle title="Large transactions" description="Transactions over €500" defaultOn />
         <NotifToggle title="Money received" description="Incoming transfers" defaultOn />
@@ -473,21 +473,21 @@ function DocumentsSection() {
   return (
     <Card>
       <SectionHeader>Your documents</SectionHeader>
-      <div className="divide-y divide-atlas-border/50">
+      <div className="divide-y divide-auriga-border/50">
         {docs.map((doc) => (
           <div
             key={doc.name}
             className="flex items-center gap-3 py-3 first:pt-0 last:pb-0 cursor-pointer group"
           >
-            <div className="w-9 h-9 rounded-lg bg-atlas-error/10 flex items-center justify-center flex-shrink-0">
-              <span className="text-[10px] font-bold text-atlas-error">PDF</span>
+            <div className="w-9 h-9 rounded-lg bg-auriga-error/10 flex items-center justify-center flex-shrink-0">
+              <span className="text-[10px] font-bold text-auriga-error">PDF</span>
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-[13px] font-medium truncate">{doc.name}</p>
-              <p className="text-xs text-atlas-text-secondary">{doc.date}</p>
+              <p className="text-xs text-auriga-text-secondary">{doc.date}</p>
             </div>
             <svg
-              className="w-4 h-4 text-atlas-text-secondary opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
+              className="w-4 h-4 text-auriga-text-secondary opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -507,7 +507,7 @@ function SupportSection() {
     <div className="space-y-5">
       <Card>
         <SectionHeader>Contact us</SectionHeader>
-        <div className="divide-y divide-atlas-border/50">
+        <div className="divide-y divide-auriga-border/50">
           <SupportRow
             icon="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"
             title="Phone support"
@@ -518,7 +518,7 @@ function SupportSection() {
             icon="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
             title="Email support"
             description="Typically responds within 2 hours"
-            action="support@atlasbank.eu"
+            action="support@aurigamoney.com"
           />
           <SupportRow
             icon="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z"
@@ -531,7 +531,7 @@ function SupportSection() {
 
       <Card>
         <SectionHeader>Quick help</SectionHeader>
-        <div className="divide-y divide-atlas-border/50">
+        <div className="divide-y divide-auriga-border/50">
           <HelpLink label="How to transfer money" />
           <HelpLink label="Card blocked or lost" />
           <HelpLink label="Dispute a transaction" />
@@ -539,10 +539,10 @@ function SupportSection() {
           <HelpLink label="Download tax documents" />
           <HelpLink label="Understanding fees" />
         </div>
-        <div className="mt-4 pt-4 border-t border-atlas-border/50">
+        <div className="mt-4 pt-4 border-t border-auriga-border/50">
           <a
             href="/help"
-            className="text-[13px] font-medium text-atlas-accent hover:text-atlas-accent/80 transition-colors"
+            className="text-[13px] font-medium text-auriga-accent hover:text-auriga-accent/80 transition-colors"
           >
             Visit full Help Center →
           </a>
@@ -551,7 +551,7 @@ function SupportSection() {
 
       <Card>
         <SectionHeader>Report a problem</SectionHeader>
-        <p className="text-[13px] text-atlas-text-secondary leading-relaxed mb-4">
+        <p className="text-[13px] text-auriga-text-secondary leading-relaxed mb-4">
           Found a bug or experiencing an issue? Let us know and we&apos;ll look into it.
         </p>
         <div className="flex gap-3">
@@ -562,7 +562,7 @@ function SupportSection() {
 
       <Card>
         <SectionHeader>App info</SectionHeader>
-        <div className="divide-y divide-atlas-border/50">
+        <div className="divide-y divide-auriga-border/50">
           <DetailRow label="App version" value="2.4.1" />
           <DetailRow label="Last updated" value="May 28, 2026" />
           <DetailRow label="Device" value="Web browser" />
@@ -578,12 +578,12 @@ function LegalSection() {
     <div className="space-y-5">
       <Card>
         <SectionHeader>Regulatory information</SectionHeader>
-        <p className="text-[13px] text-atlas-text-secondary leading-relaxed">{REGULATORY_DISCLOSURE}</p>
+        <p className="text-[13px] text-auriga-text-secondary leading-relaxed">{REGULATORY_DISCLOSURE}</p>
       </Card>
 
       <Card>
         <SectionHeader>Legal documents</SectionHeader>
-        <div className="divide-y divide-atlas-border/50">
+        <div className="divide-y divide-auriga-border/50">
           {([
             { label: 'Terms of Service', href: '/terms' },
             { label: 'Privacy Policy', href: '/privacy' },
@@ -592,7 +592,7 @@ function LegalSection() {
             <a
               key={label}
               href={href}
-              className="flex items-center justify-between py-3 first:pt-0 last:pb-0 text-[13px] font-medium text-atlas-text-primary hover:text-atlas-accent transition-colors"
+              className="flex items-center justify-between py-3 first:pt-0 last:pb-0 text-[13px] font-medium text-auriga-text-primary hover:text-auriga-accent transition-colors"
             >
               {label}
               <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -609,8 +609,8 @@ function LegalSection() {
 function DetailRow({ label, value }: { label: string; value: ReactNode }) {
   return (
     <div className="flex items-center justify-between py-3 first:pt-0 last:pb-0">
-      <span className="text-[13px] text-atlas-text-secondary">{label}</span>
-      <span className="flex items-center gap-2 text-[13px] font-medium text-atlas-text-primary">{value}</span>
+      <span className="text-[13px] text-auriga-text-secondary">{label}</span>
+      <span className="flex items-center gap-2 text-[13px] font-medium text-auriga-text-primary">{value}</span>
     </div>
   );
 }
@@ -619,20 +619,20 @@ function SessionRow({ device, location, current }: { device: string; location: s
   return (
     <div className="flex items-center justify-between py-3 first:pt-0 last:pb-0">
       <div className="flex items-center gap-3">
-        <div className="w-8 h-8 rounded-lg bg-atlas-bg-subtle flex items-center justify-center">
-          <svg className="w-4 h-4 text-atlas-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <div className="w-8 h-8 rounded-lg bg-auriga-bg-subtle flex items-center justify-center">
+          <svg className="w-4 h-4 text-auriga-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25A2.25 2.25 0 015.25 3h13.5A2.25 2.25 0 0121 5.25z" />
           </svg>
         </div>
         <div>
           <p className="text-[13px] font-medium">{device}</p>
-          <p className="text-xs text-atlas-text-secondary">{location}</p>
+          <p className="text-xs text-auriga-text-secondary">{location}</p>
         </div>
       </div>
       {current ? (
         <Badge variant="success">Current</Badge>
       ) : (
-        <button className="text-xs text-atlas-error hover:opacity-70 transition-opacity font-medium">
+        <button className="text-xs text-auriga-error hover:opacity-70 transition-opacity font-medium">
           Revoke
         </button>
       )}
@@ -647,13 +647,13 @@ function NotifToggle({ title, description, defaultOn }: { title: string; descrip
     <div className="flex items-center justify-between py-3 first:pt-0 last:pb-0">
       <div>
         <p className="text-[13px] font-medium">{title}</p>
-        <p className="text-xs text-atlas-text-secondary">{description}</p>
+        <p className="text-xs text-auriga-text-secondary">{description}</p>
       </div>
       <button
         onClick={() => setEnabled(!enabled)}
         className={clsx(
           'w-[44px] h-[26px] rounded-full relative transition-colors duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex-shrink-0',
-          enabled ? 'bg-atlas-accent' : 'bg-atlas-border'
+          enabled ? 'bg-auriga-accent' : 'bg-auriga-border'
         )}
       >
         <div
@@ -684,12 +684,12 @@ function SelectRow({
     <div className="flex items-center justify-between py-3 first:pt-0 last:pb-0 gap-4">
       <div className="min-w-0">
         <p className="text-[13px] font-medium">{label}</p>
-        <p className="text-xs text-atlas-text-secondary">{description}</p>
+        <p className="text-xs text-auriga-text-secondary">{description}</p>
       </div>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="text-[13px] font-medium text-atlas-text-primary bg-atlas-bg-subtle border border-atlas-border/70 rounded-lg px-3 py-1.5 appearance-none cursor-pointer hover:border-atlas-accent/50 transition-colors focus:outline-none focus:ring-2 focus:ring-atlas-accent/20 focus:border-atlas-accent min-w-[180px]"
+        className="text-[13px] font-medium text-auriga-text-primary bg-auriga-bg-subtle border border-auriga-border/70 rounded-lg px-3 py-1.5 appearance-none cursor-pointer hover:border-auriga-accent/50 transition-colors focus:outline-none focus:ring-2 focus:ring-auriga-accent/20 focus:border-auriga-accent min-w-[180px]"
       >
         {options.map((opt) => (
           <option key={opt.value} value={opt.value}>
@@ -705,17 +705,17 @@ function SupportRow({ icon, title, description, action }: { icon: string; title:
   return (
     <div className="flex items-center justify-between py-3 first:pt-0 last:pb-0 gap-4">
       <div className="flex items-center gap-3">
-        <div className="w-9 h-9 rounded-xl bg-atlas-bg-subtle flex items-center justify-center flex-shrink-0">
-          <svg className="w-[18px] h-[18px] text-atlas-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <div className="w-9 h-9 rounded-xl bg-auriga-bg-subtle flex items-center justify-center flex-shrink-0">
+          <svg className="w-[18px] h-[18px] text-auriga-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d={icon} />
           </svg>
         </div>
         <div>
           <p className="text-[13px] font-medium">{title}</p>
-          <p className="text-xs text-atlas-text-secondary">{description}</p>
+          <p className="text-xs text-auriga-text-secondary">{description}</p>
         </div>
       </div>
-      <span className="text-[13px] font-medium text-atlas-accent whitespace-nowrap">{action}</span>
+      <span className="text-[13px] font-medium text-auriga-accent whitespace-nowrap">{action}</span>
     </div>
   );
 }
@@ -726,10 +726,10 @@ function HelpLink({ label }: { label: string }) {
       href="#"
       className="flex items-center justify-between py-3 first:pt-0 last:pb-0 group cursor-pointer"
     >
-      <span className="text-[13px] font-medium text-atlas-text-primary group-hover:text-atlas-accent transition-colors">
+      <span className="text-[13px] font-medium text-auriga-text-primary group-hover:text-auriga-accent transition-colors">
         {label}
       </span>
-      <svg className="w-3.5 h-3.5 text-atlas-text-secondary group-hover:text-atlas-accent transition-colors flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <svg className="w-3.5 h-3.5 text-auriga-text-secondary group-hover:text-auriga-accent transition-colors flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
       </svg>
     </a>

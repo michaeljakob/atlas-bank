@@ -68,7 +68,7 @@ export class ConvertService {
   async convert(userId: string, from: string, to: string, amountCents: number) {
     this.validateCurrencies(from, to);
 
-    // Atlas does not yet hold a real multi-currency settlement rail. Until one
+    // Auriga does not yet hold a real multi-currency settlement rail. Until one
     // is integrated (e.g. Airwallex/CurrencyCloud), we must NOT move money via a
     // synthetic local ledger — that would invent balances. Quotes/rates stay live.
     if (process.env.FX_SETTLEMENT_ENABLED !== 'true') {

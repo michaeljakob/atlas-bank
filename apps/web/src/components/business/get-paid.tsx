@@ -16,14 +16,14 @@ export function GetPaid() {
       <Container>
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <Reveal direction="right">
-            <span className="text-[11px] font-bold uppercase tracking-widest text-atlas-text-secondary">
+            <span className="text-[11px] font-bold uppercase tracking-widest text-auriga-text-secondary">
               Receive payments
             </span>
-            <h2 className="mt-3 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-atlas-text-primary leading-[1.1]">
+            <h2 className="mt-3 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-auriga-text-primary leading-[1.1]">
               Get paid in EUR —{' '}
               <Highlight>instantly</Highlight>
             </h2>
-            <p className="mt-5 text-lg sm:text-xl text-atlas-text-secondary leading-relaxed max-w-md">
+            <p className="mt-5 text-lg sm:text-xl text-auriga-text-secondary leading-relaxed max-w-md">
               Accept payments from clients across Europe with your own IBAN. No hidden
               fees. Create invoices, share payment links, or receive SEPA transfers directly.
             </p>
@@ -35,9 +35,9 @@ export function GetPaid() {
                 'Create and send professional invoices',
                 'Automatic payment reconciliation',
               ].map((item) => (
-                <li key={item} className="flex items-center gap-3 text-base text-atlas-text-primary">
-                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-atlas-accent/20 shrink-0">
-                    <svg className="w-3 h-3 text-atlas-text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                <li key={item} className="flex items-center gap-3 text-base text-auriga-text-primary">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-auriga-accent/20 shrink-0">
+                    <svg className="w-3 h-3 text-auriga-text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                     </svg>
                   </span>
@@ -55,41 +55,41 @@ export function GetPaid() {
 
           {/* Visual — account & incoming payments */}
           <Reveal direction="left" delay={120}>
-            <div className="rounded-3xl bg-atlas-bg-subtle border border-atlas-border p-6 sm:p-8">
+            <div className="rounded-3xl bg-auriga-bg-subtle border border-auriga-border p-6 sm:p-8">
               <div className="space-y-3">
-                <div className="bg-white rounded-2xl p-5 border border-atlas-border shadow-sm">
+                <div className="bg-white rounded-2xl p-5 border border-auriga-border shadow-sm">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-atlas-accent/20 flex items-center justify-center text-xs font-bold text-atlas-text-primary">EUR</div>
+                      <div className="w-10 h-10 rounded-full bg-auriga-accent/20 flex items-center justify-center text-xs font-bold text-auriga-text-primary">EUR</div>
                       <div>
-                        <p className="text-sm font-semibold text-atlas-text-primary">EUR balance</p>
-                        <p className="text-xs text-atlas-text-secondary font-mono">DE89 3704 0044 ••••</p>
+                        <p className="text-sm font-semibold text-auriga-text-primary">EUR balance</p>
+                        <p className="text-xs text-auriga-text-secondary font-mono">DE89 3704 0044 ••••</p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-lg font-bold text-atlas-text-primary tracking-tight">€47,213.18</p>
-                      <p className="text-xs font-semibold text-atlas-green-700">+€3,200 today</p>
+                      <p className="text-lg font-bold text-auriga-text-primary tracking-tight">€47,213.18</p>
+                      <p className="text-xs font-semibold text-auriga-green-700">+€3,200 today</p>
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-white rounded-2xl p-5 border border-atlas-border">
-                  <p className="text-[11px] font-bold text-atlas-text-secondary mb-3.5 uppercase tracking-widest">Recent incoming</p>
+                <div className="bg-white rounded-2xl p-5 border border-auriga-border">
+                  <p className="text-[11px] font-bold text-auriga-text-secondary mb-3.5 uppercase tracking-widest">Recent incoming</p>
                   <div className="space-y-3.5">
                     {incoming.map((tx) => (
                       <div key={tx.name} className="flex items-center justify-between">
                         <div className="flex items-center gap-2.5">
-                          <div className="w-8 h-8 rounded-full bg-atlas-green-50 flex items-center justify-center">
-                            <svg className="w-3 h-3 text-atlas-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                          <div className="w-8 h-8 rounded-full bg-auriga-green-50 flex items-center justify-center">
+                            <svg className="w-3 h-3 text-auriga-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                               <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                             </svg>
                           </div>
                           <div>
-                            <p className="text-sm font-semibold text-atlas-text-primary">{tx.name}</p>
-                            <p className="text-[11px] text-atlas-text-secondary">{tx.note}</p>
+                            <p className="text-sm font-semibold text-auriga-text-primary">{tx.name}</p>
+                            <p className="text-[11px] text-auriga-text-secondary">{tx.note}</p>
                           </div>
                         </div>
-                        <p className="text-sm font-bold text-atlas-green-700">{tx.amount}</p>
+                        <p className="text-sm font-bold text-auriga-green-700">{tx.amount}</p>
                       </div>
                     ))}
                   </div>

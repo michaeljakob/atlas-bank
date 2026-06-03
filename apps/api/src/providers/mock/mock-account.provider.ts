@@ -8,7 +8,7 @@ import {
   Transaction,
   CreateAccountInput,
   ListTransactionsInput,
-} from '@atlas-bank/provider-contracts';
+} from '@auriga-money/provider-contracts';
 import { MockProviderStore } from './mock-store';
 import { generateMockIban } from './mock-iban';
 
@@ -23,7 +23,7 @@ export class MockAccountProvider implements AccountProvider {
     const details = this.store.getOnboarding(input.onboardingId)?.details;
     const holderName = details
       ? `${details.firstName} ${details.lastName}`.trim()
-      : 'Atlas Customer';
+      : 'Auriga Customer';
 
     const id = `mock_acc_${randomUUID()}`;
     const account: Account = {
@@ -32,7 +32,7 @@ export class MockAccountProvider implements AccountProvider {
       status: 'active',
       iban: generateMockIban(),
       bic: 'SWNBFR22',
-      holderName: holderName || 'Atlas Customer',
+      holderName: holderName || 'Auriga Customer',
       balance: { amount: 0, currency: 'EUR' },
       createdAt: new Date().toISOString(),
     };

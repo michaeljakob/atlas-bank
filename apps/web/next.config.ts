@@ -1,7 +1,7 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  transpilePackages: ['@atlas-bank/shared'],
+  transpilePackages: ['@auriga-money/shared'],
   typedRoutes: true,
   env: {
     SKIP_AUTH: process.env.SKIP_AUTH,

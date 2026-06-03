@@ -1,4 +1,4 @@
-# Multi-stage build for the Atlas Bank API (NestJS + Fastify).
+# Multi-stage build for the Auriga Money API (NestJS + Fastify).
 FROM node:20-alpine AS base
 WORKDIR /app
 ENV NODE_ENV=production

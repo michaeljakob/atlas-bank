@@ -48,7 +48,7 @@ export class PaymentRequestsService {
       const appUrl = process.env.APP_URL || 'http://localhost:3000';
       this.email
         .sendPaymentRequest(input.recipientEmail, {
-          requesterName: user ? `${user.firstName} ${user.lastName}`.trim() : 'An Atlas user',
+          requesterName: user ? `${user.firstName} ${user.lastName}`.trim() : 'An Auriga user',
           amount: saved.amountCents,
           currency: saved.currency,
           note: saved.note,

@@ -1,5 +1,5 @@
 {
-  "name": "atlas-bank",
+  "name": "auriga-money",
   "private": true,
   "workspaces": [
     "apps/*",

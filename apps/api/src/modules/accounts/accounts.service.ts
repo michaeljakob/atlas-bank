@@ -8,8 +8,8 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { randomUUID } from 'crypto';
-import { AccountProvider } from '@atlas-bank/provider-contracts';
-import { generateIban, SEPA_BIC_ATLAS } from '@atlas-bank/shared';
+import { AccountProvider } from '@auriga-money/provider-contracts';
+import { generateIban, SEPA_BIC_AURIGA } from '@auriga-money/shared';
 import { AccountEntity, TransactionEntity } from '@/database/entities';
 import { ACCOUNT_PROVIDER } from '@/providers/providers.module';
 
@@ -99,7 +99,7 @@ export class AccountsService {
       providerAccountId: `local-${code.toLowerCase()}-${randomUUID()}`,
       status: 'active',
       iban: generateIban(CURRENCY_IBAN_COUNTRY[code] ?? 'DE'),
-      bic: SEPA_BIC_ATLAS,
+      bic: SEPA_BIC_AURIGA,
       holderName: primary.holderName,
       balanceCents: 0,
       currency: code,

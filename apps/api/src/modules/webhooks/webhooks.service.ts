@@ -1,7 +1,7 @@
 import { Injectable, Inject, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { AccountProvider } from '@atlas-bank/provider-contracts';
+import { AccountProvider } from '@auriga-money/provider-contracts';
 import {
   WebhookEventEntity,
   OnboardingEntity,

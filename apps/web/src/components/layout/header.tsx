@@ -45,14 +45,14 @@ export function Header() {
       <header className="fixed inset-x-0 top-3 sm:top-4 z-50 px-4">
         <div className={`${animateNav ? 'animate-nav-slide-in ' : ''}mx-auto w-full max-w-3xl`}>
           <nav
-            className={`relative flex items-center justify-between gap-3 rounded-full pl-5 pr-2 h-14 border border-white/10 bg-atlas-black transition-[box-shadow] duration-300 ${
+            className={`relative flex items-center justify-between gap-3 rounded-full pl-5 pr-2 h-14 border border-white/10 bg-auriga-black transition-[box-shadow] duration-300 ${
               scrolled
                 ? 'shadow-[0_8px_30px_rgb(0_0_0/0.30)]'
                 : 'shadow-[0_8px_30px_rgb(0_0_0/0.18)]'
             }`}
           >
             <Link href="/" className="flex items-center shrink-0" onClick={closeMobile}>
-              <img src="/atlas-lockup-light.svg" alt="Atlas" className="h-7 w-auto" />
+              <img src="/auriga-lockup-light.svg" alt="Auriga" className="h-7 w-auto" />
             </Link>
 
             <div className="hidden md:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
@@ -87,7 +87,7 @@ export function Header() {
               </Button>
               <Button
                 size="sm"
-                className="h-10 text-sm font-semibold px-5 rounded-full bg-white text-atlas-black hover:bg-white/90"
+                className="h-10 text-sm font-semibold px-5 rounded-full bg-white text-auriga-black hover:bg-white/90"
                 asChild
               >
                 <Link href="/onboarding">Open account</Link>
@@ -127,7 +127,7 @@ export function Header() {
                 : '-translate-y-2 opacity-0 scale-95 pointer-events-none'
             }`}
           >
-            <div className="rounded-3xl border border-white/10 bg-atlas-black shadow-[0_8px_30px_rgb(0_0_0/0.30)] p-3 space-y-1">
+            <div className="rounded-3xl border border-white/10 bg-auriga-black shadow-[0_8px_30px_rgb(0_0_0/0.30)] p-3 space-y-1">
               <Link
                 href="/"
                 aria-current={isPersonal ? 'page' : undefined}
@@ -161,7 +161,7 @@ export function Header() {
                 </Button>
                 <Button
                   size="sm"
-                  className="flex-1 h-11 font-semibold rounded-full text-sm bg-white text-atlas-black hover:bg-white/90"
+                  className="flex-1 h-11 font-semibold rounded-full text-sm bg-white text-auriga-black hover:bg-white/90"
                   asChild
                 >
                   <Link href="/onboarding" onClick={closeMobile}>

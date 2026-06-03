@@ -1,13 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Resend } from 'resend';
-import { formatMoney, REGULATORY_DISCLOSURE } from '@atlas-bank/shared';
+import { formatMoney } from '@auriga-money/shared';
 
-/**
- * Atlas brand tokens, mirrored from apps/web `src/lib/brand.ts`. Kept inline so
- * the API has no dependency on the web package. Update both when the brand
- * palette changes.
- */
 const BRAND = {
   neon: '#CCFF00',
   black: '#1C180D',
@@ -17,12 +12,14 @@ const BRAND = {
   surface: '#F5F3F0',
   surfaceCard: '#FFFFFF',
   pageBg: '#ECEAE5',
+  mutedText: '#9A968F',
+  faintText: '#B4B1AB',
 } as const;
 
-// Email clients can't load Martina Plantijn / RHPhonic, so we ship the brand
-// fonts with web-safe fallbacks matching the web app's font stacks.
 const FONT_HEADING = `'Martina Plantijn', Georgia, Cambria, 'Times New Roman', serif`;
 const FONT_BODY = `'RHPhonic', Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif`;
+
+const LOGO_URL_SUFFIX = '/auriga-lockup-light.svg';
 
 @Injectable()
 export class EmailService {
@@ -34,8 +31,8 @@ export class EmailService {
   constructor(private readonly config: ConfigService) {
     const apiKey = process.env.RESEND_API_KEY;
     this.resend = new Resend(apiKey || 'test');
-    this.fromEmail = `Atlas <noreply@${process.env.RESEND_DOMAIN || 'atlasbank.io'}>`;
-    this.webUrl = (process.env.APP_URL || 'https://atlasbank.io').replace(/\/$/, '');
+    this.fromEmail = `Auriga <noreply@${process.env.RESEND_DOMAIN || 'aurigamoney.com'}>`;
+    this.webUrl = (process.env.APP_URL || 'https://aurigamoney.com').replace(/\/$/, '');
   }
 
   async sendOtp(to: string, code: string) {
@@ -43,17 +40,17 @@ export class EmailService {
       await this.resend.emails.send({
         from: this.fromEmail,
         to,
-        subject: `${code} is your Atlas verification code`,
+        subject: `${code} is your Auriga verification code`,
         html: this.wrapTemplate(
           `
           ${this.heading('Verify your email')}
-          <p style="${this.text()}margin:0 0 20px">Enter this code to verify your email address. It expires in 10 minutes.</p>
-          <div style="background:${BRAND.surface};border:1px solid ${BRAND.border};border-radius:14px;padding:20px;text-align:center;margin:0 0 24px">
-            <span style="font-family:${FONT_BODY};font-size:34px;font-weight:700;letter-spacing:0.18em;color:${BRAND.black}">${code}</span>
+          <p style="${this.text()}margin:0 0 24px">Enter this code to verify your email address. It expires in 10&nbsp;minutes.</p>
+          <div style="background:${BRAND.surface};border:1px solid ${BRAND.border};border-radius:16px;padding:24px;text-align:center;margin:0 0 24px">
+            <span style="font-family:${FONT_BODY};font-size:36px;font-weight:700;letter-spacing:0.22em;color:${BRAND.black}">${code}</span>
           </div>
           <p style="${this.muted()}">If you didn't request this code, you can safely ignore this email.</p>
         `,
-          'Your Atlas verification code',
+          'Your Auriga verification code',
         ),
       });
       this.logger.log(`OTP sent to ${to}`);
@@ -87,10 +84,6 @@ export class EmailService {
     }
   }
 
-  /**
-   * Fires for every incoming payment the moment it settles (Wise-style
-   * "you've been paid" alert). Sent from the Swan Transaction.Booked webhook.
-   */
   async sendPaymentReceived(
     to: string,
     data: {
@@ -162,20 +155,20 @@ export class EmailService {
       await this.resend.emails.send({
         from: this.fromEmail,
         to,
-        subject: 'Welcome to Atlas',
+        subject: 'Welcome to Auriga',
         html: this.wrapTemplate(
           `
           ${this.heading(`Welcome, ${name}`)}
-          <p style="${this.text()}margin:0 0 20px">Your Atlas account is ready. Here's what you can do:</p>
-          <ul style="${this.text()}padding-left:20px;line-height:2;margin:0 0 24px">
-            <li>Send and receive money across borders</li>
-            <li>Hold multiple currencies (EUR, USD, GBP, CHF)</li>
-            <li>Get a virtual or physical debit card</li>
-            <li>Convert currencies at the real exchange rate</li>
-          </ul>
-          ${this.button('Open Atlas', `${this.webUrl}/app/dashboard`)}
+          <p style="${this.text()}margin:0 0 24px">Your Auriga account is ready. Here's what you can do:</p>
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 28px;width:100%">
+            ${this.featureRow('Send & receive', 'Move money across borders with SEPA Instant.')}
+            ${this.featureRow('Multi-currency', 'Hold EUR, USD, GBP, and CHF in one place.')}
+            ${this.featureRow('Instant card', 'Get a virtual Mastercard in seconds.')}
+            ${this.featureRow('Real rates', 'Convert currencies at the mid-market rate.')}
+          </table>
+          ${this.button('Open Auriga', `${this.webUrl}/app/dashboard`)}
         `,
-          'Your Atlas account is ready',
+          'Your Auriga account is ready',
         ),
       });
     } catch (error) {
@@ -204,58 +197,72 @@ export class EmailService {
   }
 
   // ---------------------------------------------------------------------------
-  // Shared, brand-consistent building blocks
+  // Building blocks
   // ---------------------------------------------------------------------------
 
   private text(): string {
-    return `font-family:${FONT_BODY};font-size:15px;line-height:1.6;color:${BRAND.textSecondary};`;
+    return `font-family:${FONT_BODY};font-size:15px;line-height:1.65;color:${BRAND.textSecondary};`;
   }
 
   private muted(): string {
-    return `font-family:${FONT_BODY};font-size:13px;line-height:1.6;color:#9A968F;margin:0;`;
+    return `font-family:${FONT_BODY};font-size:13px;line-height:1.6;color:${BRAND.mutedText};margin:0;`;
   }
 
-  /** Serif display heading, matching the web app's Martina Plantijn headings. */
   private heading(label: string): string {
-    return `<h1 style="font-family:${FONT_HEADING};font-size:26px;font-weight:500;line-height:1.2;color:${BRAND.black};margin:0 0 14px">${label}</h1>`;
+    return `<h1 style="font-family:${FONT_HEADING};font-size:28px;font-weight:500;line-height:1.15;color:${BRAND.black};margin:0 0 16px">${label}</h1>`;
   }
 
-  /** Neon pill CTA — mirrors the rounded-full brand buttons. */
   private button(label: string, href: string): string {
     return `
-      <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:4px 0 0">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:8px 0 0">
         <tr>
           <td style="border-radius:9999px;background:${BRAND.neon}">
-            <a href="${href}" style="display:inline-block;font-family:${FONT_BODY};font-size:15px;font-weight:700;color:${BRAND.black};text-decoration:none;padding:13px 30px;border-radius:9999px">${label}</a>
+            <a href="${href}" style="display:inline-block;font-family:${FONT_BODY};font-size:15px;font-weight:700;color:${BRAND.black};text-decoration:none;padding:14px 32px;border-radius:9999px">${label}</a>
           </td>
         </tr>
       </table>
     `;
   }
 
-  /** Highlighted amount block used across money-movement emails. */
   private amountCard(data: { amount: string; color: string; subtitle?: string; note?: string; footer?: string }): string {
     return `
-      <div style="background:${BRAND.surface};border:1px solid ${BRAND.border};border-radius:14px;padding:22px;margin:0 0 24px">
-        <p style="font-family:${FONT_BODY};font-size:28px;font-weight:700;line-height:1.1;margin:0;color:${data.color}">${data.amount}</p>
-        ${data.subtitle ? `<p style="font-family:${FONT_BODY};font-size:15px;color:${BRAND.textSecondary};margin:6px 0 0">${data.subtitle}</p>` : ''}
-        ${data.note ? `<p style="font-family:${FONT_BODY};font-size:13px;color:#9A968F;margin:8px 0 0">${data.note}</p>` : ''}
-        ${data.footer ? `<p style="font-family:${FONT_BODY};font-size:13px;color:${BRAND.textSecondary};margin:14px 0 0;border-top:1px solid ${BRAND.border};padding-top:14px">${data.footer}</p>` : ''}
+      <div style="background:${BRAND.surface};border:1px solid ${BRAND.border};border-radius:16px;padding:24px;margin:0 0 24px">
+        <p style="font-family:${FONT_BODY};font-size:30px;font-weight:700;line-height:1.1;margin:0;color:${data.color}">${data.amount}</p>
+        ${data.subtitle ? `<p style="font-family:${FONT_BODY};font-size:15px;color:${BRAND.textSecondary};margin:8px 0 0">${data.subtitle}</p>` : ''}
+        ${data.note ? `<p style="font-family:${FONT_BODY};font-size:13px;color:${BRAND.mutedText};margin:10px 0 0">${data.note}</p>` : ''}
+        ${data.footer ? `<p style="font-family:${FONT_BODY};font-size:13px;color:${BRAND.textSecondary};margin:16px 0 0;border-top:1px solid ${BRAND.border};padding-top:16px">${data.footer}</p>` : ''}
       </div>
     `;
   }
 
-  /**
-   * Full branded email document: neon accent, Robin Black header with the Atlas
-   * serif wordmark, white content card, and a clear branded footer with links
-   * and the regulatory disclosure. Table-based for email-client compatibility.
-   */
+  private featureRow(title: string, desc: string): string {
+    return `
+      <tr>
+        <td style="padding:0 0 16px">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+            <tr>
+              <td style="vertical-align:top;padding-right:14px">
+                <div style="width:8px;height:8px;border-radius:50%;background:${BRAND.neon};margin-top:7px"></div>
+              </td>
+              <td>
+                <p style="font-family:${FONT_BODY};font-size:15px;font-weight:700;color:${BRAND.black};margin:0 0 2px">${title}</p>
+                <p style="font-family:${FONT_BODY};font-size:14px;color:${BRAND.textSecondary};margin:0;line-height:1.5">${desc}</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    `;
+  }
+
   private wrapTemplate(content: string, preheader = ''): string {
     const year = new Date().getFullYear();
-    const links = [
+
+    const footerNav = [
       { label: 'Help center', href: `${this.webUrl}/help` },
       { label: 'Terms', href: `${this.webUrl}/terms` },
       { label: 'Privacy', href: `${this.webUrl}/privacy` },
+      { label: 'About', href: `${this.webUrl}/about` },
     ]
       .map(
         (l) =>
@@ -264,41 +271,78 @@ export class EmailService {
       .join(`<span style="color:${BRAND.border};padding:0 8px">&middot;</span>`);
 
     return `<!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v="urn:schemas-microsoft-com:vml">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="color-scheme" content="light only" />
   <meta name="supported-color-schemes" content="light only" />
-  <title>Atlas</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Auriga</title>
+  <style>
+    body, table, td, p, a, li { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+    table, td { mso-table-lspace: 0; mso-table-rspace: 0; }
+    img { -ms-interpolation-mode: bicubic; border: 0; outline: none; text-decoration: none; }
+    @media only screen and (max-width: 520px) {
+      .email-container { width: 100% !important; max-width: 100% !important; }
+      .email-padding { padding-left: 20px !important; padding-right: 20px !important; }
+    }
+  </style>
 </head>
-<body style="margin:0;padding:0;background:${BRAND.pageBg};-webkit-font-smoothing:antialiased">
-  ${preheader ? `<div style="display:none;max-height:0;overflow:hidden;opacity:0;font-size:1px;line-height:1px;color:${BRAND.pageBg}">${preheader}</div>` : ''}
+<body style="margin:0;padding:0;background:${BRAND.pageBg};-webkit-font-smoothing:antialiased;mso-line-height-rule:exactly">
+  ${preheader ? `<div style="display:none;max-height:0;overflow:hidden;opacity:0;font-size:1px;line-height:1px;color:${BRAND.pageBg}">${preheader}${'&zwnj;&nbsp;'.repeat(40)}</div>` : ''}
+
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${BRAND.pageBg}">
     <tr>
-      <td align="center" style="padding:32px 16px">
-        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:480px;width:100%;background:${BRAND.surfaceCard};border:1px solid ${BRAND.border};border-radius:18px;overflow:hidden">
-          <tr><td style="height:4px;background:${BRAND.neon};font-size:0;line-height:0">&nbsp;</td></tr>
+      <td align="center" style="padding:40px 16px 48px">
+
+        <!--[if mso]><table role="presentation" width="480" cellpadding="0" cellspacing="0" border="0" align="center"><tr><td><![endif]-->
+        <table role="presentation" class="email-container" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:480px;width:100%">
+
+          <!-- ===== HEADER ===== -->
           <tr>
-            <td style="background:${BRAND.black};padding:26px 32px">
-              <span style="font-family:${FONT_HEADING};font-size:24px;font-weight:500;letter-spacing:0.01em;color:#FFFFFF">Atlas</span>
+            <td style="padding:0 0 24px">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${BRAND.black};border-radius:20px 20px 0 0;overflow:hidden">
+                <!-- Neon accent stripe -->
+                <tr><td style="height:4px;background:${BRAND.neon};font-size:0;line-height:0">&nbsp;</td></tr>
+                <tr>
+                  <td style="padding:28px 36px" class="email-padding">
+                    <a href="${this.webUrl}" style="text-decoration:none">
+                      <img src="${this.webUrl}${LOGO_URL_SUFFIX}" alt="Auriga" width="120" height="34" style="display:block;width:120px;height:auto;border:0" />
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- ===== CONTENT CARD ===== -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${BRAND.surfaceCard};border-left:1px solid ${BRAND.border};border-right:1px solid ${BRAND.border}">
+                <tr>
+                  <td style="padding:36px 36px 40px" class="email-padding">
+                    ${content}
+                  </td>
+                </tr>
+              </table>
+
+              <!-- ===== FOOTER ===== -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${BRAND.surface};border:1px solid ${BRAND.border};border-top:none;border-radius:0 0 20px 20px;overflow:hidden">
+                <tr>
+                  <td style="padding:28px 36px 24px" class="email-padding">
+                    <!-- Footer nav -->
+                    <p style="margin:0 0 16px">${footerNav}</p>
+
+                    <!-- Copyright -->
+                    <p style="font-family:${FONT_BODY};font-size:11px;color:${BRAND.faintText};margin:0;text-transform:uppercase;letter-spacing:0.06em">&copy; ${year} Auriga Money Technologies Pte. Ltd.</p>
+                  </td>
+                </tr>
+                <!-- Bottom neon accent -->
+                <tr><td style="height:4px;background:${BRAND.neon};font-size:0;line-height:0">&nbsp;</td></tr>
+              </table>
             </td>
           </tr>
-          <tr>
-            <td style="padding:32px">
-              ${content}
-            </td>
-          </tr>
-          <tr>
-            <td style="background:${BRAND.surface};border-top:1px solid ${BRAND.border};padding:24px 32px">
-              <p style="margin:0 0 12px">${links}</p>
-              <p style="font-family:${FONT_BODY};font-size:11px;line-height:1.6;color:#9A968F;margin:0 0 8px">
-                ${REGULATORY_DISCLOSURE} Your funds are safeguarded in dedicated accounts at regulated European credit institutions in accordance with EU e-money regulations. E-money is not covered by a deposit guarantee scheme.
-              </p>
-              <p style="font-family:${FONT_BODY};font-size:11px;color:#B4B1AB;margin:0;text-transform:uppercase;letter-spacing:0.06em">&copy; ${year} Atlas Financial Technologies Ltd.</p>
-            </td>
-          </tr>
+
         </table>
+        <!--[if mso]></td></tr></table><![endif]-->
+
       </td>
     </tr>
   </table>
