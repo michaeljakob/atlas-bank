@@ -64,6 +64,63 @@ class ApiClient {
     }).catch(() => {});
   }
 
+  // User profile
+  getProfile() {
+    return this.request<{
+      id: string;
+      email: string;
+      firstName: string;
+      lastName: string;
+      phone: string | null;
+      dateOfBirth: string | null;
+      nationality: string | null;
+      residenceCountry: string | null;
+      residenceAddress: {
+        line1: string;
+        line2?: string;
+        city: string;
+        postalCode: string;
+        country: string;
+      } | null;
+      handle: string | null;
+      emailVerified: boolean;
+      createdAt: string;
+      account: {
+        id: string;
+        iban: string;
+        bic: string;
+        status: string;
+        createdAt: string;
+      } | null;
+    }>('/users/me');
+  }
+
+  updateProfile(data: {
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    phone?: string;
+    dateOfBirth?: string;
+    nationality?: string;
+    residenceCountry?: string;
+    residenceAddress?: { line1: string; line2?: string; city: string; postalCode: string; country: string };
+  }) {
+    return this.request<{
+      id: string;
+      email: string;
+      firstName: string;
+      lastName: string;
+      phone: string | null;
+      dateOfBirth: string | null;
+      nationality: string | null;
+      residenceCountry: string | null;
+      residenceAddress: { line1: string; line2?: string; city: string; postalCode: string; country: string } | null;
+    }>('/users/me', {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    });
+  }
+
   // Auth
   sendOtp(email: string) {
     return this.request<{ sent: boolean }>('/auth/otp/send', {
@@ -192,6 +249,8 @@ class ApiClient {
       atmEnabled?: boolean;
       internationalEnabled?: boolean;
       limitCents?: number;
+      dailyLimitCents?: number;
+      monthlyLimitCents?: number;
     },
   ) {
     return this.request(`/cards/${cardId}`, {
@@ -460,6 +519,26 @@ class ApiClient {
 
   executeConversion(data: { from: string; to: string; amountCents: number }) {
     return this.request<{ status: string; convertedCents: number; rate: number }>('/convert', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  createBusinessAccount(data: {
+    companyType: string;
+    companyName: string;
+    registrationNumber: string;
+    industry: string;
+    website?: string;
+    address: { line1: string; line2?: string; city: string; postalCode: string; country: string };
+  }) {
+    return this.request<{
+      id: string;
+      companyName: string;
+      iban: string;
+      bic: string;
+      status: string;
+    }>('/accounts/business', {
       method: 'POST',
       body: JSON.stringify(data),
     });

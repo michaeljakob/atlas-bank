@@ -33,12 +33,7 @@ function getColor(name: string) {
   return AVATAR_COLORS[Math.abs(h) % AVATAR_COLORS.length];
 }
 
-const fallbackRecipients = [
-  { id: '1', name: 'Sarah Miller', iban: 'DE89370400440532013000' },
-  { id: '2', name: 'Acme Corp', iban: 'GB29NWBK60161331926819' },
-  { id: '3', name: 'Carlos R.', iban: 'ES9121000418450200051332' },
-  { id: '4', name: 'Marie D.', iban: 'FR7630006000011234567890189' },
-];
+const fallbackRecipients: { id: string; name: string; iban: string }[] = [];
 
 export default function SendPage() {
   const router = useRouter();
@@ -54,7 +49,7 @@ export default function SendPage() {
   const [error, setError] = useState('');
   const [sending, setSending] = useState(false);
   const [recentRecipients, setRecentRecipients] = useState(fallbackRecipients);
-  const [balance, setBalance] = useState(245000);
+  const [balance, setBalance] = useState(0);
   const [handle, setHandle] = useState('');
   const [resolvingHandle, setResolvingHandle] = useState(false);
   const [resolvedHandle, setResolvedHandle] = useState<string | null>(null);
@@ -196,7 +191,7 @@ export default function SendPage() {
             ))}
             <button type="button" className="flex flex-col items-center gap-1.5 group flex-shrink-0">
               <div className={`w-10 h-10 rounded-full border-[1.5px] border-dashed border-auriga-border flex items-center justify-center group-hover:border-auriga-accent transition-colors ${SPRING}`}>
-                <svg className={`w-3.5 h-3.5 text-auriga-text-secondary group-hover:text-auriga-accent transition-colors ${SPRING}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <svg className={`w-3.5 h-3.5 text-auriga-text-secondary group-hover:text-auriga-accent-700 transition-colors ${SPRING}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
               </div>

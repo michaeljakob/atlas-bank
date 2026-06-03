@@ -187,7 +187,7 @@ export function CurrencySelect({
                     </div>
                     {isActive && (
                       <svg
-                        className="w-4 h-4 text-auriga-accent flex-shrink-0"
+                        className="w-4 h-4 text-auriga-accent-700 flex-shrink-0"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"

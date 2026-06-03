@@ -45,6 +45,16 @@ class UpdateCardDto {
   @IsInt()
   @Min(0)
   limitCents?: number;
+
+  @IsOptional()
+  @IsInt()
+  @Min(0)
+  dailyLimitCents?: number;
+
+  @IsOptional()
+  @IsInt()
+  @Min(0)
+  monthlyLimitCents?: number;
 }
 
 class DeliveryAddressDto {

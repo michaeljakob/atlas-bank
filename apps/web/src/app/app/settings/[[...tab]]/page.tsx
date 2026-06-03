@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, type ReactNode } from 'react';
+import { useState, useEffect, use, type ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -10,6 +10,23 @@ import { HandleSettings } from '@/components/handle/handle-settings';
 import { REGULATORY_DISCLOSURE } from '@auriga-money/shared';
 import { api } from '@/lib/api';
 import { clsx } from 'clsx';
+import Link from 'next/link';
+
+type UserProfile = Awaited<ReturnType<typeof api.getProfile>>;
+
+function useProfile() {
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    api.getProfile()
+      .then(setProfile)
+      .catch(() => toast.error('Failed to load profile'))
+      .finally(() => setLoading(false));
+  }, []);
+
+  return { profile, loading };
+}
 
 type SettingsTab = 'personal' | 'preferences' | 'security' | 'notifications' | 'documents' | 'support' | 'legal';
 
@@ -23,8 +40,13 @@ const tabs: { id: SettingsTab; label: string; icon: string }[] = [
   { id: 'legal', label: 'Legal', icon: 'M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6V7.5z' },
 ];
 
-export default function SettingsPage() {
-  const [activeTab, setActiveTab] = useState<SettingsTab>('personal');
+const VALID_TABS = new Set<SettingsTab>(['personal', 'preferences', 'security', 'notifications', 'documents', 'support', 'legal']);
+
+export default function SettingsPage({ params }: { params: Promise<{ tab?: string[] }> }) {
+  const { tab } = use(params);
+  const slug = tab?.[0] as SettingsTab | undefined;
+  const activeTab: SettingsTab = slug && VALID_TABS.has(slug) ? slug : 'personal';
+  const { profile, loading } = useProfile();
 
   return (
     <div className="p-4 sm:p-6 lg:p-10 max-w-5xl mx-auto">
@@ -33,28 +55,28 @@ export default function SettingsPage() {
       <div className="flex flex-col lg:flex-row gap-8">
         <nav className="lg:w-48 flex-shrink-0">
           <div className="flex lg:flex-col gap-1 overflow-x-auto pb-2 lg:pb-0 -mx-4 px-4 lg:mx-0 lg:px-0 scrollbar-none">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
+            {tabs.map((t) => (
+              <Link
+                key={t.id}
+                href={t.id === 'personal' ? '/app/settings' : `/app/settings/${t.id}`}
                 className={clsx(
                   'flex items-center gap-2.5 px-3 py-2 rounded-xl text-[13px] font-medium transition-colors whitespace-nowrap',
-                  activeTab === tab.id
+                  activeTab === t.id
                     ? 'bg-auriga-bg-subtle text-auriga-text-primary'
                     : 'text-auriga-text-secondary hover:text-auriga-text-primary'
                 )}
               >
                 <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d={tab.icon} />
+                  <path strokeLinecap="round" strokeLinejoin="round" d={t.icon} />
                 </svg>
-                {tab.label}
-              </button>
+                {t.label}
+              </Link>
             ))}
           </div>
         </nav>
 
         <div className="flex-1 min-w-0">
-          {activeTab === 'personal' && <PersonalSection />}
+          {activeTab === 'personal' && <PersonalSection profile={profile} loading={loading} />}
           {activeTab === 'preferences' && <PreferencesSection />}
           {activeTab === 'security' && <SecuritySection />}
           {activeTab === 'notifications' && <NotificationsSection />}
@@ -83,10 +105,131 @@ function Card({ children, className }: { children: React.ReactNode; className?: 
   );
 }
 
-function PersonalSection() {
+const NATIONALITY_MAP: Record<string, string> = {
+  DE: 'German', AT: 'Austrian', CH: 'Swiss', FR: 'French', NL: 'Dutch',
+  US: 'American', GB: 'British', ES: 'Spanish', IT: 'Italian', PL: 'Polish',
+  SE: 'Swedish', DK: 'Danish', NO: 'Norwegian', PT: 'Portuguese', BE: 'Belgian',
+};
+
+const COUNTRY_MAP: Record<string, string> = {
+  DE: 'Germany', AT: 'Austria', CH: 'Switzerland', FR: 'France', NL: 'Netherlands',
+  US: 'United States', GB: 'United Kingdom', ES: 'Spain', IT: 'Italy', PL: 'Poland',
+  SE: 'Sweden', DK: 'Denmark', NO: 'Norway', PT: 'Portugal', BE: 'Belgium',
+  Germany: 'Germany', France: 'France', Austria: 'Austria',
+};
+
+function formatDob(raw: string | null): string {
+  if (!raw) return '—';
+  const d = new Date(raw);
+  if (isNaN(d.getTime())) return raw;
+  return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+}
+
+function maskIban(iban: string): string {
+  const clean = iban.replace(/\s/g, '');
+  if (clean.length <= 6) return iban;
+  return `${clean.slice(0, 4)} ${'•••• '.repeat(Math.max(0, Math.ceil((clean.length - 6) / 4)))}${clean.slice(-2)}`.trim();
+}
+
+function initials(first: string, last: string): string {
+  return `${(first || '?')[0]}${(last || '?')[0]}`.toUpperCase();
+}
+
+function formatAccountDate(raw: string | undefined): string {
+  if (!raw) return '—';
+  const d = new Date(raw);
+  if (isNaN(d.getTime())) return raw;
+  return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+}
+
+function resolveCountry(code: string | null): string {
+  if (!code) return '—';
+  return COUNTRY_MAP[code] || code;
+}
+
+const NATIONALITY_OPTIONS = [
+  { code: 'DE', label: 'German' }, { code: 'AT', label: 'Austrian' }, { code: 'CH', label: 'Swiss' },
+  { code: 'FR', label: 'French' }, { code: 'NL', label: 'Dutch' }, { code: 'BE', label: 'Belgian' },
+  { code: 'ES', label: 'Spanish' }, { code: 'IT', label: 'Italian' }, { code: 'PT', label: 'Portuguese' },
+  { code: 'PL', label: 'Polish' }, { code: 'GB', label: 'British' }, { code: 'US', label: 'American' },
+  { code: 'SE', label: 'Swedish' }, { code: 'DK', label: 'Danish' }, { code: 'NO', label: 'Norwegian' },
+  { code: 'IE', label: 'Irish' }, { code: 'FI', label: 'Finnish' }, { code: 'CZ', label: 'Czech' },
+  { code: 'HU', label: 'Hungarian' }, { code: 'RO', label: 'Romanian' }, { code: 'HR', label: 'Croatian' },
+  { code: 'GR', label: 'Greek' }, { code: 'LU', label: 'Luxembourgish' },
+];
+
+function PersonalSection({ profile, loading }: { profile: UserProfile | null; loading: boolean }) {
   const router = useRouter();
   const [exporting, setExporting] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [editingInfo, setEditingInfo] = useState(false);
+  const [savingInfo, setSavingInfo] = useState(false);
+  const [info, setInfo] = useState({
+    firstName: '', lastName: '', email: '', phone: '', dateOfBirth: '', nationality: '',
+  });
+  const [current, setCurrent] = useState(info);
+
+  useEffect(() => {
+    if (!profile) return;
+    const next = {
+      firstName: profile.firstName || '',
+      lastName: profile.lastName || '',
+      email: profile.email || '',
+      phone: profile.phone || '',
+      dateOfBirth: profile.dateOfBirth || '',
+      nationality: profile.nationality || '',
+    };
+    setInfo(next);
+    setCurrent(next);
+  }, [profile]);
+
+  function startEditInfo() {
+    setInfo(current);
+    setEditingInfo(true);
+  }
+
+  function cancelEditInfo() {
+    setInfo(current);
+    setEditingInfo(false);
+  }
+
+  async function saveInfo() {
+    if (!info.firstName.trim() || !info.lastName.trim()) {
+      toast.error('First and last name are required');
+      return;
+    }
+    if (!info.email.trim() || !info.email.includes('@')) {
+      toast.error('A valid email is required');
+      return;
+    }
+    setSavingInfo(true);
+    try {
+      const res = await api.updateProfile({
+        firstName: info.firstName.trim(),
+        lastName: info.lastName.trim(),
+        email: info.email.trim(),
+        phone: info.phone.trim(),
+        dateOfBirth: info.dateOfBirth.trim(),
+        nationality: info.nationality,
+      });
+      const updated = {
+        firstName: res.firstName,
+        lastName: res.lastName,
+        email: res.email,
+        phone: res.phone || '',
+        dateOfBirth: res.dateOfBirth || '',
+        nationality: res.nationality || '',
+      };
+      setCurrent(updated);
+      setInfo(updated);
+      setEditingInfo(false);
+      toast.success('Profile updated');
+    } catch {
+      toast.error('Could not update profile. Please try again.');
+    } finally {
+      setSavingInfo(false);
+    }
+  }
 
   async function handleExport() {
     setExporting(true);
@@ -124,29 +267,141 @@ function PersonalSection() {
     }
   }
 
+  if (loading) {
+    return (
+      <div className="space-y-5">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="bg-white rounded-2xl border border-auriga-border/70 p-5 animate-pulse">
+            <div className="h-4 bg-auriga-bg-subtle rounded w-1/3 mb-4" />
+            <div className="space-y-3">
+              <div className="h-3 bg-auriga-bg-subtle rounded w-full" />
+              <div className="h-3 bg-auriga-bg-subtle rounded w-2/3" />
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  const p = profile;
+  const fullName = `${current.firstName} ${current.lastName}`.trim() || '—';
+  const addr = p?.residenceAddress;
+  const countryCode = addr?.country
+    ? (Object.entries(COUNTRY_MAP).find(([, v]) => v === addr.country)?.[0] || addr.country.slice(0, 2).toUpperCase())
+    : (p?.residenceCountry || null);
+
   return (
     <div className="space-y-5">
       <Card>
         <div className="flex items-center gap-4 pb-5 mb-5 border-b border-auriga-border/50">
           <div className="w-14 h-14 rounded-full bg-auriga-accent flex items-center justify-center">
-            <span className="text-base font-bold text-auriga-black">AJ</span>
+            <span className="text-base font-bold text-auriga-black">
+              {initials(current.firstName, current.lastName)}
+            </span>
           </div>
           <div className="flex-1 min-w-0">
-            <h2 className="text-base font-semibold">Alex Johnson</h2>
+            <h2 className="text-base font-semibold">{fullName}</h2>
             <p className="text-[13px] text-auriga-text-secondary">Personal account</p>
           </div>
-          <Badge variant="success">Verified</Badge>
+          {p?.emailVerified && <Badge variant="success">Verified</Badge>}
         </div>
 
-        <SectionHeader>Basic information</SectionHeader>
-        <div className="divide-y divide-auriga-border/50">
-          <DetailRow label="Full name" value="Alex Johnson" />
-          <DetailRow label="Email" value="alex@example.com" />
-          <DetailRow label="Phone" value="+49 170 •••• 4589" />
-          <DetailRow label="Date of birth" value="March 15, 1992" />
-          <DetailRow label="Nationality" value="German" />
-          <DetailRow label="Gender" value="Male" />
+        <div className="flex items-center justify-between mb-4">
+          <SectionHeader>Basic information</SectionHeader>
+          {!editingInfo && (
+            <button
+              onClick={startEditInfo}
+              className="text-[13px] font-medium text-auriga-accent-700 hover:text-auriga-accent-600 transition-colors"
+            >
+              Edit
+            </button>
+          )}
         </div>
+
+        {editingInfo ? (
+          <div className="space-y-3">
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="text-[11px] font-medium text-auriga-text-secondary uppercase tracking-wider">First name</label>
+                <input
+                  type="text"
+                  value={info.firstName}
+                  onChange={(e) => setInfo(f => ({ ...f, firstName: e.target.value }))}
+                  className="w-full mt-1 px-3 py-2.5 rounded-xl border border-auriga-border text-sm focus:outline-none focus:border-auriga-accent transition-colors"
+                />
+              </div>
+              <div>
+                <label className="text-[11px] font-medium text-auriga-text-secondary uppercase tracking-wider">Last name</label>
+                <input
+                  type="text"
+                  value={info.lastName}
+                  onChange={(e) => setInfo(f => ({ ...f, lastName: e.target.value }))}
+                  className="w-full mt-1 px-3 py-2.5 rounded-xl border border-auriga-border text-sm focus:outline-none focus:border-auriga-accent transition-colors"
+                />
+              </div>
+            </div>
+            <div>
+              <label className="text-[11px] font-medium text-auriga-text-secondary uppercase tracking-wider">Email</label>
+              <input
+                type="email"
+                value={info.email}
+                onChange={(e) => setInfo(f => ({ ...f, email: e.target.value }))}
+                className="w-full mt-1 px-3 py-2.5 rounded-xl border border-auriga-border text-sm focus:outline-none focus:border-auriga-accent transition-colors"
+              />
+            </div>
+            <div>
+              <label className="text-[11px] font-medium text-auriga-text-secondary uppercase tracking-wider">Phone</label>
+              <input
+                type="tel"
+                value={info.phone}
+                onChange={(e) => setInfo(f => ({ ...f, phone: e.target.value }))}
+                className="w-full mt-1 px-3 py-2.5 rounded-xl border border-auriga-border text-sm focus:outline-none focus:border-auriga-accent transition-colors"
+                placeholder="+49 170 1234567"
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="text-[11px] font-medium text-auriga-text-secondary uppercase tracking-wider">Date of birth</label>
+                <input
+                  type="date"
+                  value={info.dateOfBirth ? new Date(info.dateOfBirth).toISOString().slice(0, 10) : ''}
+                  onChange={(e) => setInfo(f => ({ ...f, dateOfBirth: e.target.value }))}
+                  className="w-full mt-1 px-3 py-2.5 rounded-xl border border-auriga-border text-sm focus:outline-none focus:border-auriga-accent transition-colors"
+                />
+              </div>
+              <div>
+                <label className="text-[11px] font-medium text-auriga-text-secondary uppercase tracking-wider">Nationality</label>
+                <div className="relative mt-1">
+                  <select
+                    value={info.nationality}
+                    onChange={(e) => setInfo(f => ({ ...f, nationality: e.target.value }))}
+                    className="w-full appearance-none px-3 py-2.5 pr-9 rounded-xl border border-auriga-border bg-white text-sm focus:outline-none focus:border-auriga-accent transition-colors cursor-pointer"
+                  >
+                    <option value="">Select…</option>
+                    {NATIONALITY_OPTIONS.map((n) => (
+                      <option key={n.code} value={n.code}>{n.label}</option>
+                    ))}
+                  </select>
+                  <svg className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-auriga-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div className="flex gap-3 pt-2">
+              <Button size="sm" onClick={saveInfo} loading={savingInfo}>Save changes</Button>
+              <Button variant="ghost" size="sm" onClick={cancelEditInfo} disabled={savingInfo}>Cancel</Button>
+            </div>
+          </div>
+        ) : (
+          <div className="divide-y divide-auriga-border/50">
+            <DetailRow label="Full name" value={fullName} />
+            <DetailRow label="Email" value={current.email || '—'} />
+            <DetailRow label="Phone" value={current.phone || '—'} />
+            <DetailRow label="Date of birth" value={formatDob(current.dateOfBirth || null)} />
+            <DetailRow label="Nationality" value={current.nationality ? (NATIONALITY_MAP[current.nationality] || current.nationality) : '—'} />
+          </div>
+        )}
       </Card>
 
       <Card>
@@ -157,42 +412,7 @@ function PersonalSection() {
         <HandleSettings />
       </Card>
 
-      <Card>
-        <SectionHeader>Residential address</SectionHeader>
-        <div className="divide-y divide-auriga-border/50">
-          <DetailRow label="Street" value="Friedrichstraße 123" />
-          <DetailRow label="Apartment / Floor" value="4. OG, Apt 12" />
-          <DetailRow label="Postal code" value="10117" />
-          <DetailRow label="City" value="Berlin" />
-          <DetailRow label="State" value="Berlin" />
-          <DetailRow label="Country" value={<><Flag code="DE" name="Germany" className="w-4 h-4" />Germany</>} />
-        </div>
-        <p className="text-xs text-auriga-text-secondary mt-4">
-          To update your address, please contact support with proof of residency.
-        </p>
-      </Card>
-
-      <Card>
-        <SectionHeader>Tax & employment</SectionHeader>
-        <div className="divide-y divide-auriga-border/50">
-          <DetailRow label="Tax residency" value="Germany" />
-          <DetailRow label="Tax ID (TIN)" value="•••••••••• 47" />
-          <DetailRow label="Employment status" value="Employed" />
-          <DetailRow label="Occupation" value="Software Engineer" />
-          <DetailRow label="Employer" value="TechCorp GmbH" />
-        </div>
-      </Card>
-
-      <Card>
-        <SectionHeader>Account details</SectionHeader>
-        <div className="divide-y divide-auriga-border/50">
-          <DetailRow label="Account ID" value="ATL-8291-4523" />
-          <DetailRow label="IBAN" value="DE89 •••• •••• •••• •••• 42" />
-          <DetailRow label="BIC / SWIFT" value="ATLSDEFFXXX" />
-          <DetailRow label="Account opened" value="January 8, 2024" />
-          <DetailRow label="KYC status" value="✓ Fully verified" />
-        </div>
-      </Card>
+      <AddressSection address={addr} countryCode={countryCode} />
 
       <Card>
         <SectionHeader>Your data</SectionHeader>
@@ -227,6 +447,188 @@ function PersonalSection() {
         </div>
       </details>
     </div>
+  );
+}
+
+const ADDRESS_COUNTRIES = [
+  'Germany', 'Austria', 'Switzerland', 'France', 'Netherlands', 'Belgium',
+  'Spain', 'Italy', 'Portugal', 'Poland', 'Sweden', 'Denmark', 'Norway',
+  'Finland', 'Ireland', 'Czech Republic', 'Hungary', 'Romania', 'Croatia',
+  'Greece', 'Luxembourg', 'Malta', 'Cyprus', 'Estonia', 'Latvia', 'Lithuania',
+  'Slovakia', 'Slovenia', 'Bulgaria', 'United Kingdom', 'United States',
+] as const;
+
+function AddressSection({
+  address,
+  countryCode,
+}: {
+  address: { line1: string; line2?: string; city: string; postalCode: string; country: string } | null | undefined;
+  countryCode: string | null;
+}) {
+  const [editing, setEditing] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [form, setForm] = useState({
+    line1: address?.line1 || '',
+    line2: address?.line2 || '',
+    city: address?.city || '',
+    postalCode: address?.postalCode || '',
+    country: address?.country || 'Germany',
+  });
+  const [current, setCurrent] = useState(form);
+
+  useEffect(() => {
+    const next = {
+      line1: address?.line1 || '',
+      line2: address?.line2 || '',
+      city: address?.city || '',
+      postalCode: address?.postalCode || '',
+      country: address?.country || 'Germany',
+    };
+    setForm(next);
+    setCurrent(next);
+  }, [address]);
+
+  function startEdit() {
+    setForm(current);
+    setEditing(true);
+  }
+
+  function cancel() {
+    setForm(current);
+    setEditing(false);
+  }
+
+  async function save() {
+    if (!form.line1.trim() || !form.city.trim() || !form.postalCode.trim()) {
+      toast.error('Street, city and postal code are required');
+      return;
+    }
+    setSaving(true);
+    try {
+      const res = await api.updateProfile({
+        residenceAddress: {
+          line1: form.line1.trim(),
+          line2: form.line2.trim() || undefined,
+          city: form.city.trim(),
+          postalCode: form.postalCode.trim(),
+          country: form.country,
+        },
+      });
+      const ra = res.residenceAddress!;
+      const updated = {
+        line1: ra.line1,
+        line2: ra.line2 || '',
+        city: ra.city,
+        postalCode: ra.postalCode,
+        country: ra.country,
+      };
+      setCurrent(updated);
+      setForm(updated);
+      setEditing(false);
+      toast.success('Address updated');
+    } catch {
+      toast.error('Could not update address. Please try again.');
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  const resolvedCountry = countryCode ? resolveCountry(countryCode) : (current.country || '—');
+
+  return (
+    <Card>
+      <div className="flex items-center justify-between mb-4">
+        <SectionHeader>Residential address</SectionHeader>
+        {!editing && (
+          <button
+            onClick={startEdit}
+            className="text-[13px] font-medium text-auriga-accent-700 hover:text-auriga-accent-600 transition-colors"
+          >
+            Edit
+          </button>
+        )}
+      </div>
+
+      {editing ? (
+        <div className="space-y-3">
+          <div>
+            <label className="text-[11px] font-medium text-auriga-text-secondary uppercase tracking-wider">Street</label>
+            <input
+              type="text"
+              value={form.line1}
+              onChange={(e) => setForm(f => ({ ...f, line1: e.target.value }))}
+              className="w-full mt-1 px-3 py-2.5 rounded-xl border border-auriga-border text-sm focus:outline-none focus:border-auriga-accent transition-colors"
+              placeholder="Street and number"
+            />
+          </div>
+          <div>
+            <label className="text-[11px] font-medium text-auriga-text-secondary uppercase tracking-wider">Apartment / Floor (optional)</label>
+            <input
+              type="text"
+              value={form.line2}
+              onChange={(e) => setForm(f => ({ ...f, line2: e.target.value }))}
+              className="w-full mt-1 px-3 py-2.5 rounded-xl border border-auriga-border text-sm focus:outline-none focus:border-auriga-accent transition-colors"
+              placeholder="Apt, floor, etc."
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="text-[11px] font-medium text-auriga-text-secondary uppercase tracking-wider">Postal code</label>
+              <input
+                type="text"
+                value={form.postalCode}
+                onChange={(e) => setForm(f => ({ ...f, postalCode: e.target.value }))}
+                className="w-full mt-1 px-3 py-2.5 rounded-xl border border-auriga-border text-sm focus:outline-none focus:border-auriga-accent transition-colors"
+                placeholder="12345"
+              />
+            </div>
+            <div>
+              <label className="text-[11px] font-medium text-auriga-text-secondary uppercase tracking-wider">City</label>
+              <input
+                type="text"
+                value={form.city}
+                onChange={(e) => setForm(f => ({ ...f, city: e.target.value }))}
+                className="w-full mt-1 px-3 py-2.5 rounded-xl border border-auriga-border text-sm focus:outline-none focus:border-auriga-accent transition-colors"
+                placeholder="City"
+              />
+            </div>
+          </div>
+          <div>
+            <label className="text-[11px] font-medium text-auriga-text-secondary uppercase tracking-wider">Country</label>
+            <div className="relative mt-1">
+              <select
+                value={form.country}
+                onChange={(e) => setForm(f => ({ ...f, country: e.target.value }))}
+                className="w-full appearance-none px-3 py-2.5 pr-9 rounded-xl border border-auriga-border bg-white text-sm focus:outline-none focus:border-auriga-accent transition-colors cursor-pointer"
+              >
+                {ADDRESS_COUNTRIES.map((c) => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
+              </select>
+              <svg className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-auriga-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              </svg>
+            </div>
+          </div>
+          <div className="flex gap-3 pt-2">
+            <Button size="sm" onClick={save} loading={saving}>Save address</Button>
+            <Button variant="ghost" size="sm" onClick={cancel} disabled={saving}>Cancel</Button>
+          </div>
+        </div>
+      ) : (
+        <div className="divide-y divide-auriga-border/50">
+          <DetailRow label="Street" value={current.line1 || '—'} />
+          {current.line2 && <DetailRow label="Apartment / Floor" value={current.line2} />}
+          <DetailRow label="Postal code" value={current.postalCode || '—'} />
+          <DetailRow label="City" value={current.city || '—'} />
+          <DetailRow label="Country" value={
+            countryCode
+              ? <><Flag code={countryCode} name={resolvedCountry} className="w-4 h-4" />{resolvedCountry}</>
+              : (current.country || '—')
+          } />
+        </div>
+      )}
+    </Card>
   );
 }
 
@@ -542,7 +944,7 @@ function SupportSection() {
         <div className="mt-4 pt-4 border-t border-auriga-border/50">
           <a
             href="/help"
-            className="text-[13px] font-medium text-auriga-accent hover:text-auriga-accent/80 transition-colors"
+            className="text-[13px] font-medium text-auriga-accent-700 hover:text-auriga-accent-600 transition-colors"
           >
             Visit full Help Center →
           </a>
@@ -592,7 +994,7 @@ function LegalSection() {
             <a
               key={label}
               href={href}
-              className="flex items-center justify-between py-3 first:pt-0 last:pb-0 text-[13px] font-medium text-auriga-text-primary hover:text-auriga-accent transition-colors"
+              className="flex items-center justify-between py-3 first:pt-0 last:pb-0 text-[13px] font-medium text-auriga-text-primary hover:text-auriga-accent-700 transition-colors"
             >
               {label}
               <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -715,7 +1117,7 @@ function SupportRow({ icon, title, description, action }: { icon: string; title:
           <p className="text-xs text-auriga-text-secondary">{description}</p>
         </div>
       </div>
-      <span className="text-[13px] font-medium text-auriga-accent whitespace-nowrap">{action}</span>
+      <span className="text-[13px] font-medium text-auriga-accent-700 whitespace-nowrap">{action}</span>
     </div>
   );
 }
@@ -726,10 +1128,10 @@ function HelpLink({ label }: { label: string }) {
       href="#"
       className="flex items-center justify-between py-3 first:pt-0 last:pb-0 group cursor-pointer"
     >
-      <span className="text-[13px] font-medium text-auriga-text-primary group-hover:text-auriga-accent transition-colors">
+      <span className="text-[13px] font-medium text-auriga-text-primary group-hover:text-auriga-accent-700 transition-colors">
         {label}
       </span>
-      <svg className="w-3.5 h-3.5 text-auriga-text-secondary group-hover:text-auriga-accent transition-colors flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <svg className="w-3.5 h-3.5 text-auriga-text-secondary group-hover:text-auriga-accent-700 transition-colors flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
       </svg>
     </a>

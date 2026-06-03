@@ -81,7 +81,7 @@ export function Features() {
         <Reveal as="div" className="max-w-3xl mb-16 sm:mb-20">
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-auriga-text-primary leading-[1.1]">
             Make your money{' '}
-            <span className="text-auriga-accent">do more</span>
+            <span className="text-auriga-accent-700">do more</span>
           </h2>
           <p className="mt-5 text-lg sm:text-xl text-auriga-text-secondary leading-relaxed">
             Receive, spend, and manage money across Europe as easily as you do at home. 

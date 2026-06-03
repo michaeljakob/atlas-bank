@@ -82,7 +82,7 @@ export function SuccessStep({ account, card }: Props) {
           <span className="text-xs text-auriga-text-secondary uppercase tracking-wide">Your IBAN</span>
           <button
             onClick={copyIban}
-            className="text-xs text-auriga-accent hover:underline font-medium"
+            className="text-xs text-auriga-accent-700 hover:underline font-medium"
           >
             {copied ? 'Copied!' : 'Copy'}
           </button>
@@ -108,7 +108,7 @@ export function SuccessStep({ account, card }: Props) {
           </div>
           <div className="text-right">
             <p className="text-xs text-auriga-heather-300">Mastercard</p>
-            <p className="text-xs text-auriga-accent font-medium mt-1">Active</p>
+            <p className="text-xs text-auriga-accent-700 font-medium mt-1">Active</p>
           </div>
         </div>
       </div>

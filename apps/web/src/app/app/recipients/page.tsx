@@ -407,13 +407,13 @@ export default function RecipientsPage() {
                   {selected.email && (
                     <div className="flex justify-between items-center gap-4 py-3 border-b border-auriga-border/40 last:border-0">
                       <span className="text-sm text-auriga-text-secondary">Email</span>
-                      <a href={`mailto:${selected.email}`} className="text-sm font-medium text-auriga-accent hover:underline text-right truncate">{selected.email}</a>
+                      <a href={`mailto:${selected.email}`} className="text-sm font-medium text-auriga-accent-700 hover:underline text-right truncate">{selected.email}</a>
                     </div>
                   )}
                   {selected.phone && (
                     <div className="flex justify-between items-center gap-4 py-3 border-b border-auriga-border/40 last:border-0">
                       <span className="text-sm text-auriga-text-secondary">Phone</span>
-                      <a href={`tel:${selected.phone}`} className="text-sm font-medium text-auriga-accent hover:underline text-right">{selected.phone}</a>
+                      <a href={`tel:${selected.phone}`} className="text-sm font-medium text-auriga-accent-700 hover:underline text-right">{selected.phone}</a>
                     </div>
                   )}
                 </div>

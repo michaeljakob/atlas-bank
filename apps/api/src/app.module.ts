@@ -20,6 +20,7 @@ import { GdprModule } from './modules/gdpr/gdpr.module';
 import { EmailModule } from './modules/email/email.module';
 import { DevSeederModule } from './modules/seed/dev-seeder.module';
 import { AdminModule } from './modules/admin/admin.module';
+import { UsersModule } from './modules/users/users.module';
 import { ProvidersModule } from './providers/providers.module';
 import { CacheModule } from './common/cache/cache.module';
 import { AuthGuard, isAuthBypassEnabled } from './common/guards/auth.guard';
@@ -96,6 +97,7 @@ import { ALL_ENTITIES } from './database/entities';
     TopUpModule,
     GdprModule,
     AdminModule,
+    UsersModule,
     DevSeederModule,
   ],
   providers: [

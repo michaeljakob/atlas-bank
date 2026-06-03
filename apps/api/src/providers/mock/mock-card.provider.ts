@@ -49,11 +49,26 @@ export class MockCardProvider implements CardProvider {
   }
 
   async updateCard(input: UpdateCardInput): Promise<Card> {
-    const card = await this.getCard(input.cardId);
+    let card = this.store.getCard(input.cardId);
+    if (!card) {
+      card = {
+        id: input.cardId,
+        providerId: input.cardId,
+        accountId: 'unknown',
+        status: 'active',
+        type: 'virtual',
+        last4: '0000',
+        expiryMonth: 12,
+        expiryYear: new Date().getFullYear() + 3,
+        cardholderName: '',
+        createdAt: new Date().toISOString(),
+      };
+      this.logger.warn(`[MOCK] Card ${input.cardId} not in store — created stub`);
+    }
     if (input.frozen !== undefined) {
       card.status = input.frozen ? 'frozen' : 'active';
-      this.store.saveCard(card);
     }
+    this.store.saveCard(card);
     return card;
   }
 

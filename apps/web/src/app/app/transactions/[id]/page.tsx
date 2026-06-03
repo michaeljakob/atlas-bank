@@ -190,7 +190,7 @@ export default function TransactionDetailPage() {
                 <span className="text-sm text-auriga-text-secondary">IBAN</span>
                 <button
                   onClick={() => copy(transaction.counterpartyIban!, 'iban')}
-                  className="text-xs font-mono font-medium text-auriga-text-primary text-right hover:text-auriga-accent transition-colors"
+                  className="text-xs font-mono font-medium text-auriga-text-primary text-right hover:text-auriga-accent-700 transition-colors"
                 >
                   {copied === 'iban' ? 'Copied!' : transaction.counterpartyIban}
                 </button>
@@ -200,7 +200,7 @@ export default function TransactionDetailPage() {
               <span className="text-sm text-auriga-text-secondary">Transaction ID</span>
               <button
                 onClick={() => copy(transaction.id, 'id')}
-                className="text-xs font-mono font-medium text-auriga-text-primary text-right hover:text-auriga-accent transition-colors truncate max-w-[60%]"
+                className="text-xs font-mono font-medium text-auriga-text-primary text-right hover:text-auriga-accent-700 transition-colors truncate max-w-[60%]"
               >
                 {copied === 'id' ? 'Copied!' : transaction.id}
               </button>

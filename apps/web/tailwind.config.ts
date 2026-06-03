@@ -23,8 +23,8 @@ const config: Config = {
             200: '#E8FF80',
             400: '#DBFF4D',
             500: '#CCFF00',
-            600: '#8FB300',
-            700: '#6E8A00',
+            600: '#7A9A00',
+            700: '#5C7300',
           },
           // Auriga UI green — #5AC53A
           green: {

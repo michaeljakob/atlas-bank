@@ -30,7 +30,7 @@ export function MobileNav() {
               )}
             >
               <svg
-                className={clsx('w-[22px] h-[22px] transition-colors', isActive && 'text-auriga-accent')}
+                className={clsx('w-[22px] h-[22px] transition-colors', isActive && 'text-auriga-accent-700')}
                 fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}
               >
                 <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />

@@ -165,6 +165,8 @@ export class CardsService {
       atmEnabled?: boolean;
       internationalEnabled?: boolean;
       limitCents?: number;
+      dailyLimitCents?: number;
+      monthlyLimitCents?: number;
     },
   ) {
     const card = await this.getOwnedCard(userId, cardId);
@@ -174,9 +176,19 @@ export class CardsService {
     if (patch.contactlessEnabled !== undefined) card.contactlessEnabled = patch.contactlessEnabled;
     if (patch.atmEnabled !== undefined) card.atmEnabled = patch.atmEnabled;
     if (patch.internationalEnabled !== undefined) card.internationalEnabled = patch.internationalEnabled;
+
+    const limits = card.spendingLimit ?? {};
     if (patch.limitCents !== undefined) {
-      card.spendingLimit = { amount: Math.max(0, Math.round(patch.limitCents)), period: 'monthly' };
+      limits.monthly = Math.max(0, Math.round(patch.limitCents));
     }
+    if (patch.dailyLimitCents !== undefined) {
+      limits.daily = patch.dailyLimitCents === 0 ? undefined : Math.max(0, Math.round(patch.dailyLimitCents));
+    }
+    if (patch.monthlyLimitCents !== undefined) {
+      limits.monthly = patch.monthlyLimitCents === 0 ? undefined : Math.max(0, Math.round(patch.monthlyLimitCents));
+    }
+    card.spendingLimit = (limits.daily || limits.monthly) ? limits : undefined;
+
     return this.cardRepo.save(card);
   }
 

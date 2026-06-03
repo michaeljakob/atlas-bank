@@ -19,10 +19,10 @@ interface ShippingAddress {
 }
 
 const DEFAULT_ADDRESS: ShippingAddress = {
-  line1: 'Friedrichstr. 123',
+  line1: '',
   line2: '',
-  city: 'Berlin',
-  postalCode: '10117',
+  city: '',
+  postalCode: '',
   country: 'Germany',
 };
 
@@ -71,7 +71,8 @@ interface CardData {
   color: CardColor;
   label: string;
   spent: number;
-  limit: number;
+  dailyLimit: number | null;
+  monthlyLimit: number | null;
   onlineEnabled: boolean;
   contactlessEnabled: boolean;
   atmEnabled: boolean;
@@ -79,62 +80,7 @@ interface CardData {
   createdAt: string;
 }
 
-const fallbackCards: CardData[] = [
-  {
-    id: '1',
-    last4: '4289',
-    expiryMonth: 12,
-    expiryYear: 28,
-    cardholderName: 'Alex Johnson',
-    type: 'virtual',
-    label: 'Main virtual',
-    status: 'active',
-    color: 'black',
-    spent: 84500,
-    limit: 500000,
-    onlineEnabled: true,
-    contactlessEnabled: true,
-    atmEnabled: false,
-    internationalEnabled: true,
-    createdAt: '2025-11-01',
-  },
-  {
-    id: '2',
-    last4: '7831',
-    expiryMonth: 6,
-    expiryYear: 29,
-    cardholderName: 'Alex Johnson',
-    type: 'physical',
-    label: 'Titanium card',
-    status: 'active',
-    color: 'green',
-    spent: 214900,
-    limit: 1000000,
-    onlineEnabled: true,
-    contactlessEnabled: true,
-    atmEnabled: true,
-    internationalEnabled: true,
-    createdAt: '2026-01-15',
-  },
-  {
-    id: '3',
-    last4: '0052',
-    expiryMonth: 7,
-    expiryYear: 26,
-    cardholderName: 'Alex Johnson',
-    type: 'virtual',
-    label: 'Subscriptions',
-    status: 'active',
-    color: 'white',
-    spent: 5799,
-    limit: 50000,
-    onlineEnabled: true,
-    contactlessEnabled: false,
-    atmEnabled: false,
-    internationalEnabled: true,
-    createdAt: '2026-03-20',
-  },
-];
+const fallbackCards: CardData[] = [];
 
 interface CardTransaction {
   id: string;
@@ -257,7 +203,7 @@ const CARD_THEMES: Record<CardColor, {
   miniBg: string;
 }> = {
   black: {
-    label: 'Obsidian',
+    label: 'Black',
     bg: 'bg-auriga-black',
     light: false,
     swatch: 'bg-auriga-black',
@@ -281,13 +227,14 @@ const CARD_THEMES: Record<CardColor, {
 
 export default function CardPage() {
   const router = useRouter();
-  const [cards, setCards] = useState<CardData[]>(fallbackCards);
-  const [activeCardId, setActiveCardId] = useState(fallbackCards[0].id);
+  const [cards, setCards] = useState<CardData[]>([]);
+  const [activeCardId, setActiveCardId] = useState('');
   const [txByCard, setTxByCard] = useState<Record<string, CardTransaction[]>>({});
   const [txLoading, setTxLoading] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [showNewCardModal, setShowNewCardModal] = useState(false);
   const [physicalStep, setPhysicalStep] = useState<'select' | 'address'>('select');
+  const [profileAddress, setProfileAddress] = useState<ShippingAddress>(DEFAULT_ADDRESS);
   const [shippingAddress, setShippingAddress] = useState<ShippingAddress>(DEFAULT_ADDRESS);
   const [useNewAddress, setUseNewAddress] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
@@ -295,6 +242,22 @@ export default function CardPage() {
   const [editName, setEditName] = useState('');
   const editInputRef = useRef<HTMLInputElement>(null);
   const selectorRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    api.getProfile().then(p => {
+      if (p?.residenceAddress) {
+        const addr: ShippingAddress = {
+          line1: p.residenceAddress.line1 || '',
+          line2: p.residenceAddress.line2 || '',
+          city: p.residenceAddress.city || '',
+          postalCode: p.residenceAddress.postalCode || '',
+          country: p.residenceAddress.country || 'Germany',
+        };
+        setProfileAddress(addr);
+        setShippingAddress(addr);
+      }
+    }).catch(() => {});
+  }, []);
 
   useEffect(() => {
     api.getCards().then(apiCards => {
@@ -309,8 +272,9 @@ export default function CardPage() {
           label: c.name || c.label || `${c.type || 'Virtual'} card`,
           status: c.frozen ? 'frozen' : 'active',
           color: (c.color as CardColor) || 'black',
-          spent: 84500,
-          limit: c.spendingLimit?.amount || 500000,
+          spent: 0,
+          dailyLimit: c.spendingLimit?.daily ?? null,
+          monthlyLimit: c.spendingLimit?.monthly ?? c.spendingLimit?.amount ?? null,
           onlineEnabled: c.onlineEnabled ?? true,
           contactlessEnabled: c.contactlessEnabled ?? true,
           atmEnabled: c.atmEnabled ?? false,
@@ -351,7 +315,8 @@ export default function CardPage() {
     0,
   );
   const spent = activeTxs.length > 0 ? Math.max(computedSpent, 0) : (activeCard?.spent ?? 0);
-  const spentPercent = activeCard ? Math.min(Math.round((spent / activeCard.limit) * 100), 100) : 0;
+  const effectiveLimit = activeCard?.monthlyLimit ?? activeCard?.dailyLimit ?? null;
+  const spentPercent = effectiveLimit ? Math.min(Math.round((spent / effectiveLimit) * 100), 100) : 0;
   const theme = CARD_THEMES[activeCard?.color ?? 'black'];
   const isLightCard = theme.light;
 
@@ -447,7 +412,8 @@ export default function CardPage() {
       status: 'active',
       color: 'black',
       spent: 0,
-      limit: type === 'single-use' ? 100000 : 500000,
+      dailyLimit: null,
+      monthlyLimit: type === 'single-use' ? 100000 : null,
       onlineEnabled: true,
       contactlessEnabled: true,
       atmEnabled: false,
@@ -497,22 +463,50 @@ export default function CardPage() {
     });
   }
 
-  function adjustLimit() {
+  const [editingLimit, setEditingLimit] = useState<'daily' | 'monthly' | null>(null);
+  const [limitInput, setLimitInput] = useState('');
+
+  function startEditLimit(period: 'daily' | 'monthly') {
     if (!activeCard) return;
-    const current = (activeCard.limit / 100).toString();
-    const input = window.prompt('Set monthly spending limit (€)', current);
-    if (input === null) return;
-    const euros = Number(input.replace(/[^0-9.]/g, ''));
-    if (!isFinite(euros) || euros <= 0) {
+    const current = period === 'daily' ? activeCard.dailyLimit : activeCard.monthlyLimit;
+    setLimitInput(current ? (current / 100).toString() : '');
+    setEditingLimit(period);
+  }
+
+  function saveLimit() {
+    if (!activeCard || !editingLimit) return;
+    const raw = limitInput.trim();
+    const euros = raw === '' ? 0 : Number(raw.replace(/[^0-9.]/g, ''));
+    if (raw !== '' && (!isFinite(euros) || euros < 0)) {
       toast.error('Enter a valid amount.');
       return;
     }
     const limitCents = Math.round(euros * 100);
-    const prevLimit = activeCard.limit;
-    setCards(prev => prev.map(c => c.id === activeCardId ? { ...c, limit: limitCents } : c));
-    toast.success(`Limit set to €${euros.toLocaleString()}`);
-    api.updateCard(activeCardId, { limitCents }).catch(() => {
-      setCards(prev => prev.map(c => c.id === activeCardId ? { ...c, limit: prevLimit } : c));
+    const field = editingLimit === 'daily' ? 'dailyLimit' : 'monthlyLimit';
+    const apiField = editingLimit === 'daily' ? 'dailyLimitCents' : 'monthlyLimitCents';
+    const prev = activeCard[field];
+    setCards(p => p.map(c => c.id === activeCardId ? { ...c, [field]: limitCents || null } : c));
+    setEditingLimit(null);
+    if (limitCents) {
+      toast.success(`${editingLimit === 'daily' ? 'Daily' : 'Monthly'} limit set to €${euros.toLocaleString()}`);
+    } else {
+      toast.success(`${editingLimit === 'daily' ? 'Daily' : 'Monthly'} limit removed`);
+    }
+    api.updateCard(activeCardId, { [apiField]: limitCents }).catch(() => {
+      setCards(p => p.map(c => c.id === activeCardId ? { ...c, [field]: prev } : c));
+      toast.error('Could not save limit. Please try again.');
+    });
+  }
+
+  function removeLimit(period: 'daily' | 'monthly') {
+    if (!activeCard) return;
+    const field = period === 'daily' ? 'dailyLimit' : 'monthlyLimit';
+    const apiField = period === 'daily' ? 'dailyLimitCents' : 'monthlyLimitCents';
+    const prev = activeCard[field];
+    setCards(p => p.map(c => c.id === activeCardId ? { ...c, [field]: null } : c));
+    toast.success(`${period === 'daily' ? 'Daily' : 'Monthly'} limit removed`);
+    api.updateCard(activeCardId, { [apiField]: 0 }).catch(() => {
+      setCards(p => p.map(c => c.id === activeCardId ? { ...c, [field]: prev } : c));
       toast.error('Could not save limit. Please try again.');
     });
   }
@@ -659,7 +653,7 @@ export default function CardPage() {
                 <MiniCardSymbol card={c} active={isActive} />
 
                 <div className="text-left">
-                  {isEditing ? (
+                  {isEditing && !isActive ? (
                     <input
                       ref={editInputRef}
                       value={editName}
@@ -1031,39 +1025,70 @@ export default function CardPage() {
           {/* Spending */}
           <div className="bg-white rounded-2xl border border-auriga-border/70 p-6">
             <h3 className="text-[13px] font-semibold mb-6 uppercase tracking-wider text-auriga-text-secondary">Spending</h3>
-            <div className="flex justify-center mb-5">
-              <div className="relative w-40 h-40">
-                <svg viewBox="0 0 120 120" className="w-full h-full -rotate-90">
-                  <circle cx="60" cy="60" r="50" fill="none" stroke="#E3E8DD" strokeWidth="4" />
-                  <circle
-                    cx="60" cy="60" r="50" fill="none"
-                    stroke="url(#spendGrad)"
-                    strokeWidth="4"
-                    strokeLinecap="round"
-                    strokeDasharray={`${spentPercent * 3.14} 314`}
-                    className="transition-all duration-1000 ease-out"
-                  />
-                  <defs>
-                    <linearGradient id="spendGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#DBFF4D" />
-                      <stop offset="100%" stopColor="#CCFF00" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <span className="text-2xl font-semibold tracking-tight tabular-nums">€{(spent / 100).toLocaleString()}</span>
-                  <span className="text-[11px] text-auriga-text-secondary mt-0.5">of €{(activeCard.limit / 100).toLocaleString()}</span>
+            {effectiveLimit ? (
+              <>
+                <div className="flex justify-center mb-5">
+                  <div className="relative w-40 h-40">
+                    <svg viewBox="0 0 120 120" className="w-full h-full -rotate-90">
+                      <circle cx="60" cy="60" r="50" fill="none" stroke="#E3E8DD" strokeWidth="4" />
+                      <circle
+                        cx="60" cy="60" r="50" fill="none"
+                        stroke="url(#spendGrad)"
+                        strokeWidth="4"
+                        strokeLinecap="round"
+                        strokeDasharray={`${spentPercent * 3.14} 314`}
+                        className="transition-all duration-1000 ease-out"
+                      />
+                      <defs>
+                        <linearGradient id="spendGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" stopColor="#DBFF4D" />
+                          <stop offset="100%" stopColor="#CCFF00" />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                      <span className="text-2xl font-semibold tracking-tight tabular-nums">€{(spent / 100).toLocaleString()}</span>
+                      <span className="text-[11px] text-auriga-text-secondary mt-0.5">
+                        of €{(effectiveLimit / 100).toLocaleString()} {activeCard.monthlyLimit ? '/mo' : '/day'}
+                      </span>
+                    </div>
+                  </div>
                 </div>
+                <div className="flex items-center justify-between text-xs text-auriga-text-secondary mb-5">
+                  <span className="tabular-nums">€{(Math.max(effectiveLimit - spent, 0) / 100).toLocaleString()} remaining</span>
+                </div>
+              </>
+            ) : (
+              <div className="flex flex-col items-center py-4 mb-5">
+                <span className="text-2xl font-semibold tracking-tight tabular-nums">€{(spent / 100).toLocaleString()}</span>
+                <span className="text-[11px] text-auriga-text-secondary mt-1">No limits set</span>
               </div>
-            </div>
-            <div className="flex items-center justify-between text-xs text-auriga-text-secondary">
-              <span className="tabular-nums">€{(Math.max(activeCard.limit - spent, 0) / 100).toLocaleString()} remaining</span>
-              <button
-                onClick={adjustLimit}
-                className="font-medium text-auriga-text-primary hover:text-auriga-accent transition-colors"
-              >
-                Adjust
-              </button>
+            )}
+
+            {/* Limit rows */}
+            <div className="space-y-3">
+              <LimitRow
+                period="daily"
+                value={activeCard.dailyLimit}
+                editing={editingLimit === 'daily'}
+                inputValue={limitInput}
+                onInputChange={setLimitInput}
+                onEdit={() => startEditLimit('daily')}
+                onSave={saveLimit}
+                onCancel={() => setEditingLimit(null)}
+                onRemove={() => removeLimit('daily')}
+              />
+              <LimitRow
+                period="monthly"
+                value={activeCard.monthlyLimit}
+                editing={editingLimit === 'monthly'}
+                inputValue={limitInput}
+                onInputChange={setLimitInput}
+                onEdit={() => startEditLimit('monthly')}
+                onSave={saveLimit}
+                onCancel={() => setEditingLimit(null)}
+                onRemove={() => removeLimit('monthly')}
+              />
             </div>
           </div>
 
@@ -1337,7 +1362,7 @@ export default function CardPage() {
 
                 {/* Address on file */}
                 <button
-                  onClick={() => { setUseNewAddress(false); setShippingAddress(DEFAULT_ADDRESS); }}
+                  onClick={() => { setUseNewAddress(false); setShippingAddress(profileAddress); }}
                   className={clsx(
                     'w-full p-4 rounded-2xl border text-left transition-all mb-3',
                     !useNewAddress
@@ -1355,7 +1380,7 @@ export default function CardPage() {
                     <div>
                       <p className="text-sm font-medium">Address on file</p>
                       <p className="text-xs text-auriga-text-secondary mt-0.5">
-                        {DEFAULT_ADDRESS.line1}{DEFAULT_ADDRESS.line2 ? `, ${DEFAULT_ADDRESS.line2}` : ''}, {DEFAULT_ADDRESS.postalCode} {DEFAULT_ADDRESS.city}, {DEFAULT_ADDRESS.country}
+                        {profileAddress.line1}{profileAddress.line2 ? `, ${profileAddress.line2}` : ''}, {profileAddress.postalCode} {profileAddress.city}, {profileAddress.country}
                       </p>
                     </div>
                   </div>
@@ -1500,6 +1525,119 @@ function ToggleRow({
           checked ? 'left-[20px]' : 'left-[2px]'
         )} />
       </button>
+    </div>
+  );
+}
+
+function LimitRow({
+  period,
+  value,
+  editing,
+  inputValue,
+  onInputChange,
+  onEdit,
+  onSave,
+  onCancel,
+  onRemove,
+}: {
+  period: 'daily' | 'monthly';
+  value: number | null;
+  editing: boolean;
+  inputValue: string;
+  onInputChange: (v: string) => void;
+  onEdit: () => void;
+  onSave: () => void;
+  onCancel: () => void;
+  onRemove: () => void;
+}) {
+  const label = period === 'daily' ? 'Daily limit' : 'Monthly limit';
+  const icon = period === 'daily' ? (
+    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+    </svg>
+  ) : (
+    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+    </svg>
+  );
+
+  if (editing) {
+    return (
+      <div className="rounded-xl border border-auriga-accent/50 bg-auriga-accent/5 p-3 animate-fade-in">
+        <p className="text-[11px] font-medium text-auriga-text-secondary uppercase tracking-wider mb-2">{label}</p>
+        <div className="flex items-center gap-2">
+          <div className="relative flex-1">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-auriga-text-secondary">€</span>
+            <input
+              type="text"
+              inputMode="decimal"
+              autoFocus
+              value={inputValue}
+              onChange={(e) => onInputChange(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') onSave();
+                if (e.key === 'Escape') onCancel();
+              }}
+              placeholder="0"
+              className="w-full pl-7 pr-3 py-2 rounded-lg border border-auriga-border text-sm font-medium tabular-nums focus:outline-none focus:border-auriga-accent transition-colors"
+            />
+          </div>
+          <button
+            onClick={onSave}
+            className="px-3 py-2 rounded-lg bg-auriga-accent text-auriga-black text-xs font-semibold hover:bg-auriga-accent/80 transition-colors"
+          >
+            Save
+          </button>
+          <button
+            onClick={onCancel}
+            className="px-3 py-2 rounded-lg bg-auriga-bg-subtle text-auriga-text-secondary text-xs font-medium hover:bg-auriga-border/50 transition-colors"
+          >
+            Cancel
+          </button>
+        </div>
+        <p className="text-[10px] text-auriga-text-secondary mt-1.5">Leave empty to remove the limit</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex items-center justify-between gap-3 py-2">
+      <div className="flex items-center gap-3 min-w-0">
+        <div className="w-8 h-8 rounded-lg bg-auriga-bg-subtle flex items-center justify-center text-auriga-text-secondary flex-shrink-0">
+          {icon}
+        </div>
+        <div className="min-w-0">
+          <p className="text-sm font-medium">{label}</p>
+          <p className="text-[11px] text-auriga-text-secondary">
+            {value ? `€${(value / 100).toLocaleString()} per ${period === 'daily' ? 'day' : 'month'}` : 'No limit set'}
+          </p>
+        </div>
+      </div>
+      <div className="flex items-center gap-1 flex-shrink-0">
+        {value ? (
+          <>
+            <button
+              onClick={onEdit}
+              className="text-xs font-medium text-auriga-text-primary hover:text-auriga-accent-700 px-2 py-1 rounded-md hover:bg-auriga-bg-subtle transition-colors"
+            >
+              Edit
+            </button>
+            <button
+              onClick={onRemove}
+              className="text-xs font-medium text-auriga-text-secondary hover:text-red-500 px-2 py-1 rounded-md hover:bg-red-50 transition-colors"
+            >
+              Remove
+            </button>
+          </>
+        ) : (
+          <button
+            onClick={onEdit}
+            className="text-xs font-medium text-auriga-accent-700 hover:text-auriga-accent-600 px-2.5 py-1.5 rounded-lg bg-auriga-accent/10 hover:bg-auriga-accent/15 transition-colors"
+          >
+            Set limit
+          </button>
+        )}
+      </div>
     </div>
   );
 }

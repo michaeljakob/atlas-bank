@@ -193,7 +193,7 @@ export default function TopUpPage() {
                     className={clsx(
                       `ml-4 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${SPRING}`,
                       copiedField === d.label
-                        ? 'bg-auriga-accent/10 text-auriga-accent'
+                        ? 'bg-auriga-accent/10 text-auriga-accent-700'
                         : 'bg-auriga-bg-subtle text-auriga-text-secondary hover:text-auriga-text-primary hover:bg-auriga-bg-subtle/80',
                     )}
                   >
@@ -256,7 +256,7 @@ export default function TopUpPage() {
               </div>
               <div className={`p-4 rounded-xl border border-auriga-border/50 transition-all ${SPRING}`}>
                 <div className="flex items-center gap-2 mb-1.5">
-                  <svg className="w-4 h-4 text-auriga-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <svg className="w-4 h-4 text-auriga-accent-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
                   </svg>
                   <p className="text-sm font-medium text-auriga-text-primary">Instant SEPA</p>

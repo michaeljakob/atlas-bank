@@ -62,7 +62,7 @@ export class CardEntity {
   internationalEnabled: boolean;
 
   @Column({ type: 'simple-json', nullable: true })
-  spendingLimit?: { amount: number; period: string };
+  spendingLimit?: { daily?: number; monthly?: number };
 
   @CreateDateColumn()
   createdAt: Date;

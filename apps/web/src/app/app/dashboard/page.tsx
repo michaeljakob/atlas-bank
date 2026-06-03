@@ -745,7 +745,7 @@ export default function DashboardPage() {
               </div>
               <button
                 onClick={() => setShowCreateJar(true)}
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-auriga-accent-700 hover:text-auriga-accent transition-colors"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-auriga-accent-700 hover:text-auriga-accent-600 transition-colors"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />

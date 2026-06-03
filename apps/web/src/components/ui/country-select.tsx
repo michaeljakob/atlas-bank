@@ -222,7 +222,7 @@ export function CountrySelect({
                     <span className="flex-1 min-w-0 truncate text-sm font-medium">{c.name}</span>
                     {isActive && (
                       <svg
-                        className="w-4 h-4 text-auriga-accent flex-shrink-0"
+                        className="w-4 h-4 text-auriga-accent-700 flex-shrink-0"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"

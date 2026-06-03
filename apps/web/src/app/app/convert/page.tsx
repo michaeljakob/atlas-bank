@@ -284,7 +284,7 @@ export default function ConvertPage() {
                 <circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" strokeWidth="2" className="text-auriga-border/30" />
                 <circle
                   cx="10" cy="10" r="8" fill="none" stroke="currentColor" strokeWidth="2"
-                  className="text-auriga-accent"
+                  className="text-auriga-accent-700"
                   strokeDasharray={2 * Math.PI * 8}
                   strokeDashoffset={2 * Math.PI * 8 * (1 - countdown / 30)}
                   strokeLinecap="round"

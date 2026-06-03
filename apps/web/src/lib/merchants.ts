@@ -34,10 +34,7 @@ const DOMAIN_MAP: Record<string, string> = {
 export function getMerchantDomain(name: string): string | null {
   if (!name) return null;
   const key = name.trim().toLowerCase();
-  if (DOMAIN_MAP[key]) return DOMAIN_MAP[key];
-  const slug = key.replace(/\s+/g, '').replace(/[^a-z0-9]/g, '');
-  if (!slug) return null;
-  return `${slug}.com`;
+  return DOMAIN_MAP[key] ?? null;
 }
 
 /**

@@ -70,7 +70,7 @@ export function EmailStep({ onComplete }: Props) {
             type="checkbox"
             checked={consent}
             onChange={(e) => setConsent(e.target.checked)}
-            className="mt-0.5 h-4 w-4 rounded border-auriga-border text-auriga-accent focus:ring-auriga-accent"
+            className="mt-0.5 h-4 w-4 rounded border-auriga-border text-auriga-accent-700 focus:ring-auriga-accent"
           />
           <span className="text-xs text-auriga-text-secondary leading-relaxed">
             I agree to the{' '}
