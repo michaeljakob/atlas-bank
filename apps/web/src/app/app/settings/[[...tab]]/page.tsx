@@ -42,6 +42,18 @@ const tabs: { id: SettingsTab; label: string; icon: string }[] = [
 
 const VALID_TABS = new Set<SettingsTab>(['personal', 'preferences', 'security', 'notifications', 'documents', 'support', 'legal']);
 
+function settingsHref(id: SettingsTab) {
+  switch (id) {
+    case 'personal': return '/app/settings';
+    case 'preferences': return '/app/settings/preferences';
+    case 'security': return '/app/settings/security';
+    case 'notifications': return '/app/settings/notifications';
+    case 'documents': return '/app/settings/documents';
+    case 'support': return '/app/settings/support';
+    case 'legal': return '/app/settings/legal';
+  }
+}
+
 export default function SettingsPage({ params }: { params: Promise<{ tab?: string[] }> }) {
   const { tab } = use(params);
   const slug = tab?.[0] as SettingsTab | undefined;
@@ -58,7 +70,7 @@ export default function SettingsPage({ params }: { params: Promise<{ tab?: strin
             {tabs.map((t) => (
               <Link
                 key={t.id}
-                href={t.id === 'personal' ? '/app/settings' : `/app/settings/${t.id}`}
+                href={settingsHref(t.id)}
                 className={clsx(
                   'flex items-center gap-2.5 px-3 py-2 rounded-xl text-[13px] font-medium transition-colors whitespace-nowrap',
                   activeTab === t.id
