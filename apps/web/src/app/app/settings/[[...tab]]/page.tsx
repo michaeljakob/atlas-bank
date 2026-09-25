@@ -11,6 +11,7 @@ import { REGULATORY_DISCLOSURE } from '@auriga-money/shared';
 import { api } from '@/lib/api';
 import { clsx } from 'clsx';
 import Link from 'next/link';
+import type { Route } from 'next';
 
 type UserProfile = Awaited<ReturnType<typeof api.getProfile>>;
 
@@ -70,7 +71,7 @@ export default function SettingsPage({ params }: { params: Promise<{ tab?: strin
             {tabs.map((t) => (
               <Link
                 key={t.id}
-                href={settingsHref(t.id)}
+                href={settingsHref(t.id) as Route}
                 className={clsx(
                   'flex items-center gap-2.5 px-3 py-2 rounded-xl text-[13px] font-medium transition-colors whitespace-nowrap',
                   activeTab === t.id
