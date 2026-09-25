@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import Script from 'next/script';
 import { Toaster } from '@/components/ui/sonner';
 import { CookieConsent } from '@/components/cookie-consent';
 import { AnalyticsProvider } from '@/components/analytics-provider';
@@ -73,6 +74,12 @@ export default function RootLayout({
         <Toaster />
         <CookieConsent />
         <AnalyticsProvider />
+        <Script
+          defer
+          src="https://plainstats.com/js/script.js"
+          data-domain="aurigamoney.com"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
